@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags f) :
 
 
     // manipulator
-    manipulator_ = new Qt3DExtras::QOrbitCameraController(scene_3d_->getScene());
+    manipulator_ = new Qt3DExtras::QFirstPersonCameraController(scene_3d_->getScene());
     manipulator_->setLinearSpeed(50.f);
     manipulator_->setLookSpeed(180.f);
     manipulator_->setCamera(camera_);
@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags f) :
     QWidget* widget=createWindowContainer(view_, this);
     widget->resize(640,480);
     ui->verticalLayout->addWidget(widget);
+
     this->timer_id_ = startTimer(1);
 
 }
@@ -75,12 +76,54 @@ void MainWindow::on_resetButton_clicked(){
     resetCamera();
 }
 
+void MainWindow::on_loadButton_clicked()
+{
+    std::cout << "Loading boxes" << std::endl;
+
+    QString boxes_file="/home/nair/20171010FPD_boxes/boxes.json";
+    std::vector<bpa::Box> boxes=box_factory::BoxJsonParser::getBoxesFromJsonFile(boxes_file);
+
+    std::cout << "Number of boxes " << boxes.size() << std::endl;
+
+    double delta =0;
+
+    for (bpa::Box b:boxes){
+        ObjectModel model;
+        model.object_name=b.m_name.c_str();
+        qDebug() << "Name --> " << model.object_name;
+
+        ObjectBody body;
+        body.body_name=model.object_name;
+        body.pose.position.setX(0+delta);
+        body.pose.position.setY(0);
+        body.pose.position.setZ(0);
+        body.pose.orientation.setX(0);
+        body.pose.orientation.setY(0);
+        body.pose.orientation.setZ(0);
+        body.pose.orientation.setScalar(1);
+        body.is_box=true;
+        body.bbox.setX(b.m_length);
+        body.bbox.setY(b.m_width);
+        body.bbox.setZ(b.m_height);
+        delta+=1;
+
+        model.bodies.push_back(body);
+        models_.push_back(model);
+        scene_3d_->addObjectModel(model);
+
+    }
+
+}
+
 void MainWindow::on_deleteButton_clicked()
 {
     std::cout << "Deleting model" << std::endl;
 
-    scene_3d_->removeObjectModel(models_.front());
+    for(ObjectModel model:models_){
+        scene_3d_->removeObjectModel(model);
+    }
 
+    models_.erase(models_.begin(), models_.end());
 }
 
 
@@ -95,29 +138,5 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::timerEvent(QTimerEvent* timerEvent)
 {    
-    static bool init= false;
-    if(!init){
-        std::cout << "Adding object model" << std::endl;
-        ObjectModel model;
-        model.object_name="box_0";
-        ObjectBody body;
-        body.body_name="box_0";
-        body.pose.position.setX(0);
-        body.pose.position.setY(0);
-        body.pose.position.setZ(0);
-        body.pose.orientation.setX(0);
-        body.pose.orientation.setY(0);
-        body.pose.orientation.setZ(0);
-        body.pose.orientation.setScalar(1);
-        body.is_box=true;
-        body.bbox.setX(1);
-        body.bbox.setY(2);
-        body.bbox.setZ(3);
 
-        model.bodies.push_back(body);
-
-        models_.push_back(model);
-        scene_3d_->addObjectModel(model);
-        init=true;
-    }
 }

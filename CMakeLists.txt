@@ -9,20 +9,17 @@ set(CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
 
 # include necessary qt3d modules
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets 3DCore 3DExtras 3DRender 3DInput)
-#find_package(Qt5Core)
-#find_package(Qt5Gui)
-#find_package(Qt5Widgets)
-#find_package(Qt53DCore)
-#find_package(Qt53DExtras)
-#find_package(Qt53DRender)
-#find_package(Qt53DInput)
+find_package(Eigen3 REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${EIGEN3_INCLUDE_DIR}
+    /usr/local/include/box_factory
+    /usr/local/include/bpa
 )
 LINK_DIRECTORIES(
     /opt/Qt5/lib
-
+    /usr/local/lib
 )
 
 set(HEADERS
@@ -49,4 +46,6 @@ target_link_libraries(qt3dsimple
     Qt5::3DExtras
     Qt5::3DRender
     Qt5::3DInput
-    )
+    BoxFactory
+    bpa
+)

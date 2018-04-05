@@ -6,11 +6,15 @@
 #include <Qt3DRender/QCamera>
 #include <Qt3DRender/QPointLight>
 #include <Qt3DExtras/QOrbitCameraController>
+#include <Qt3DExtras/QFirstPersonCameraController>
 
 #include <iostream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "scenerenderer3d.h"
+
+#include <box_factory/BoxJsonParser.h>
+#include <bpa/Box.h>
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +39,7 @@ protected:
 
 private slots:
     void on_resetButton_clicked();
+    void on_loadButton_clicked();
     void on_deleteButton_clicked();
 
 
@@ -45,7 +50,7 @@ private:
 
     Qt3DExtras::Qt3DWindow* view_;
     Qt3DRender::QCamera *camera_;
-    Qt3DExtras::QOrbitCameraController* manipulator_;
+    Qt3DExtras::QFirstPersonCameraController* manipulator_;
 
     SceneRenderer3D* scene_3d_;
 
