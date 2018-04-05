@@ -10,15 +10,15 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags f) :
 
     ui->setupUi(this);
 
-    view = new Qt3DExtras::Qt3DWindow();
+    view_ = new Qt3DExtras::Qt3DWindow();
 
     scene_3d_=new SceneRenderer3D();
 
     // camera
-    camera = view->camera();
-    camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    camera->setPosition(QVector3D(0, 0, 40.0f));
-    camera->setViewCenter(QVector3D(0, 0, 0));
+    camera_ = view_->camera();
+    camera_->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
+    camera_->setPosition(QVector3D(0, 0, 10.0f));
+    camera_->setViewCenter(QVector3D(0, 0, 0));
 
     Qt3DCore::QEntity *lightEntity = new Qt3DCore::QEntity(scene_3d_->getScene());
     Qt3DRender::QPointLight *light = new Qt3DRender::QPointLight(lightEntity);
@@ -26,19 +26,19 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags f) :
     light->setIntensity(1);
     lightEntity->addComponent(light);
     Qt3DCore::QTransform *lightTransform = new Qt3DCore::QTransform(lightEntity);
-    lightTransform->setTranslation(camera->position());
+    lightTransform->setTranslation(camera_->position());
     lightEntity->addComponent(lightTransform);
 
 
     // manipulator
-    manipulator = new Qt3DExtras::QOrbitCameraController(scene_3d_->getScene());
-    manipulator->setLinearSpeed(50.f);
-    manipulator->setLookSpeed(180.f);
-    manipulator->setCamera(camera);
+    manipulator_ = new Qt3DExtras::QOrbitCameraController(scene_3d_->getScene());
+    manipulator_->setLinearSpeed(50.f);
+    manipulator_->setLookSpeed(180.f);
+    manipulator_->setCamera(camera_);
 
-    view->setRootEntity(scene_3d_->getScene());
+    view_->setRootEntity(scene_3d_->getScene());
 
-    QWidget* widget=createWindowContainer(view, this);
+    QWidget* widget=createWindowContainer(view_, this);
     widget->resize(640,480);
     ui->verticalLayout->addWidget(widget);
     this->timer_id_ = startTimer(1);
@@ -62,11 +62,11 @@ MainWindow* MainWindow::instance()
 void MainWindow::resetCamera()
 {
     // camera
-    camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    camera->setPosition(QVector3D(0, 0, 40.0f));
-    camera->setViewCenter(QVector3D(0, 0, 0));
+    camera_->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
+    camera_->setPosition(QVector3D(0, 0, 40.0f));
+    camera_->setViewCenter(QVector3D(0, 0, 0));
 
-    manipulator->setCamera(camera);
+    manipulator_->setCamera(camera_);
 
 }
 
@@ -79,7 +79,7 @@ void MainWindow::on_deleteButton_clicked()
 {
     std::cout << "Deleting model" << std::endl;
 
-    scene_3d_->removeObjectModel(models.front());
+    scene_3d_->removeObjectModel(models_.front());
 
 }
 
@@ -116,7 +116,7 @@ void MainWindow::timerEvent(QTimerEvent* timerEvent)
 
         model.bodies.push_back(body);
 
-        models.push_back(model);
+        models_.push_back(model);
         scene_3d_->addObjectModel(model);
         init=true;
     }

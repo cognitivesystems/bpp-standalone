@@ -43,13 +43,13 @@ private:
 
     static MainWindow* singleton_;
 
-    Qt3DExtras::Qt3DWindow* view;
-    Qt3DRender::QCamera *camera;
-    Qt3DExtras::QOrbitCameraController* manipulator;
+    Qt3DExtras::Qt3DWindow* view_;
+    Qt3DRender::QCamera *camera_;
+    Qt3DExtras::QOrbitCameraController* manipulator_;
 
     SceneRenderer3D* scene_3d_;
 
-    std::vector<ObjectModel > models;
+    std::vector<ObjectModel > models_;
     int timer_id_;
 };
 
