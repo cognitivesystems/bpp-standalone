@@ -30,13 +30,7 @@ void SceneRenderer3D::addObjectBody(const ObjectBody &info)
         box->addComponent(cuboidTransform);
         box->addComponent(material);
 
-        ObjectComponents comps;
-        comps.components.push_back(cuboid);
-        comps.components.push_back(cuboidTransform);
-        comps.components.push_back(material);
-
         model_entity_map_[info.body_name]=box;
-        model_component_map_[info.body_name]=comps;
     }
 }
 

@@ -35,10 +35,6 @@ struct ObjectModel {
     std::vector<ObjectBody > bodies;
 };
 
-struct ObjectComponents{
-    std::vector<Qt3DCore::QComponent* > components;
-};
-
 typedef std::vector< ObjectModel > ObjectModels;
 
 class SceneRenderer3D : public QWidget
@@ -83,8 +79,6 @@ private:
     QMap<QString, Transforms > model_transform_map_;
 
     QMap<QString, Qt3DCore::QEntity* > model_entity_map_;
-
-    QMap<QString, ObjectComponents > model_component_map_;
 
     Qt3DCore::QEntity* root_;
 
