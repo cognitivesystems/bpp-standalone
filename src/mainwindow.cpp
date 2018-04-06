@@ -80,23 +80,26 @@ void MainWindow::on_loadButton_clicked()
 {
     std::cout << "Loading boxes" << std::endl;
 
-    QString boxes_file="/home/nair/20171010FPD_boxes/boxes.json";
-    std::vector<bpa::Box> boxes=box_factory::BoxJsonParser::getBoxesFromJsonFile(boxes_file);
+//    QString boxes_file="/home/nair/20171010FPD_boxes/boxes.json";
+    QString boxes_file="/home/nair/20171108_testCreate/boxes.json";
 
-    std::cout << "Number of boxes " << boxes.size() << std::endl;
+    boxes_=box_factory::BoxJsonParser::getBoxesFromJsonFile(boxes_file);
+
+    std::cout << "Number of boxes " << boxes_.size() << std::endl;
 
     double delta =0;
 
-    for (bpa::Box b:boxes){
+    for (bpa::Box b:boxes_){
         ObjectModel model;
         model.object_name=b.m_name.c_str();
         qDebug() << "Name --> " << model.object_name;
 
         ObjectBody body;
         body.body_name=model.object_name;
-        body.pose.position.setX(0+delta);
-        body.pose.position.setY(0);
-        body.pose.position.setZ(0);
+        body.pose.position.setX(b.current_position[0]);
+        body.pose.position.setY(b.current_position[1]);
+        body.pose.position.setZ(b.current_position[2]);
+        std::cout << "Position --> " << b.current_position.transpose() << std::endl;
         body.pose.orientation.setX(0);
         body.pose.orientation.setY(0);
         body.pose.orientation.setZ(0);
@@ -114,6 +117,17 @@ void MainWindow::on_loadButton_clicked()
     }
 
 }
+
+void MainWindow::on_planButton_clicked()
+{
+    std::cout << "Planning" << std::endl;
+
+    planned_boxes_=bpp_inf_.binPackingBoxes(boxes_);
+
+
+
+}
+
 
 void MainWindow::on_deleteButton_clicked()
 {

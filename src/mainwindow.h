@@ -15,6 +15,7 @@
 
 #include <box_factory/BoxJsonParser.h>
 #include <bpa/Box.h>
+#include "bppinterface.h"
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +41,7 @@ protected:
 private slots:
     void on_resetButton_clicked();
     void on_loadButton_clicked();
+    void on_planButton_clicked();
     void on_deleteButton_clicked();
 
 
@@ -54,7 +56,14 @@ private:
 
     SceneRenderer3D* scene_3d_;
 
+    std::vector<bpa::Box > boxes_;
+    std::vector<bpa::Box > planned_boxes_;
+
+
     std::vector<ObjectModel > models_;
+
+    bpainf::BppInterface bpp_inf_;
+
     int timer_id_;
 };
 

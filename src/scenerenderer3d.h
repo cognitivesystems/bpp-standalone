@@ -10,6 +10,7 @@
 #include <Qt3DCore/QComponent>
 #include <Qt3DRender/qrenderaspect.h>
 #include <Qt3DExtras/QCuboidMesh>
+#include <Qt3DRender/QMesh>
 #include <Qt3DExtras/QPhongMaterial>
 #include <QWidget>
 

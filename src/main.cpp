@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 
 MainWindow* MainWindow::singleton_ = NULL;
+bpa::Params* bpa::Params::singleton_ = NULL;
 
 int main(int argc, char* argv[])
 {

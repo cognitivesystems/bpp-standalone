@@ -12,6 +12,9 @@ void SceneRenderer3D::addObjectBody(const ObjectBody &info)
     if(info.is_box){
         Qt3DCore::QEntity* box = new Qt3DCore::QEntity(root_);
 
+//        Qt3DRender::QMesh* mesh  = new Qt3DRender::QMesh(root_);
+//        mesh->setSource(QUrl::fromLocalFile("0b74db5d.obj"));
+
         Qt3DExtras::QCuboidMesh *cuboid = new Qt3DExtras::QCuboidMesh();
         cuboid->setXExtent(info.bbox.x());
         cuboid->setYExtent(info.bbox.y());
@@ -25,6 +28,7 @@ void SceneRenderer3D::addObjectBody(const ObjectBody &info)
 
         Qt3DExtras::QPhongMaterial* material = new Qt3DExtras::QPhongMaterial(root_);
         material->setDiffuse(QColor(0,0,255));
+
 
         box->addComponent(cuboid);
         box->addComponent(cuboidTransform);
