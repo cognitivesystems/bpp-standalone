@@ -76,7 +76,7 @@ void MainWindow::on_resetButton_clicked()
 void MainWindow::on_loadButton_clicked()
 {
   std::cout << "Loading boxes" << std::endl;
-  QString boxes_file = QCoreApplication::applicationDirPath() + QString("/../../test/data/boxes.json");
+  QString boxes_file = QCoreApplication::applicationDirPath() + QString("/../test/data/boxes.json");
 
   boxes_ = box_factory::BoxJsonParser::getBoxesFromJsonFile(boxes_file);
   std::cout << "Number of boxes " << boxes_.size() << std::endl;

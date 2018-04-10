@@ -3,5 +3,53 @@ project(qt3DExample)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(src bin)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+
+if (NOT CMAKE_PREFIX_PATH)
+  set(CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
+endif ()
+
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets 3DCore 3DExtras 3DRender 3DInput)
+find_package(Eigen3 REQUIRED)
+find_package(Bullet REQUIRED)
+
+include_directories(
+  include
+  ${EIGEN3_INCLUDE_DIR}
+  ${BULLET_INCLUDE_DIR})
+
+set(qt3dsimple_hdr
+  include/mainwindow.h
+  include/scenerenderer3d.h
+  include/bppinterface.h)
+
+set(qt3dsimple_src
+  src/main.cpp
+  src/mainwindow.cpp
+  src/scenerenderer3d.cpp
+  src/bppinterface.cpp)
+
+set(qt3dsimple_ui
+  include/mainwindow.ui)
+
+add_executable(qt3dsimple ${qt3dsimple_hdr} ${qt3dsimple_src} ${qt3dsimple_ui})
+target_link_libraries(qt3dsimple
+  ${BULLET_LIBRARIES}
+  #${BULLET_DYNAMICS_LIBRARY}
+  #${BULLET_COLLISION_LIBRARY}
+  #/usr/local/lib/libLinearMath.a
+  #/usr/local/lib/libBulletDynamics.a
+  #/usr/local/lib/libBulletCollision.a
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
+  Qt5::3DCore
+  Qt5::3DExtras
+  Qt5::3DRender
+  Qt5::3DInput
+  BoxFactory
+  bpa)
+
 add_subdirectory(lib)
