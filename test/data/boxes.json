@@ -1,0 +1,2860 @@
+[
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.220,
+         "y" : 1.20,
+         "z" : 0.620
+      },
+      "bodies" : [ "110cc676" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/110cc676.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.001796416938304901,
+         "y" : 0.03316682949662209,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 2.9050,
+               "y" : 0.760,
+               "z" : 0.3350
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/110cc676_0.jpg",
+         "file://home/nair/data/blob_store/110cc676_1.jpg",
+         "file://home/nair/data/blob_store/110cc676_2.jpg",
+         "file://home/nair/data/blob_store/110cc676_3.jpg",
+         "file://home/nair/data/blob_store/110cc676_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/110cc676.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230114400001\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/110cc676_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/110cc676.zip",
+      "modelPath" : "file://home/nair/data/blob_store/110cc676.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/110cc676.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 33
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 63
+            }
+         ]
+      ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.390,
+               "y" : -2.610,
+               "z" : 0.310
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/110cc676_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "110cc676",
+      "weight" : 304.1000061035156,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.0,
+         "y" : 0.50,
+         "z" : 0.80
+      },
+      "bodies" : [ "00ae6f3f" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/00ae6f3f.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.004205852746963501,
+         "y" : 0.01623094081878662,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 1.7950,
+               "y" : 0.3999999999999999,
+               "z" : 0.4250
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/00ae6f3f_0.jpg",
+         "file://home/nair/data/blob_store/00ae6f3f_1.jpg",
+         "file://home/nair/data/blob_store/00ae6f3f_2.jpg",
+         "file://home/nair/data/blob_store/00ae6f3f_3.jpg",
+         "file://home/nair/data/blob_store/00ae6f3f_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/00ae6f3f.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry", "flammable" ],
+      "markerId" : "6181230117000002\r",
+      "material" : "Wooden",
+      "measureDebugPath" : "file://home/nair/data/blob_store/00ae6f3f_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/00ae6f3f.zip",
+      "modelPath" : "file://home/nair/data/blob_store/00ae6f3f.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/00ae6f3f.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 110,
+               "label" : 0,
+               "w" : 110,
+               "x" : 275,
+               "y" : 55
+            },
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 103,
+               "y" : 43
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 110,
+               "label" : 0,
+               "w" : 110,
+               "x" : 315,
+               "y" : 65
+            },
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 163,
+               "y" : 53
+            }
+         ],
+         null
+      ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.50,
+               "y" : -3.750,
+               "z" : 0.40
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/00ae6f3f_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "00ae6f3f",
+      "weight" : 291.3999938964844,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.0,
+         "y" : 0.50,
+         "z" : 0.80
+      },
+      "bodies" : [ "17d6be6b" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/17d6be6b.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.01351959817111492,
+         "y" : 0.001767076551914215,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 1.7950,
+               "y" : 0.910,
+               "z" : 0.4250
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/17d6be6b_0.jpg",
+         "file://home/nair/data/blob_store/17d6be6b_1.jpg",
+         "file://home/nair/data/blob_store/17d6be6b_2.jpg",
+         "file://home/nair/data/blob_store/17d6be6b_3.jpg",
+         "file://home/nair/data/blob_store/17d6be6b_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/17d6be6b.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry", "flammable" ],
+      "markerId" : "6181230117000001\r",
+      "material" : "Wooden",
+      "measureDebugPath" : "file://home/nair/data/blob_store/17d6be6b_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/17d6be6b.zip",
+      "modelPath" : "file://home/nair/data/blob_store/17d6be6b.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/17d6be6b.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 110,
+               "label" : 0,
+               "w" : 110,
+               "x" : 255,
+               "y" : 85
+            },
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 113,
+               "y" : 53
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 110,
+               "label" : 0,
+               "w" : 110,
+               "x" : 305,
+               "y" : 35
+            },
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 123,
+               "y" : 53
+            }
+         ],
+         null
+      ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.70,
+               "y" : -3.750,
+               "z" : 0.40
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/17d6be6b_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "17d6be6b",
+      "weight" : 269.2999877929688,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.20,
+         "y" : 1.190,
+         "z" : 1.010
+      },
+      "bodies" : [ "844acd85" ],
+      "body_urls" : [
+         "file://home/nair/data/blob_store/844acd85.wrl",
+         "file://home/nair/data/blob_store/844acd85.wrl"
+      ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.01187995076179504,
+         "y" : 0.001944541931152344,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.9050,
+               "y" : 0.7450,
+               "z" : 1.150
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/844acd85_0.jpg",
+         "file://home/nair/data/blob_store/844acd85_1.jpg",
+         "file://home/nair/data/blob_store/844acd85_2.jpg",
+         "file://home/nair/data/blob_store/844acd85_3.jpg",
+         "file://home/nair/data/blob_store/844acd85_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/844acd85.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry", "flammable" ],
+      "markerId" : "",
+      "material" : "wooden",
+      "measureDebugPath" : "file://home/nair/data/blob_store/844acd85_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/844acd85.zip",
+      "modelPath" : "file://home/nair/data/blob_store/844acd85.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/844acd85.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 108,
+               "label" : 4,
+               "w" : 112,
+               "x" : 278,
+               "y" : 55
+            },
+            {
+               "h" : 58,
+               "label" : 1,
+               "w" : 42,
+               "x" : 177,
+               "y" : 37
+            },
+            {
+               "h" : 57,
+               "label" : 2,
+               "w" : 41,
+               "x" : 138,
+               "y" : 41
+            },
+            {
+               "h" : 97,
+               "label" : 6,
+               "w" : 141,
+               "x" : 127,
+               "y" : 39
+            }
+         ],
+         [
+            {
+               "h" : 70,
+               "label" : 2,
+               "w" : 53,
+               "x" : 182,
+               "y" : 34
+            }
+         ],
+         [
+            {
+               "h" : 53,
+               "label" : 3,
+               "w" : 39,
+               "x" : 250,
+               "y" : 50
+            },
+            {
+               "h" : 57,
+               "label" : 1,
+               "w" : 43,
+               "x" : 200,
+               "y" : 58
+            },
+            {
+               "h" : 59,
+               "label" : 2,
+               "w" : 54,
+               "x" : 155,
+               "y" : 51
+            },
+            {
+               "h" : 92,
+               "label" : 6,
+               "w" : 127,
+               "x" : 161,
+               "y" : 51
+            }
+         ],
+         [
+            {
+               "h" : 47,
+               "label" : 2,
+               "w" : 54,
+               "x" : 140,
+               "y" : 33
+            }
+         ]
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.100000000000001,
+               "y" : 1.3750,
+               "z" : 0.5050
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/844acd85_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "844acd85",
+      "weight" : 67.80000305175781,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.20,
+         "y" : 1.190,
+         "z" : 1.010
+      },
+      "bodies" : [ "717ce5fa" ],
+      "body_urls" : [
+         "file://home/nair/data/blob_store/717ce5fa.wrl",
+         "file://home/nair/data/blob_store/717ce5fa.wrl"
+      ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.007847443222999573,
+         "y" : -0.003290545195341110,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 2.910,
+               "y" : 1.980,
+               "z" : 0.530
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/717ce5fa_0.jpg",
+         "file://home/nair/data/blob_store/717ce5fa_1.jpg",
+         "file://home/nair/data/blob_store/717ce5fa_2.jpg",
+         "file://home/nair/data/blob_store/717ce5fa_3.jpg",
+         "file://home/nair/data/blob_store/717ce5fa_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/717ce5fa.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry", "flammable" ],
+      "markerId" : "",
+      "material" : "wooden",
+      "measureDebugPath" : "file://home/nair/data/blob_store/717ce5fa_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/717ce5fa.zip",
+      "modelPath" : "file://home/nair/data/blob_store/717ce5fa.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/717ce5fa.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 104,
+               "label" : 4,
+               "w" : 107,
+               "x" : 268,
+               "y" : 34
+            },
+            {
+               "h" : 63,
+               "label" : 3,
+               "w" : 40,
+               "x" : 215,
+               "y" : 34
+            },
+            {
+               "h" : 61,
+               "label" : 1,
+               "w" : 49,
+               "x" : 168,
+               "y" : 32
+            },
+            {
+               "h" : 59,
+               "label" : 2,
+               "w" : 46,
+               "x" : 121,
+               "y" : 38
+            },
+            {
+               "h" : 104,
+               "label" : 6,
+               "w" : 144,
+               "x" : 123,
+               "y" : 29
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 108,
+               "label" : 4,
+               "w" : 111,
+               "x" : 286,
+               "y" : 55
+            },
+            {
+               "h" : 57,
+               "label" : 3,
+               "w" : 52,
+               "x" : 233,
+               "y" : 50
+            },
+            {
+               "h" : 58,
+               "label" : 1,
+               "w" : 40,
+               "x" : 185,
+               "y" : 52
+            },
+            {
+               "h" : 57,
+               "label" : 2,
+               "w" : 45,
+               "x" : 146,
+               "y" : 51
+            },
+            {
+               "h" : 93,
+               "label" : 6,
+               "w" : 131,
+               "x" : 139,
+               "y" : 52
+            }
+         ],
+         [
+            {
+               "h" : 58,
+               "label" : 2,
+               "w" : 48,
+               "x" : 146,
+               "y" : 31
+            }
+         ]
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.100000000000001,
+               "y" : -0.6149999999999998,
+               "z" : 0.5050
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/717ce5fa_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "717ce5fa",
+      "weight" : 66.69999694824219,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.50,
+         "y" : 0.50,
+         "z" : 1.120
+      },
+      "bodies" : [ "79dfa27f" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/79dfa27f.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.01963384822010994,
+         "y" : 0.01482777297496796,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 3.2550,
+               "y" : 2.840,
+               "z" : 0.5850000000000001
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/79dfa27f_0.jpg",
+         "file://home/nair/data/blob_store/79dfa27f_1.jpg",
+         "file://home/nair/data/blob_store/79dfa27f_2.jpg",
+         "file://home/nair/data/blob_store/79dfa27f_3.jpg",
+         "file://home/nair/data/blob_store/79dfa27f_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/79dfa27f.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230128400001\r",
+      "material" : "Styrofoam",
+      "measureDebugPath" : "file://home/nair/data/blob_store/79dfa27f_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/79dfa27f.zip",
+      "modelPath" : "file://home/nair/data/blob_store/79dfa27f.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/79dfa27f.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 43
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 43
+            }
+         ],
+         null
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.450,
+               "y" : -2.050,
+               "z" : 0.5600000000000001
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/79dfa27f_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "79dfa27f",
+      "weight" : 20.60000038146973,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.50,
+         "y" : 0.50,
+         "z" : 1.120
+      },
+      "bodies" : [ "87f986c0" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/87f986c0.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.02033884823322296,
+         "y" : -0.01387433335185051,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 2.7450,
+               "y" : 2.840,
+               "z" : 0.5850000000000001
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/87f986c0_0.jpg",
+         "file://home/nair/data/blob_store/87f986c0_1.jpg",
+         "file://home/nair/data/blob_store/87f986c0_2.jpg",
+         "file://home/nair/data/blob_store/87f986c0_3.jpg",
+         "file://home/nair/data/blob_store/87f986c0_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/87f986c0.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230128400005\r",
+      "material" : "Styrofoam",
+      "measureDebugPath" : "file://home/nair/data/blob_store/87f986c0_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/87f986c0.zip",
+      "modelPath" : "file://home/nair/data/blob_store/87f986c0.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/87f986c0.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 43
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 33
+            }
+         ]
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.250,
+               "y" : -0.9599999999999997,
+               "z" : 0.5600000000000001
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/87f986c0_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "87f986c0",
+      "weight" : 20.39999961853027,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.20,
+         "y" : 0.80,
+         "z" : 0.530
+      },
+      "bodies" : [ "94effe84" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/94effe84.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.0008743070065975189,
+         "y" : -0.1071349233388901,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 3.1050,
+               "y" : 1.980,
+               "z" : 1.30
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/94effe84_0.jpg",
+         "file://home/nair/data/blob_store/94effe84_1.jpg",
+         "file://home/nair/data/blob_store/94effe84_2.jpg",
+         "file://home/nair/data/blob_store/94effe84_3.jpg",
+         "file://home/nair/data/blob_store/94effe84_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/94effe84.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230122500003\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/94effe84_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/94effe84.zip",
+      "modelPath" : "file://home/nair/data/blob_store/94effe84.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/94effe84.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 33
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 13,
+               "y" : 23
+            }
+         ],
+         null
+      ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.100000000000001,
+               "y" : 2.370,
+               "z" : 0.2650
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/94effe84_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "94effe84",
+      "weight" : 61.70000076293945,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.50,
+         "y" : 0.50,
+         "z" : 1.120
+      },
+      "bodies" : [ "b4b4e646" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/b4b4e646.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.03149155527353287,
+         "y" : -0.02187001332640648,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 2.2350,
+               "y" : 2.840,
+               "z" : 0.5850000000000001
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/b4b4e646_0.jpg",
+         "file://home/nair/data/blob_store/b4b4e646_1.jpg",
+         "file://home/nair/data/blob_store/b4b4e646_2.jpg",
+         "file://home/nair/data/blob_store/b4b4e646_3.jpg",
+         "file://home/nair/data/blob_store/b4b4e646_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/b4b4e646.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230128400004\r",
+      "material" : "Styrofoam",
+      "measureDebugPath" : "file://home/nair/data/blob_store/b4b4e646_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/b4b4e646.zip",
+      "modelPath" : "file://home/nair/data/blob_store/b4b4e646.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/b4b4e646.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 33
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 33
+            }
+         ]
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.450,
+               "y" : -1.550,
+               "z" : 0.5600000000000001
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/b4b4e646_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "b4b4e646",
+      "weight" : 20.39999961853027,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.50,
+         "y" : 0.50,
+         "z" : 1.120
+      },
+      "bodies" : [ "57edb454" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/57edb454.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.02729732915759087,
+         "y" : 0.009971339255571365,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 1.7250,
+               "y" : 2.840,
+               "z" : 0.5850000000000001
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/57edb454_0.jpg",
+         "file://home/nair/data/blob_store/57edb454_1.jpg",
+         "file://home/nair/data/blob_store/57edb454_2.jpg",
+         "file://home/nair/data/blob_store/57edb454_3.jpg",
+         "file://home/nair/data/blob_store/57edb454_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/57edb454.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230128400002\r",
+      "material" : "Styrofoam",
+      "measureDebugPath" : "file://home/nair/data/blob_store/57edb454_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/57edb454.zip",
+      "modelPath" : "file://home/nair/data/blob_store/57edb454.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/57edb454.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 33
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 8,
+               "y" : 33
+            }
+         ]
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.530,
+               "y" : -2.660,
+               "z" : 0.5600000000000001
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/57edb454_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "57edb454",
+      "weight" : 20.20000076293945,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.20,
+         "y" : 0.80,
+         "z" : 0.530
+      },
+      "bodies" : [ "530db0f3" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/530db0f3.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.006553813815116882,
+         "y" : -0.07148747146129608,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 1.9050,
+               "y" : 1.980,
+               "z" : 0.290
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/530db0f3_0.jpg",
+         "file://home/nair/data/blob_store/530db0f3_1.jpg",
+         "file://home/nair/data/blob_store/530db0f3_2.jpg",
+         "file://home/nair/data/blob_store/530db0f3_3.jpg",
+         "file://home/nair/data/blob_store/530db0f3_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/530db0f3.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230118100001\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/530db0f3_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/530db0f3.zip",
+      "modelPath" : "file://home/nair/data/blob_store/530db0f3.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/530db0f3.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 33
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 43
+            }
+         ],
+         null
+      ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.100000000000001,
+               "y" : -1.610,
+               "z" : 0.2650
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/530db0f3_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "530db0f3",
+      "weight" : 61.40000152587891,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 1.20,
+         "y" : 0.80,
+         "z" : 0.530
+      },
+      "bodies" : [ "d4283007" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/d4283007.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.008687295019626617,
+         "y" : -0.07598242163658142,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 1.9050,
+               "y" : 1.980,
+               "z" : 0.8200000000000001
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/d4283007_0.jpg",
+         "file://home/nair/data/blob_store/d4283007_1.jpg",
+         "file://home/nair/data/blob_store/d4283007_2.jpg",
+         "file://home/nair/data/blob_store/d4283007_3.jpg",
+         "file://home/nair/data/blob_store/d4283007_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/d4283007.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230122500001\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/d4283007_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/d4283007.zip",
+      "modelPath" : "file://home/nair/data/blob_store/d4283007.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/d4283007.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 53
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 75,
+               "label" : 1,
+               "w" : 105,
+               "x" : 18,
+               "y" : 23
+            }
+         ],
+         null
+      ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.100000000000001,
+               "y" : 4.770,
+               "z" : 0.2650
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/d4283007_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "d4283007",
+      "weight" : 57.20000076293945,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.80,
+         "y" : 0.80,
+         "z" : 0.630
+      },
+      "bodies" : [ "a207eac3" ],
+      "body_urls" : [
+         "file://home/nair/data/blob_store/a207eac3.wrl",
+         "file://home/nair/data/blob_store/a207eac3.wrl"
+      ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.007669530808925629,
+         "y" : 0.0009203851222991943,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 0.7071067811865475,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.7071067811865476
+            },
+            "position" : {
+               "x" : 1.8950,
+               "y" : 0.740,
+               "z" : 1.140
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/a207eac3_0.jpg",
+         "file://home/nair/data/blob_store/a207eac3_1.jpg",
+         "file://home/nair/data/blob_store/a207eac3_2.jpg",
+         "file://home/nair/data/blob_store/a207eac3_3.jpg",
+         "file://home/nair/data/blob_store/a207eac3_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/a207eac3.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "",
+      "material" : "Styrofoam",
+      "measureDebugPath" : "file://home/nair/data/blob_store/a207eac3_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/a207eac3.zip",
+      "modelPath" : "file://home/nair/data/blob_store/a207eac3.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/a207eac3.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "cranepalletfork",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.30,
+               "y" : 3.170,
+               "z" : 0.3150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/a207eac3_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "a207eac3",
+      "weight" : 104.3000030517578,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.330
+      },
+      "bodies" : [ "4b57168c" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/4b57168c.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.0007815845310688019,
+         "y" : -0.01860826462507248,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 3.3550,
+               "y" : 2.740,
+               "z" : 1.310
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/4b57168c_0.jpg",
+         "file://home/nair/data/blob_store/4b57168c_1.jpg",
+         "file://home/nair/data/blob_store/4b57168c_2.jpg",
+         "file://home/nair/data/blob_store/4b57168c_3.jpg",
+         "file://home/nair/data/blob_store/4b57168c_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/4b57168c.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000003\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/4b57168c_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/4b57168c.zip",
+      "modelPath" : "file://home/nair/data/blob_store/4b57168c.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/4b57168c.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.850,
+               "y" : -3.050,
+               "z" : 0.1650
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/4b57168c_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "4b57168c",
+      "weight" : 4.900000095367432,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.320
+      },
+      "bodies" : [ "562315d5" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/562315d5.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.0,
+         "y" : 0.0,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 3.0450,
+               "y" : 2.740,
+               "z" : 1.3050
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/562315d5_0.jpg",
+         "file://home/nair/data/blob_store/562315d5_1.jpg",
+         "file://home/nair/data/blob_store/562315d5_2.jpg",
+         "file://home/nair/data/blob_store/562315d5_3.jpg",
+         "file://home/nair/data/blob_store/562315d5_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/562315d5.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000004\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/562315d5_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/562315d5.zip",
+      "modelPath" : "file://home/nair/data/blob_store/562315d5.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/562315d5.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.850,
+               "y" : -2.750,
+               "z" : 0.160
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/562315d5_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "562315d5",
+      "weight" : 5.0,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "527e8752" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/527e8752.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.01315909624099731,
+         "y" : 0.03716450184583664,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 1.50,
+               "z" : 1.1850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/527e8752_0.jpg",
+         "file://home/nair/data/blob_store/527e8752_1.jpg",
+         "file://home/nair/data/blob_store/527e8752_2.jpg",
+         "file://home/nair/data/blob_store/527e8752_3.jpg",
+         "file://home/nair/data/blob_store/527e8752_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/527e8752.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000010\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/527e8752_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/527e8752.zip",
+      "modelPath" : "file://home/nair/data/blob_store/527e8752.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/527e8752.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.850,
+               "y" : -1.860,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/527e8752_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "527e8752",
+      "weight" : 5.199999809265137,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "5c8a4445" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/5c8a4445.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.0,
+         "y" : 0.0,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 1.810,
+               "z" : 1.1850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/5c8a4445_0.jpg",
+         "file://home/nair/data/blob_store/5c8a4445_1.jpg",
+         "file://home/nair/data/blob_store/5c8a4445_2.jpg",
+         "file://home/nair/data/blob_store/5c8a4445_3.jpg",
+         "file://home/nair/data/blob_store/5c8a4445_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/5c8a4445.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000009\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/5c8a4445_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/5c8a4445.zip",
+      "modelPath" : "file://home/nair/data/blob_store/5c8a4445.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/5c8a4445.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.330,
+               "y" : -3.060,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/5c8a4445_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "5c8a4445",
+      "weight" : 5.0,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "9fc570e3" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/9fc570e3.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.0,
+         "y" : 0.0,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 2.120,
+               "z" : 1.1850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/9fc570e3_0.jpg",
+         "file://home/nair/data/blob_store/9fc570e3_1.jpg",
+         "file://home/nair/data/blob_store/9fc570e3_2.jpg",
+         "file://home/nair/data/blob_store/9fc570e3_3.jpg",
+         "file://home/nair/data/blob_store/9fc570e3_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/9fc570e3.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000002\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/9fc570e3_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/9fc570e3.zip",
+      "modelPath" : "file://home/nair/data/blob_store/9fc570e3.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/9fc570e3.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.850,
+               "y" : -1.560,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/9fc570e3_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "9fc570e3",
+      "weight" : 5.0,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "ad5e827f" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/ad5e827f.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.01064636372029781,
+         "y" : -0.01019380986690521,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 2.430,
+               "z" : 1.1850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/ad5e827f_0.jpg",
+         "file://home/nair/data/blob_store/ad5e827f_1.jpg",
+         "file://home/nair/data/blob_store/ad5e827f_2.jpg",
+         "file://home/nair/data/blob_store/ad5e827f_3.jpg",
+         "file://home/nair/data/blob_store/ad5e827f_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/ad5e827f.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000007\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/ad5e827f_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/ad5e827f.zip",
+      "modelPath" : "file://home/nair/data/blob_store/ad5e827f.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/ad5e827f.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.850,
+               "y" : -2.450000000000001,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/ad5e827f_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "ad5e827f",
+      "weight" : 5.0,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "b9b4cc4d" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/b9b4cc4d.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.002147444523870945,
+         "y" : 0.02165404893457890,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.7350,
+               "y" : 2.740,
+               "z" : 1.2950
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/b9b4cc4d_0.jpg",
+         "file://home/nair/data/blob_store/b9b4cc4d_1.jpg",
+         "file://home/nair/data/blob_store/b9b4cc4d_2.jpg",
+         "file://home/nair/data/blob_store/b9b4cc4d_3.jpg",
+         "file://home/nair/data/blob_store/b9b4cc4d_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/b9b4cc4d.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000001\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/b9b4cc4d_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/b9b4cc4d.zip",
+      "modelPath" : "file://home/nair/data/blob_store/b9b4cc4d.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/b9b4cc4d.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.350,
+               "y" : -1.460,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/b9b4cc4d_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "b9b4cc4d",
+      "weight" : 4.900000095367432,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "0b671812" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/0b671812.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.0006330087780952454,
+         "y" : 0.05995462834835052,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 1.50,
+               "z" : 1.4850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/0b671812_0.jpg",
+         "file://home/nair/data/blob_store/0b671812_1.jpg",
+         "file://home/nair/data/blob_store/0b671812_2.jpg",
+         "file://home/nair/data/blob_store/0b671812_3.jpg",
+         "file://home/nair/data/blob_store/0b671812_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/0b671812.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000006\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/0b671812_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/0b671812.zip",
+      "modelPath" : "file://home/nair/data/blob_store/0b671812.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/0b671812.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -7.850,
+               "y" : -3.350,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/0b671812_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "0b671812",
+      "weight" : 4.800000190734863,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "f0883e89" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/f0883e89.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.04415022209286690,
+         "y" : -0.02367578446865082,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 1.810,
+               "z" : 1.4850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/f0883e89_0.jpg",
+         "file://home/nair/data/blob_store/f0883e89_1.jpg",
+         "file://home/nair/data/blob_store/f0883e89_2.jpg",
+         "file://home/nair/data/blob_store/f0883e89_3.jpg",
+         "file://home/nair/data/blob_store/f0883e89_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/f0883e89.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000005\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/f0883e89_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/f0883e89.zip",
+      "modelPath" : "file://home/nair/data/blob_store/f0883e89.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/f0883e89.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.150,
+               "y" : 0.1300000000000002,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/f0883e89_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "f0883e89",
+      "weight" : 4.800000190734863,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.30,
+         "y" : 0.30,
+         "z" : 0.30
+      },
+      "bodies" : [ "500b9b28" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/500b9b28.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : 0.003698177635669708,
+         "y" : -0.05699877440929413,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 2.5450,
+               "y" : 2.120,
+               "z" : 1.4850
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/500b9b28_0.jpg",
+         "file://home/nair/data/blob_store/500b9b28_1.jpg",
+         "file://home/nair/data/blob_store/500b9b28_2.jpg",
+         "file://home/nair/data/blob_store/500b9b28_3.jpg",
+         "file://home/nair/data/blob_store/500b9b28_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/500b9b28.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "markerId" : "6181230131000008\r",
+      "material" : "Carton",
+      "measureDebugPath" : "file://home/nair/data/blob_store/500b9b28_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/500b9b28.zip",
+      "modelPath" : "file://home/nair/data/blob_store/500b9b28.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/500b9b28.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [ null, null, null, null, null ],
+      "robotTool" : "offsetgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -5.630,
+               "y" : -3.060,
+               "z" : 0.150
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/500b9b28_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "500b9b28",
+      "weight" : 4.699999809265137,
+      "zone" : "measurement_area"
+   },
+   {
+      "associatedActor" : "",
+      "barcode" : "",
+      "bbox" : {
+         "x" : 0.80,
+         "y" : 0.80,
+         "z" : 0.50
+      },
+      "bodies" : [ "724114a3" ],
+      "body_urls" : [ "file://home/nair/data/blob_store/724114a3.wrl" ],
+      "boxDirection" : "",
+      "cog" : {
+         "x" : -0.02399476990103722,
+         "y" : 0.03773207589983940,
+         "z" : 0.0
+      },
+      "desiredPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : 1.9850,
+               "y" : 1.780,
+               "z" : 1.3350
+            }
+         }
+      ],
+      "facesPath" : [
+         "file://home/nair/data/blob_store/724114a3_0.jpg",
+         "file://home/nair/data/blob_store/724114a3_1.jpg",
+         "file://home/nair/data/blob_store/724114a3_2.jpg",
+         "file://home/nair/data/blob_store/724114a3_3.jpg",
+         "file://home/nair/data/blob_store/724114a3_4.jpg"
+      ],
+      "featurePointsPath" : "file://home/nair/data/blob_store/724114a3.dat",
+      "fragile" : 0,
+      "graspPose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "isArticulated" : 0,
+      "kinematicModelPath" : "",
+      "labels" : [ "thisSideUp", "fragile", "keepDry" ],
+      "markerId" : "6181230126200002\r",
+      "material" : "Wooden",
+      "measureDebugPath" : "file://home/nair/data/blob_store/724114a3_measure_debug.jpg",
+      "meshPath" : "file://home/nair/data/blob_store/724114a3.zip",
+      "modelPath" : "file://home/nair/data/blob_store/724114a3.wrl",
+      "objectPointsPath" : "file://home/nair/data/blob_store/724114a3.pcd",
+      "placePose" : {
+         "orientation" : {
+            "w" : 0.0,
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         },
+         "position" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "z" : 0.0
+         }
+      },
+      "rectLabelVecs" : [
+         null,
+         [
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 143,
+               "y" : 33
+            }
+         ],
+         null,
+         [
+            {
+               "h" : 95,
+               "label" : 2,
+               "w" : 135,
+               "x" : 113,
+               "y" : 53
+            }
+         ],
+         null
+      ],
+      "robotTool" : "foamgripper",
+      "semanticName" : "",
+      "state" : "planed",
+      "storage_location" : "",
+      "targetPoseVec" : [
+         {
+            "orientation" : {
+               "w" : 1.0,
+               "x" : 0.0,
+               "y" : 0.0,
+               "z" : 0.0
+            },
+            "position" : {
+               "x" : -6.30,
+               "y" : 0.3800000000000002,
+               "z" : 0.250
+            }
+         }
+      ],
+      "thumbnailPath" : "file://home/nair/data/blob_store/724114a3_thumbnail.jpg",
+      "type" : "box",
+      "uuid" : "724114a3",
+      "weight" : 31.20000076293945,
+      "zone" : "measurement_area"
+   }
+]
