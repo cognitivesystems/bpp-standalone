@@ -1,4 +1,5 @@
 #include <QDir>
+#include <QtCore/QCoreApplication>
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -15,9 +16,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
 
   // camera
   camera_ = view_->camera();
-  camera_->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-  camera_->setPosition(QVector3D(0, 0, 10.0f));
-  camera_->setViewCenter(QVector3D(0, 0, 0));
+  resetCamera();
 
   Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(scene_3d_->getScene());
   Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
@@ -61,10 +60,26 @@ void MainWindow::resetCamera()
 {
   // camera
   camera_->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-  camera_->setPosition(QVector3D(0, 0, 40.0f));
+  camera_->setUpVector(QVector3D(0.0f, 0.0f, 1.0f));
+  camera_->setPosition(QVector3D(5.0f, 5.0f, 5.0f));
   camera_->setViewCenter(QVector3D(0, 0, 0));
+}
 
-  manipulator_->setCamera(camera_);
+void MainWindow::resetBoxes()
+{
+  if (!boxes_.empty())
+  {
+    boxes_.clear();
+  }
+  if (!planned_boxes_.empty())
+  {
+    planned_boxes_.clear();
+  }
+}
+
+void MainWindow::resetScene()
+{
+  scene_3d_->clearScene();
 }
 
 void MainWindow::on_resetButton_clicked()
@@ -75,6 +90,9 @@ void MainWindow::on_resetButton_clicked()
 
 void MainWindow::on_loadButton_clicked()
 {
+  resetBoxes();
+  resetScene();
+
   std::cout << "Loading boxes" << std::endl;
   QString boxes_file = QCoreApplication::applicationDirPath() + QString("/../test/data/boxes.json");
 
@@ -83,30 +101,7 @@ void MainWindow::on_loadButton_clicked()
 
   for (const bpa::Box& b : boxes_)
   {
-    ObjectModel model;
-    model.object_name = b.m_name.c_str();
-    qDebug() << "Name --> " << model.object_name;
-
-    ObjectBody body;
-    body.body_name = model.object_name;
-    body.pose.position.setX(b.position.position[0]);
-    body.pose.position.setY(b.position.position[1]);
-    body.pose.position.setZ(b.position.position[2]);
-
-    std::cout << "Position --> " << b.position.position.transpose() << std::endl;
-    qDebug() << body.pose.position;
-    body.pose.orientation.setX(0);
-    body.pose.orientation.setY(0);
-    body.pose.orientation.setZ(0);
-    body.pose.orientation.setScalar(1);
-    body.is_box = true;
-    body.bbox.setX(b.m_length);
-    body.bbox.setY(b.m_width);
-    body.bbox.setZ(b.m_height);
-
-    model.bodies.push_back(body);
-    models_.push_back(model);
-    scene_3d_->addObjectModel(model);
+    scene_3d_->addBoxEntity(b);
   }
 }
 
@@ -129,30 +124,7 @@ void MainWindow::on_planButton_clicked()
     b.position.position[1] += b.m_width / 2;
     b.position.position[2] += b.m_height / 2;
 
-    ObjectModel model;
-    model.object_name = b.m_name.c_str();
-    qDebug() << "Packed Name --> " << model.object_name;
-
-    ObjectBody body;
-    body.body_name = model.object_name;
-    body.pose.position.setX(b.position.position[0]);
-    body.pose.position.setY(b.position.position[1]);
-    body.pose.position.setZ(b.position.position[2]);
-    std::cout << "Position --> " << b.position.position.transpose() << std::endl;
-
-    double box_rot = (b.is_rotated == true) ? M_PI_2 : 0.0;
-
-    QQuaternion box_orientation = QQuaternion::fromEulerAngles(0, box_rot, 0);
-
-    body.pose.orientation = box_orientation;
-    body.is_box = true;
-    body.bbox.setX(b.m_length);
-    body.bbox.setY(b.m_width);
-    body.bbox.setZ(b.m_height);
-
-    model.bodies.push_back(body);
-    models_.push_back(model);
-    scene_3d_->updateObjectModel(model);
+    scene_3d_->updateBoxEntity(b);
   }
 }
 
@@ -160,12 +132,8 @@ void MainWindow::on_deleteButton_clicked()
 {
   std::cout << "Deleting model" << std::endl;
 
-  for (ObjectModel model : models_)
-  {
-    scene_3d_->removeObjectModel(model);
-  }
-
-  models_.erase(models_.begin(), models_.end());
+  resetBoxes();
+  resetScene();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

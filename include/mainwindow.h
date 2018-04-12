@@ -31,6 +31,8 @@ public:
   static MainWindow* instance();
 
   void resetCamera();
+  void resetBoxes();
+  void resetScene();
 
 protected:
   MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
@@ -58,8 +60,6 @@ private:
 
   std::vector<bpa::Box> boxes_;
   std::vector<bpa::Box> planned_boxes_;
-
-  std::vector<ObjectModel> models_;
 
   bpainf::BppInterface bpp_inf_;
 

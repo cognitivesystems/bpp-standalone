@@ -15,31 +15,8 @@
 #include <Qt3DRender/qrenderaspect.h>
 
 #include <iostream>
-
-typedef std::vector<QMatrix4x4> Transforms;
-
-struct ObectPose
-{
-  QVector3D position;
-  QQuaternion orientation;
-};
-
-struct ObjectBody
-{
-  QString body_name;
-  QString mesh_url;
-  ObectPose pose;
-  QVector3D bbox;
-  bool is_box;
-};
-
-struct ObjectModel
-{
-  QString object_name;
-  std::vector<ObjectBody> bodies;
-};
-
-typedef std::vector<ObjectModel> ObjectModels;
+#include "boxentity.h"
+#include "bpa/Box.h"
 
 class SceneRenderer3D : public QWidget
 {
@@ -48,14 +25,10 @@ class SceneRenderer3D : public QWidget
 public:
   SceneRenderer3D(QWidget* parent = 0);
 
-  void addObjectBody(const ObjectBody& info);
-  void addObjectModel(const ObjectModel& info);
-
-  void removeObjectModel(const ObjectModel& model);
-
-  void updateObjectModel(const ObjectModel& info);
-
-  ObjectModels getModels();
+  void addBoxEntity(const bpa::Box& box);
+  void updateBoxEntity(const bpa::Box& box);
+  void removeBoxEntity(const bpa::Box& box);
+  void removeAllBoxEntities();
 
   void deleteScene();
   void clearScene();
@@ -65,25 +38,15 @@ public:
   Qt3DCore::QEntity* getScene();
 
 public slots:
-
-  void slotAddObjectModel(const ObjectModel& model);
-
-  void slotRemoveObjectModel(const ObjectModel& model);
-
-  void slotUpdateObjectModel(const ObjectModel& model);
-
-  void slotUpdateObjectModels(const std::vector<ObjectModel>& models);
+  void slotAddBoxEntity(const bpa::Box& box);
+  void slotUpdateBoxEntity(const bpa::Box& box);
+  void slotRemoveBoxEntity(const bpa::Box& box);
+  void slotUpdateBoxEntities(const std::vector<bpa::Box>& boxes);
 
 private:
   std::string instance_name_;
-
-  ObjectModels current_scene_models_;
-
-  QMap<QString, Qt3DCore::QTransform*> body_transform_map_;
-
-  QMap<QString, Qt3DCore::QEntity*> model_entity_map_;
-
   Qt3DCore::QEntity* root_;
+  QMap<QString, BoxEntity*> uuid_entity_map_;
 };
 
 #endif  // SCENERENDERER3D_H

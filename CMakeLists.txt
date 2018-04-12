@@ -23,13 +23,15 @@ include_directories(
 set(qt3dsimple_hdr
   include/mainwindow.h
   include/scenerenderer3d.h
-  include/bppinterface.h)
+  include/bppinterface.h
+  include/boxentity.h)
 
 set(qt3dsimple_src
   src/main.cpp
   src/mainwindow.cpp
   src/scenerenderer3d.cpp
-  src/bppinterface.cpp)
+  src/bppinterface.cpp
+  src/boxentity.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui)

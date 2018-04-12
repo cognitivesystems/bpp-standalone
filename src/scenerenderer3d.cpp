@@ -1,80 +1,55 @@
 #include "scenerenderer3d.h"
 
-SceneRenderer3D::SceneRenderer3D(QWidget* parent) : QWidget(parent)
+SceneRenderer3D::SceneRenderer3D(QWidget* parent) : QWidget(parent), root_(new Qt3DCore::QEntity())
 {
-  root_ = new Qt3DCore::QEntity;
 }
 
-void SceneRenderer3D::addObjectBody(const ObjectBody& info)
+void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
 {
-  if (info.is_box)
+  BoxEntity* boxEntityPtr = new BoxEntity(root_);
+
+  boxEntityPtr->mesh()->setXExtent(box.m_length);
+  boxEntityPtr->mesh()->setYExtent(box.m_width);
+  boxEntityPtr->mesh()->setZExtent(box.m_height);
+
+  boxEntityPtr->transform()->setTranslation(
+      QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
+
+  double box_rot = box.is_rotated ? M_PI_2 : 0.0;
+  boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, box_rot, 0));
+
+  boxEntityPtr->material()->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255));
+
+  uuid_entity_map_[box.m_name.c_str()] = boxEntityPtr;
+}
+
+void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
+{
+  BoxEntity* boxEntityPtr = uuid_entity_map_[box.m_name.c_str()];
+
+  boxEntityPtr->transform()->setTranslation(
+      QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
+
+  double box_rot = box.is_rotated ? M_PI_2 : 0.0;
+  boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, box_rot, 0));
+}
+
+void SceneRenderer3D::removeBoxEntity(const bpa::Box& box)
+{
+  QMap<QString, BoxEntity*>::iterator itr = uuid_entity_map_.find(box.m_name.c_str());
+  if (itr != uuid_entity_map_.end())
   {
-    Qt3DCore::QEntity* box = new Qt3DCore::QEntity(root_);
-
-    //        Qt3DRender::QMesh* mesh  = new Qt3DRender::QMesh(root_);
-    //        mesh->setSource(QUrl::fromLocalFile("0b74db5d.obj"));
-
-    Qt3DExtras::QCuboidMesh* cuboid = new Qt3DExtras::QCuboidMesh();
-    cuboid->setXExtent(info.bbox.x());
-    cuboid->setYExtent(info.bbox.y());
-    cuboid->setZExtent(info.bbox.z());
-
-    // CuboidMesh Transform
-    Qt3DCore::QTransform* cuboidTransform = new Qt3DCore::QTransform();
-    cuboidTransform->setTranslation(info.pose.position);
-    //        cuboidTransform->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(1,0,0),
-    //        45.f ));
-    cuboidTransform->setRotation(info.pose.orientation);
-
-    Qt3DExtras::QPhongMaterial* material = new Qt3DExtras::QPhongMaterial(root_);
-
-    material->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255));
-
-    box->addComponent(cuboid);
-    box->addComponent(cuboidTransform);
-    box->addComponent(material);
-
-    model_entity_map_[info.body_name] = box;
-    body_transform_map_[info.body_name] = cuboidTransform;
+    uuid_entity_map_.erase(itr);
   }
 }
 
-void SceneRenderer3D::addObjectModel(const ObjectModel& info)
+void SceneRenderer3D::removeAllBoxEntities()
 {
-  for (auto b : info.bodies)
+  if (!uuid_entity_map_.empty())
   {
-    addObjectBody(b);
+    qDeleteAll(uuid_entity_map_);
+    uuid_entity_map_.clear();
   }
-}
-
-void SceneRenderer3D::removeObjectModel(const ObjectModel& model)
-{
-  std::cout << "removeObjectModel" << std::endl;
-  for (ObjectBody b : model.bodies)
-  {
-    Qt3DCore::QEntity* entity = model_entity_map_[b.body_name];
-    foreach (Qt3DCore::QComponent* component, entity->components())
-    {
-      entity->removeComponent(component);
-      delete (component);
-      component = NULL;
-    }
-  }
-}
-
-void SceneRenderer3D::updateObjectModel(const ObjectModel& info)
-{
-  for (ObjectBody b : info.bodies)
-  {
-    Qt3DCore::QTransform* tr = body_transform_map_[b.body_name];
-    tr->setTranslation(b.pose.position);
-    tr->setRotation(b.pose.orientation);
-  }
-}
-
-ObjectModels SceneRenderer3D::getModels()
-{
-  return current_scene_models_;
 }
 
 void SceneRenderer3D::deleteScene()
@@ -83,6 +58,7 @@ void SceneRenderer3D::deleteScene()
 
 void SceneRenderer3D::clearScene()
 {
+  removeAllBoxEntities();
 }
 
 void SceneRenderer3D::createTestScene()
@@ -94,25 +70,25 @@ Qt3DCore::QEntity* SceneRenderer3D::getScene()
   return root_;
 }
 
-void SceneRenderer3D::slotAddObjectModel(const ObjectModel& model)
+void SceneRenderer3D::slotAddBoxEntity(const bpa::Box& box)
 {
-  addObjectModel(model);
+  addBoxEntity(box);
 }
 
-void SceneRenderer3D::slotRemoveObjectModel(const ObjectModel& model)
+void SceneRenderer3D::slotUpdateBoxEntity(const bpa::Box& box)
 {
-  removeObjectModel(model);
+  updateBoxEntity(box);
 }
 
-void SceneRenderer3D::slotUpdateObjectModel(const ObjectModel& model)
+void SceneRenderer3D::slotRemoveBoxEntity(const bpa::Box& box)
 {
-  updateObjectModel(model);
+  removeBoxEntity(box);
 }
 
-void SceneRenderer3D::slotUpdateObjectModels(const std::vector<ObjectModel>& models)
+void SceneRenderer3D::slotUpdateBoxEntities(const std::vector<bpa::Box>& boxes)
 {
-  for (auto model : models)
+  for (const bpa::Box& box : boxes)
   {
-    addObjectModel(model);
+    removeBoxEntity(box);
   }
 }
