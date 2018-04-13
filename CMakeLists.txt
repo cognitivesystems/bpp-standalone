@@ -38,7 +38,7 @@ set(qt3dsimple_ui
   include/mainwindow.ui)
 
 set(qt3dsimple_resource
-  src/resources.qrc)
+  src/resources/boxes.qrc)
 
 add_executable(qt3dsimple ${qt3dsimple_hdr} ${qt3dsimple_src} ${qt3dsimple_ui} ${qt3dsimple_resource})
 target_link_libraries(qt3dsimple

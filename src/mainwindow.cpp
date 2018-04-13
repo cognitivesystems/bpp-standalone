@@ -94,7 +94,7 @@ void MainWindow::on_loadButton_clicked()
   resetScene();
 
   std::cout << "Loading boxes" << std::endl;
-  QString boxes_file = ":/resources/boxes.json";
+  QString boxes_file = ":/data/boxes.json";
 
   boxes_ = box_factory::BoxJsonParser::getBoxesFromJsonFile(boxes_file);
   std::cout << "Number of boxes " << boxes_.size() << std::endl;

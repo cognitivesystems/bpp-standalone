@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/boxes.json</file>
+        <file>data/boxes.json</file>
     </qresource>
 </RCC>

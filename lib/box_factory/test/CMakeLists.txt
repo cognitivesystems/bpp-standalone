@@ -22,7 +22,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory("${3rdPartyDir}/googletest-src"
   "${3rdPartyDir}/googletest-build")
 
-set(BoxFactoryTest_src BoxJsonParserTest.cpp resources.qrc)
+set(BoxFactoryTest_src BoxJsonParserTest.cpp resources/boxes.qrc)
 add_executable(BoxFactory-test ${BoxFactoryTest_src})
 target_link_libraries(BoxFactory-test
   BoxFactory

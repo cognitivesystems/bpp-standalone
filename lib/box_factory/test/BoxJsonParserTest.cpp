@@ -11,7 +11,7 @@ class BoxJsonParserTestFixture : public testing::Test
 protected:
   void SetUp()
   {
-    jsonFile_ = ":/resources/boxes.json";
+    jsonFile_ = ":/data/boxes.json";
 
     QString str(R"(
 {
