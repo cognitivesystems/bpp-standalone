@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 if (NOT CMAKE_PREFIX_PATH)
   set(CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
@@ -36,7 +37,10 @@ set(qt3dsimple_src
 set(qt3dsimple_ui
   include/mainwindow.ui)
 
-add_executable(qt3dsimple ${qt3dsimple_hdr} ${qt3dsimple_src} ${qt3dsimple_ui})
+set(qt3dsimple_resource
+  src/resources.qrc)
+
+add_executable(qt3dsimple ${qt3dsimple_hdr} ${qt3dsimple_src} ${qt3dsimple_ui} ${qt3dsimple_resource})
 target_link_libraries(qt3dsimple
   ${BULLET_LIBRARIES}
   #${BULLET_DYNAMICS_LIBRARY}

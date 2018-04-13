@@ -11,7 +11,7 @@ class BoxJsonParserTestFixture : public testing::Test
 protected:
   void SetUp()
   {
-    jsonFile_ = QDir::currentPath() + QString("/lib/box_factory/test/data/boxes.json");
+    jsonFile_ = ":/resources/boxes.json";
 
     QString str(R"(
 {
