@@ -4,7 +4,7 @@ BoxEntity::BoxEntity(Qt3DCore::QNode* parent)
   : Qt3DCore::QEntity(parent)
   , mesh_(new Qt3DExtras::QCuboidMesh())
   , transform_(new Qt3DCore::QTransform())
-  , material_(new Qt3DExtras::QPhongMaterial)
+  , material_(new Qt3DExtras::QPhongMaterial())
 {
   addComponent(mesh_);
   addComponent(transform_);
