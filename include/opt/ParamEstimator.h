@@ -38,6 +38,9 @@ private:
     std::vector<bpa::Box> est_boxes_;
     std::vector<bpa::Box> est_planned_boxes_;
 
+    std::random_device rd;
+    std::mt19937 generator;
+    std::uniform_real_distribution<> dis;
 };
 
 #endif  // PARAMESTIMATOR_H

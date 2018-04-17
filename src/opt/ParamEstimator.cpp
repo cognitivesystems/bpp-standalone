@@ -1,13 +1,14 @@
 #include <opt/ParamEstimator.h>
 
 ParamEstimator::ParamEstimator()
-    :pf_(0), n_particles_(1000)
+    :pf_(0), n_particles_(1000), generator(rd()), dis(0.0, 1.0)
 {
 
 }
 
 void ParamEstimator::initialize()
 {
+    dims_=3;
     alpha_.resize(dims_);
     beta_.resize(dims_);
     for(size_t n=0;n<dims_;++n){
@@ -77,6 +78,7 @@ void ParamEstimator::run()
 
 double ParamEstimator::eval_bpp(const VectorX data)
 {
+    return dis(generator);
 
 }
 

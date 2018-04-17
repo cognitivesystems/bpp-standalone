@@ -23,6 +23,9 @@ void ParticleFilter::initialize(const VectorX &alpha, const VectorX &beta, size_
     mParams.dof_=alpha.size();
     mParams.n_particles_=n_particles;
 
+    alpha_=alpha;
+    beta_=beta;
+
     std::cout << "PARTICLE_FILTER " << std::endl;
     std::cout << "dof_ " << mParams.dof_ << std::endl;
     std::cout << "n_particles_ " << mParams.n_particles_ << std::endl;
@@ -31,6 +34,7 @@ void ParticleFilter::initialize(const VectorX &alpha, const VectorX &beta, size_
 
     VectorX cov;
     cov.resize(mParams.dof_);
+
     for(size_t n=0;n<mParams.dof_;++n){
         boost::math::beta_distribution<> beta_d(0.5, 0.5);
         distributions[n]=beta_d;
@@ -42,7 +46,6 @@ void ParticleFilter::initialize(const VectorX &alpha, const VectorX &beta, size_
     for(size_t n=0;n<mParams.n_particles_;++n){
         mParticles.push_back(Particle(mParams.dof_));
     }
-
 
     if(alpha.size()!=mParams.dof_){
         std::cout << "Init Pose does not match dof " << mParams.dof_ << std::endl;
@@ -141,22 +144,21 @@ void ParticleFilter::updateDistribution()
     std::qsort( mParticles.data(), mParticles.size(), sizeof( Particle ), particle_cmp );
 
     int length=(int)(mParticles.size()*0.1);
-    //    std::cout << "length ----------------> " << length << std::endl;
+    std::cout << "length ----------------> " << length << std::endl;
 
     for(size_t n=0;n<mParams.dof_;++n){
-
-//        double data_1[length];
         std::vector<float > datavec;
         datavec.resize(length);
 
         for(size_t i=0;i<length;++i){
             Particle p = mParticles[i];
-//            data_1[i]=p.pose_[n];
             datavec[i]=p.pose_[n];
         }
 
-        std::pair <float, float> mv = getMeanVariance(datavec);
+        std::cout << __LINE__ << std::endl;
 
+
+        std::pair <float, float> mv = getMeanVariance(datavec);
 
         float dist_params[2];
         dist_params[0]=distributions[n].find_alpha(mv.first, mv.second);
@@ -164,7 +166,6 @@ void ParticleFilter::updateDistribution()
 
         alpha_[n]=alpha_[n]*step+(1.0-step)*dist_params[0];
         beta_[n]=beta_[n]*step+(1.0-step)*dist_params[1];
-
     }
 
     distributions.erase(distributions.begin(), distributions.end());
