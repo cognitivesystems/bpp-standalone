@@ -34,6 +34,7 @@ public:
   void resetBoxes();
   void resetScene();
 
+
 protected:
   MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
 

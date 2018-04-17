@@ -15,24 +15,31 @@ endif ()
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets 3DCore 3DExtras 3DRender 3DInput)
 find_package(Eigen3 REQUIRED)
 find_package(Bullet REQUIRED)
+find_package(Boost REQUIRED)
 
 include_directories(
   include
   ${EIGEN3_INCLUDE_DIR}
-  ${BULLET_INCLUDE_DIR})
+  ${BULLET_INCLUDE_DIR}
+  ${Boost_INCLUDE_DIR})
 
 set(qt3dsimple_hdr
   include/mainwindow.h
   include/scenerenderer3d.h
   include/bppinterface.h
-  include/boxentity.h)
+  include/boxentity.h
+  include/opt/defs.h
+  include/opt/ParticleFilter.h
+  include/opt/ParamEstimator.h)
 
 set(qt3dsimple_src
   src/main.cpp
   src/mainwindow.cpp
   src/scenerenderer3d.cpp
   src/bppinterface.cpp
-  src/boxentity.cpp)
+  src/boxentity.cpp
+  src/opt/ParticleFilter.cpp
+  src/opt/ParamEstimator.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui)
@@ -43,6 +50,7 @@ set(qt3dsimple_resource
 add_executable(qt3dsimple ${qt3dsimple_hdr} ${qt3dsimple_src} ${qt3dsimple_ui} ${qt3dsimple_resource})
 target_link_libraries(qt3dsimple
   ${BULLET_LIBRARIES}
+  ${Boost_LIBRARIES}
   #${BULLET_DYNAMICS_LIBRARY}
   #${BULLET_COLLISION_LIBRARY}
   #/usr/local/lib/libLinearMath.a
