@@ -81,4 +81,3 @@ double ParamEstimator::eval_bpp(const VectorX data)
     return dis(generator);
 
 }
-

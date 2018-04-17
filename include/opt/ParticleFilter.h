@@ -9,145 +9,155 @@
 #include <random>
 #include <chrono>
 
-namespace filter{
-class ParticleFilterParams{
-
+namespace filter
+{
+class ParticleFilterParams
+{
 public:
-    u_int dof_;
-    u_int n_particles_;
+  u_int dof_;
+  u_int n_particles_;
 };
 
-class Particle{
+class Particle
+{
 public:
-    Particle(u_int dof){
-        pose_.resize(dof);
-        pose_p_.resize(dof);
-        pose_p0_.resize(dof);
-    }
+  Particle(u_int dof)
+  {
+    pose_.resize(dof);
+    pose_p_.resize(dof);
+    pose_p0_.resize(dof);
+  }
 
-    ~Particle(){
-        //std::cout << "deleteing particle" << std::endl;
-    }
+  ~Particle()
+  {
+    // std::cout << "deleteing particle" << std::endl;
+  }
 
 public:
-    VectorX pose_;
-    VectorX pose_p_;
-    VectorX pose_p0_;
+  VectorX pose_;
+  VectorX pose_p_;
+  VectorX pose_p0_;
 
-    float w;          /**< weight */
+  float w; /**< weight */
 };
 
-class ParticleFilter{
+class ParticleFilter
+{
 public:
+  ParticleFilter(uint id);
+  ~ParticleFilter();
 
-    ParticleFilter(uint id);
-    ~ParticleFilter();
+  void initialize(const VectorX& alpha, const VectorX& beta, size_t n_particles = 100);
 
-    void initialize(const VectorX& alpha, const VectorX& beta, size_t n_particles=100);
+  void predict();
 
-    void predict();
+  void predict_with_simple_model();
 
-    void predict_with_simple_model();
+  void predict_with_beta_distribution();
 
-    void predict_with_beta_distribution();
+  void correct();
 
-    void correct();
+  void resizeParticleSet(const size_t new_count);
 
-    void resizeParticleSet(const size_t new_count);
+  void setParticleWeight(u_int id, float w);
 
-    void setParticleWeight(u_int id, float w);
+  size_t nOfParticles()
+  {
+    return mParticles.size();
+  }
 
-    size_t nOfParticles(){
-        return mParticles.size();
-    }
+  static int particle_cmp(const void* p1, const void* p2)
+  {
+    Particle* _p1 = (Particle*)p1;
+    Particle* _p2 = (Particle*)p2;
 
-    static int particle_cmp(const void* p1,const void* p2 ){
-        Particle* _p1 = (Particle*)p1;
-        Particle* _p2 = (Particle*)p2;
+    if (_p1->w > _p2->w)
+      return -1;
+    if (_p1->w < _p2->w)
+      return 1;
+    return 0;
+  }
 
-        if( _p1->w > _p2->w )
-            return -1;
-        if( _p1->w < _p2->w )
-            return 1;
-        return 0;
-    }
+  void getParticlePose(const int id, VectorX& pose);
 
-    void getParticlePose(const int id, VectorX& pose);
+  VectorX getOutputPose();
 
-    VectorX getOutputPose();
+  double getAverageWeight();
 
-    double getAverageWeight();
+  double getMaxLikelihood();
 
-    double getMaxLikelihood();
+  Particle* getMaxParticle();
 
-    Particle* getMaxParticle();
+  uint getFilterId()
+  {
+    return filter_id_;
+  }
 
-    uint getFilterId(){
-        return filter_id_;
-    }
+  float getBetaD(size_t filter_id)
+  {
+    float rand = dis(generator);
+    return quantile(distributions[filter_id], rand);
+  }
 
-    float getBetaD(size_t filter_id){
-        float rand=dis(generator);
-        return quantile(distributions[filter_id], rand);
-    }
+  std::pair<double, double> getMeanVariance(const std::vector<float>& vec)
+  {
+    float mean = 0, M2 = 0, variance = 0;
 
-    std::pair<double,double> getMeanVariance(const std::vector<float >& vec) {
-        float mean = 0, M2 = 0, variance = 0;
-
-        size_t n = vec.size();
-        for(size_t i = 0; i < n; ++i) {
-            float delta = vec[i] - mean;
-            mean += delta / (i + 1);
-            M2 += delta * (vec[i] - mean);
-            variance = M2 / (i + 1);
-            if (i >= 2) {
-                // <-- You can use the running mean and variance here
-            }
-        }
-
-        return std::make_pair(mean, variance);
-    }
-
-    static double argInit_real_T(void)
+    size_t n = vec.size();
+    for (size_t i = 0; i < n; ++i)
     {
-        return 0.0;
+      float delta = vec[i] - mean;
+      mean += delta / (i + 1);
+      M2 += delta * (vec[i] - mean);
+      variance = M2 / (i + 1);
+      if (i >= 2)
+      {
+        // <-- You can use the running mean and variance here
+      }
     }
 
+    return std::make_pair(mean, variance);
+  }
 
-    VectorX getAlpha(){
-        return alpha_;
-    }
+  static double argInit_real_T(void)
+  {
+    return 0.0;
+  }
 
-    VectorX getBeta(){
-        return beta_;
-    }
+  VectorX getAlpha()
+  {
+    return alpha_;
+  }
 
-    VectorX getCovariance();
+  VectorX getBeta()
+  {
+    return beta_;
+  }
+
+  VectorX getCovariance();
 
 private:
-    void normalize();
+  void normalize();
 
-    void updateDistribution();
+  void updateDistribution();
 
 protected:
-    uint filter_id_;
+  uint filter_id_;
 
-    ParticleFilterParams mParams;
+  ParticleFilterParams mParams;
 
-    std::vector<Particle > mParticles;
+  std::vector<Particle> mParticles;
 
-    VectorX mOutputPose;
-    
-    std::random_device rd;
-    std::mt19937 generator;
-    std::uniform_real_distribution<> dis;
-    std::vector<  boost::math::beta_distribution< > > distributions;
+  VectorX mOutputPose;
 
-    VectorX alpha_;
-    VectorX beta_;
-    double step=0.1;
+  std::random_device rd;
+  std::mt19937 generator;
+  std::uniform_real_distribution<> dis;
+  std::vector<boost::math::beta_distribution<> > distributions;
+
+  VectorX alpha_;
+  VectorX beta_;
+  double step = 0.1;
 };
-
-
 }
 #endif /* PARTICLEFILTER_H_ */

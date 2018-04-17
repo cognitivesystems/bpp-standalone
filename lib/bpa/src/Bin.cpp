@@ -289,12 +289,12 @@ Eigen::Vector3d Bin::checkNewBoxPosition(Box abox, FittingPoint fp)
 
   // check1: if there is enough support area after move the box to new position
   // don't move too far in the case: the support area is not enough and not in the floor
-  if ((std::fabs(distance(0)) > ((1 - bpa::Params::instance()->HELT_RATE) * abox.m_length)) &&
+  if ((std::fabs(distance(0)) > ((1 - paramsPtr_->helt_rate()) * abox.m_length)) &&
       !floatEqual(abox.position.position(2), 0.0))
   {
     distance(0) = 0.0;
   }
-  if ((std::fabs(distance(1)) > ((1 - bpa::Params::instance()->HELT_RATE) * abox.m_width)) &&
+  if ((std::fabs(distance(1)) > ((1 - paramsPtr_->helt_rate()) * abox.m_width)) &&
       !floatEqual(abox.position.position(2), 0.0))
   {
     distance(1) = 0.0;
@@ -426,7 +426,7 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
     }
   }
   //    if(floatLessThan(supportArea, helt)) {distance(0) = 0.0;  std::cout << "x less support area\n";}
-  if ((supportArea < bpa::Params::instance()->HELT_RATE * abox.m_length * abox.m_width))
+  if ((supportArea < paramsPtr_->helt_rate() * abox.m_length * abox.m_width))
   {
     distance(0) = 0.0;
   }
@@ -448,7 +448,7 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
     }
   }
   //    if(floatLessThan(supportArea, helt)) {distance(1) = 0.0;}
-  if ((supportArea < bpa::Params::instance()->HELT_RATE * abox.m_length * abox.m_width))
+  if ((supportArea < paramsPtr_->helt_rate() * abox.m_length * abox.m_width))
   {
     distance(1) = 0.0;
   }
@@ -517,11 +517,11 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
   }
 
   // check5: if the box is dangerous, don't move, keep in the edge
-  if (abox.is_dangerous && fabs(distance(0)) > (bpa::Params::instance()->MIN_BOX_SIZE - 0.1))
+  if (abox.is_dangerous && fabs(distance(0)) > (paramsPtr_->min_box_size() - 0.1))
   {
     distance(0) = 0.0;
   }
-  if (abox.is_dangerous && fabs(distance(1)) > (bpa::Params::instance()->MIN_BOX_SIZE - 0.1))
+  if (abox.is_dangerous && fabs(distance(1)) > (paramsPtr_->min_box_size() - 0.1))
   {
     distance(1) = 0.0;
   }
@@ -601,7 +601,7 @@ void Bin::updateFittingPoints(Box& abox, FittingPoint& fp)
     double u_x = fp.coordinates.position(0) + fp.direction_box_pos(0) * abox.m_length;
     double u_y = fp.coordinates.position(1) + fp.direction_box_pos(1) * abox.m_width;
 
-    if (u_x < bpa::Params::instance()->MIN_BOX_SIZE && (fp.coordinates.position(2) + abox.m_height) > 2.5)
+    if (u_x < paramsPtr_->min_box_size() && (fp.coordinates.position(2) + abox.m_height) > 2.5)
     {
       FittingPoint tp_1(
           Point(fp.coordinates.position + abox.m_height * fp.direction_z + abox.m_length * fp.direction_x),
@@ -807,6 +807,7 @@ void Bin::setPackedBoxes(std::vector<Box>& boxes_on_bin)
     boxes_ground_surface += box.m_length * box.m_width;
 
     box.is_packed = true;
+    box.setParams(paramsPtr_);
     this->packed_boxes.push_back(box);
 
     // set the packed box fps
@@ -851,5 +852,10 @@ void Bin::updateBoxesPosition(std::vector<Box>& boxes_on_pallet)
       it->position.position = box.position.position;  // update the box position
     }
   }
+}
+
+void Bin::setParams(const std::shared_ptr<Params>& paramsPtr)
+{
+  paramsPtr_ = paramsPtr;
 }
 }

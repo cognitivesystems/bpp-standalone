@@ -14,9 +14,9 @@
 #include <iostream>
 
 #include "bppinterface.h"
-#include <box_factory/BoxJsonParser.h>
-#include <bpa/Box.h>
-#include <opt/ParamEstimator.h>
+#include "BoxJsonParser.h"
+#include "Box.h"
+#include "opt/ParamEstimator.h"
 
 namespace Ui
 {
@@ -34,7 +34,6 @@ public:
   void resetCamera();
   void resetBoxes();
   void resetScene();
-
 
 protected:
   MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);

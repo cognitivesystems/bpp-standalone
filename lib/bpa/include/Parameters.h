@@ -10,42 +10,75 @@ namespace bpa
 class Params
 {
 public:
-  /*< --------------------------------------------- */
-  /*< Weighting Parameters of the Scoring Functions */
-  double W_MASS;
-  double W_VOL;
-  double W_MASSVOL;
+  Params() = default;
+  Params(double w_mass, double w_vol, double w_massvol, double w_com, double helt_rate, double w_supported,
+         double w_contact, double neighbour_constant, double w_assignment, double w_place_near, double bin_height,
+         double min_box_size, double w_item_in_the_bottom_area, double w_high_items_good_placed,
+         bool generate_simulated_boxes, bool start_with_all_edges_as_fp, int search_height, int search_width);
 
-  double W_COM;
-  double HELT_RATE;   /* Minimum Percentage of ground surface of a Box which has to be supported by other boxes or the
-                         pallet underneath */
-  double W_SUPPORTED; /* The box support area */
-  double W_CONTACT;   /* The box contact areas with surounding */
+  Params(const Params& rhs) = default;
+  Params& operator=(const Params& rhs) = default;
 
-  double NEIGHBOUR_CONSTANT;
-  double W_ASSIGNMENT;
-  double W_PLACE_NEAR;
-  double BIN_HEIGHT;   /* The box reaches the bin max height. */
-  double MIN_BOX_SIZE; /* The min box size(width). */
+  Params(Params&& rhs) = default;
+  Params& operator=(Params&& rhs) = default;
 
-  double W_ITEM_IN_THE_BOTTOM_AREA;
-  double W_HIGH_ITEMS_GOOD_PLACED;
-  /*< --------------------------------------------- */
+  void setAll(double w_mass, double w_vol, double w_massvol, double w_com, double helt_rate, double w_supported,
+              double w_contact, double neighbour_constant, double w_assignment, double w_place_near, double bin_height,
+              double min_box_size, double w_item_in_the_bottom_area, double w_high_items_good_placed,
+              bool generate_simulated_boxes, bool start_with_all_edges_as_fp, int search_height, int search_width);
 
-  bool GENERATE_SIMULATED_BOXES;   /* Indicating if Simulated Boxes should be generated*/
-  bool START_WITH_ALL_EDGES_AS_FP; /* Indicating if all four edges should be used asinitial Fitting Points*/
+  double w_mass() const;
+  double w_vol() const;
+  double w_massvol() const;
 
-  int SEARCH_HEIGHT; /* Indicating the Search height of the Deep Search Algorithms*/
-  int SEARCH_WIDTH;  /* Indicating the Search width of the Deep Search Algorithms*/
+  double w_com() const;
+  double helt_rate() const;
+  double w_supported() const;
+  double w_contact() const;
 
-  static Params* instance();
+  double neighbour_constant() const;
+  double w_assignment() const;
+  double w_place_near() const;
+  double bin_height() const;
+  double min_box_size() const;
+
+  double w_item_in_the_bottom_area() const;
+  double w_high_items_good_placed() const;
+
+  bool generate_simulated_boxes() const;
+  bool start_with_all_edges_as_fp() const;
+
+  int search_height() const;
+  int search_width() const;
 
 private:
-  static Params* singleton_;
-  Params()
-  {
-    //        singleton_ = this;
-  }
+  /*< --------------------------------------------- */
+  /*< Weighting Parameters of the Scoring Functions */
+  double w_mass_;
+  double w_vol_;
+  double w_massvol_;
+
+  double w_com_;
+  double helt_rate_;   /* Minimum Percentage of ground surface of a Box which has to be supported by other boxes or the
+                       pallet underneath */
+  double w_supported_; /* The box support area */
+  double w_contact_;   /* The box contact areas with surounding */
+
+  double neighbour_constant_;
+  double w_assignment_;
+  double w_place_near_;
+  double bin_height_;   /* The box reaches the bin max height. */
+  double min_box_size_; /* The min box size(width). */
+
+  double w_item_in_the_bottom_area_;
+  double w_high_items_good_placed_;
+  /*< --------------------------------------------- */
+
+  bool generate_simulated_boxes_;   /* Indicating if Simulated Boxes should be generated*/
+  bool start_with_all_edges_as_fp_; /* Indicating if all four edges should be used asinitial Fitting Points*/
+
+  int search_height_; /* Indicating the Search height of the Deep Search Algorithms*/
+  int search_width_;  /* Indicating the Search width of the Deep Search Algorithms*/
 };
 
 // const PARAMETERS params =

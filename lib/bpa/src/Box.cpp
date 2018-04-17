@@ -84,7 +84,7 @@ Box::Box(double length, double width, double height, double mass, std::string na
     }
   }
 
-  setChooseScore();
+  //  setChooseScore();
   box_direction = "";
 
   is_fragile = false;
@@ -129,7 +129,7 @@ Box::Box()
   gripper_orientation = 0.0;
   tool_name = "offsetgripper";
 
-  setChooseScore();
+  //  setChooseScore();
   box_direction = "";
 
   is_fragile = false;
@@ -190,9 +190,20 @@ void Box::setChooseScore()
     mass = m_mass;
 
   // Todo adapt the values for the normalization to the real values
-  choose_score = bpa::Params::instance()->W_MASS * mass / max_mass +
-                 100.0 * bpa::Params::instance()->W_VOL * (m_length / 100.0 + m_width / 100.0 + m_height / 70.0) / 3.0 +
-                 bpa::Params::instance()->W_MASSVOL * (mass / max_mass) * 100.0 *
+  choose_score = paramsPtr_->w_mass() * mass / max_mass +
+                 100.0 * paramsPtr_->w_vol() * (m_length / 100.0 + m_width / 100.0 + m_height / 70.0) / 3.0 +
+                 paramsPtr_->w_massvol() * (mass / max_mass) * 100.0 *
                      (m_length / 100.0 + m_width / 100.0 + m_height / 70.0) / 3.0;
+}
+
+void Box::setParams(const std::shared_ptr<Params>& paramsPtr)
+{
+  paramsPtr_ = paramsPtr;
+  setChooseScore();
+}
+
+std::shared_ptr<Params> Box::getParams()
+{
+  return paramsPtr_;
 }
 }

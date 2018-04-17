@@ -41,7 +41,7 @@ Bin BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on
   }
 
   // Initializing the Holding Platform
-  HoldingPlatform holding(abin.bin_length, abin.bin_width, bpa::Params::instance()->GENERATE_SIMULATED_BOXES,
+  HoldingPlatform holding(abin.bin_length, abin.bin_width, paramsPtr_->generate_simulated_boxes(),
                           boxes_on_holdingplatform, highest_id);
   //    for(bpa::Box b : holding.boxes_to_pack)
   //    {
@@ -79,7 +79,7 @@ Bin BinPackingPlanner::solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_o
     pack_it++;
   }
 
-  HoldingPlatform holding(abin.bin_length, abin.bin_width, bpa::Params::instance()->GENERATE_SIMULATED_BOXES,
+  HoldingPlatform holding(abin.bin_length, abin.bin_width, paramsPtr_->generate_simulated_boxes(),
                           boxes_on_holdingplatform, highest_id);
 
   // choose the box which has the highest choose_score.
@@ -127,20 +127,18 @@ Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
 
   // Initializing the bins:
   Bin curr_testing(curr_best_solution.bin_length, curr_best_solution.bin_width, curr_best_solution.bin_height,
-                   bpa::Params::instance()->START_WITH_ALL_EDGES_AS_FP);
+                   paramsPtr_->start_with_all_edges_as_fp());
   Bin bin_before_testing(curr_best_solution.bin_length, curr_best_solution.bin_width, curr_best_solution.bin_height,
-                         bpa::Params::instance()->START_WITH_ALL_EDGES_AS_FP);
+                         paramsPtr_->start_with_all_edges_as_fp());
 
   // Initializing the holding platforms:
   HoldingPlatform holding_curr_best_solution(curr_best_solution.bin_length, curr_best_solution.bin_width,
-                                             bpa::Params::instance()->GENERATE_SIMULATED_BOXES,
-                                             boxes_on_holdingplatform, highest_id);
+                                             paramsPtr_->generate_simulated_boxes(), boxes_on_holdingplatform,
+                                             highest_id);
   HoldingPlatform holding_curr_testing(curr_best_solution.bin_length, curr_best_solution.bin_width,
-                                       bpa::Params::instance()->GENERATE_SIMULATED_BOXES, boxes_on_holdingplatform,
-                                       highest_id);
+                                       paramsPtr_->generate_simulated_boxes(), boxes_on_holdingplatform, highest_id);
   HoldingPlatform holding_before_testing(curr_best_solution.bin_length, curr_best_solution.bin_width,
-                                         bpa::Params::instance()->GENERATE_SIMULATED_BOXES, boxes_on_holdingplatform,
-                                         highest_id);
+                                         paramsPtr_->generate_simulated_boxes(), boxes_on_holdingplatform, highest_id);
 
   // Initializing some variables
   bool solved = false;
@@ -184,7 +182,7 @@ Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
 
       if (position_iterator->score >= 0)
       {
-        for (int i = 0; i < bpa::Params::instance()->SEARCH_WIDTH && position_iterator != mixed_scores.end(); ++i)
+        for (int i = 0; i < paramsPtr_->search_width() && position_iterator != mixed_scores.end(); ++i)
         {
           if (position_iterator->score >= 0)
           {
@@ -195,7 +193,7 @@ Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
                                    holding_curr_testing, position_iterator->temp_a_helt);
             holding_curr_testing.moveBox(position_iterator->box_to_pack.m_id);
             bool height_search = true;
-            for (int i = 0; i < bpa::Params::instance()->SEARCH_HEIGHT && height_search; ++i)
+            for (int i = 0; i < paramsPtr_->search_height() && height_search; ++i)
             {
               height_search =
                   addNexBoxToPackingConfigurationOneFunction(curr_testing, holding_curr_testing, &curr_cum_score);
@@ -249,20 +247,18 @@ Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
 
   // Initializing the bins:
   Bin curr_testing(curr_best_solution.bin_length, curr_best_solution.bin_width, curr_best_solution.bin_height,
-                   bpa::Params::instance()->START_WITH_ALL_EDGES_AS_FP);
+                   paramsPtr_->start_with_all_edges_as_fp());
   Bin bin_before_testing(curr_best_solution.bin_length, curr_best_solution.bin_width, curr_best_solution.bin_height,
-                         bpa::Params::instance()->START_WITH_ALL_EDGES_AS_FP);
+                         paramsPtr_->start_with_all_edges_as_fp());
 
   // Initializing the holding platforms:
   HoldingPlatform holding_curr_best_solution(curr_best_solution.bin_length, curr_best_solution.bin_width,
-                                             bpa::Params::instance()->GENERATE_SIMULATED_BOXES,
-                                             boxes_on_holdingplatform, highest_id);
+                                             paramsPtr_->generate_simulated_boxes(), boxes_on_holdingplatform,
+                                             highest_id);
   HoldingPlatform holding_curr_testing(curr_best_solution.bin_length, curr_best_solution.bin_width,
-                                       bpa::Params::instance()->GENERATE_SIMULATED_BOXES, boxes_on_holdingplatform,
-                                       highest_id);
+                                       paramsPtr_->generate_simulated_boxes(), boxes_on_holdingplatform, highest_id);
   HoldingPlatform holding_before_testing(curr_best_solution.bin_length, curr_best_solution.bin_width,
-                                         bpa::Params::instance()->GENERATE_SIMULATED_BOXES, boxes_on_holdingplatform,
-                                         highest_id);
+                                         paramsPtr_->generate_simulated_boxes(), boxes_on_holdingplatform, highest_id);
 
   // Initializing of the Iterator
   std::sort(holding_curr_best_solution.boxes_to_pack.begin(), holding_curr_best_solution.boxes_to_pack.end(),
@@ -312,8 +308,7 @@ Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
 
       if (fp_scores->score >= 0)
       {
-        for (int i = 0;
-             i < bpa::Params::instance()->SEARCH_WIDTH && fp_scores != bin_before_testing.fitting_points.end(); ++i)
+        for (int i = 0; i < paramsPtr_->search_width() && fp_scores != bin_before_testing.fitting_points.end(); ++i)
         {
           if (fp_scores->score >= 0)
           {
@@ -325,7 +320,7 @@ Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
             holding_curr_testing.moveBox(box_to_pack.m_id);
             holding_curr_testing.it_choosing = holding_curr_testing.boxes_to_pack.begin();
             bool height_search = true;
-            for (int i = 0; i < bpa::Params::instance()->SEARCH_HEIGHT && height_search; ++i)
+            for (int i = 0; i < paramsPtr_->search_height() && height_search; ++i)
             {
               height_search =
                   addNextBoxToPackingConfigurationTwoFunctions(curr_testing, holding_curr_testing, &curr_cum_score);
@@ -746,10 +741,8 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   if (abox.is_dangerous)
   {
     // min box length is 30cm
-    if (u_x < bpa::Params::instance()->MIN_BOX_SIZE ||
-        (abin.bin_length - u_x - abox.m_length < bpa::Params::instance()->MIN_BOX_SIZE) ||
-        u_y < bpa::Params::instance()->MIN_BOX_SIZE ||
-        (abin.bin_width - u_y - abox.m_width < bpa::Params::instance()->MIN_BOX_SIZE))
+    if (u_x < paramsPtr_->min_box_size() || (abin.bin_length - u_x - abox.m_length < paramsPtr_->min_box_size()) ||
+        u_y < paramsPtr_->min_box_size() || (abin.bin_width - u_y - abox.m_width < paramsPtr_->min_box_size()))
     {
     }
     else
@@ -831,7 +824,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
     // new_box on top of b
     if (floatEqual(b.position.position(2) + b.m_height, new_box.position.position(2)))
     {
-      if (floatLessThan(overlap / (b.m_width * b.m_length), bpa::Params::instance()->HELT_RATE))
+      if (floatLessThan(overlap / (b.m_width * b.m_length), paramsPtr_->helt_rate()))
       {
         if (overlap != 0 && (b.material == "styrofoam" || b.material == "Styrofoam") && new_box.m_mass > 70)
           return -1;
@@ -924,7 +917,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   }
 
   // Return -1 if not enough ground surface of the Box is supported
-  if (floatLessThan(helt / (abox.m_width * abox.m_length), bpa::Params::instance()->HELT_RATE))
+  if (floatLessThan(helt / (abox.m_width * abox.m_length), paramsPtr_->helt_rate()))
   {
     return -1;
   }
@@ -975,18 +968,18 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   // Increase Score if the Box would be placed near to another Box/border
   if (distance_x < abox.m_length / 4.0)
   {
-    score += bpa::Params::instance()->W_PLACE_NEAR * (abox.m_length / 4.0 - distance_x) / (abox.m_length / 4.0);
+    score += paramsPtr_->w_place_near() * (abox.m_length / 4.0 - distance_x) / (abox.m_length / 4.0);
   }
   // In Y-Direction:
   if (distance_y < abox.m_width / 4.0)
   {
-    score += bpa::Params::instance()->W_PLACE_NEAR * (abox.m_width / 4.0 - distance_y) / (abox.m_width / 4.0);
+    score += paramsPtr_->w_place_near() * (abox.m_width / 4.0 - distance_y) / (abox.m_width / 4.0);
   }
 
   // Increase Score if the Box will be placed in a bottom area
-  score += bpa::Params::instance()->W_ITEM_IN_THE_BOTTOM_AREA *
-           (1.0 / pow(abin.bin_height, 2) * pow(fp.coordinates.position(2), 2) -
-            (2.0 / abin.bin_height * fp.coordinates.position(2)) + 1.0);
+  score +=
+      paramsPtr_->w_item_in_the_bottom_area() * (1.0 / pow(abin.bin_height, 2) * pow(fp.coordinates.position(2), 2) -
+                                                 (2.0 / abin.bin_height * fp.coordinates.position(2)) + 1.0);
 
   // Increase Score if it helps to set the center of mass in the right position (only if mass > COM_MIN_MASS *
   // average_mass)
@@ -996,17 +989,17 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   tmpx = abin.getComDiffX(abox, fp);
   if (tmpx > 0)
   {
-    score += bpa::Params::instance()->W_COM * tmpx / abin.target_com.position(0);
+    score += paramsPtr_->w_com() * tmpx / abin.target_com.position(0);
   }
   tmpy = abin.getComDiffY(abox, fp);
   if (tmpy > 0)
   {
-    score += bpa::Params::instance()->W_COM * tmpy / abin.target_com.position(1);
+    score += paramsPtr_->w_com() * tmpy / abin.target_com.position(1);
   }
   tmpz = abin.getComDiffZ(abox, fp);
   if (tmpz > 0)
   {
-    score += bpa::Params::instance()->W_COM * tmpz / abin.target_com.position(2);
+    score += paramsPtr_->w_com() * tmpz / abin.target_com.position(2);
   }
 
   // Increasing score if Item is high and will be placed near to a border of the bin
@@ -1014,7 +1007,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   {
     if (abin.getNearestDistanceToEdges(abox, fp) < 0.15)
     {
-      score += bpa::Params::instance()->W_HIGH_ITEMS_GOOD_PLACED;
+      score += paramsPtr_->w_high_items_good_placed();
     }
   }
 
@@ -1023,14 +1016,13 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
     count_neighbours = abox.m_width + abox.m_length;
   }
   // Increasing score if neighbours have the same height
-  score += bpa::Params::instance()->NEIGHBOUR_CONSTANT * count_neighbours / (abox.m_width + abox.m_length);
+  score += paramsPtr_->neighbour_constant() * count_neighbours / (abox.m_width + abox.m_length);
 
   // Increasing score if Item is lying next to other boxes
-  score += bpa::Params::instance()->W_ASSIGNMENT * lying_next / (abox.m_width + abox.m_length);
+  score += paramsPtr_->w_assignment() * lying_next / (abox.m_width + abox.m_length);
 
   // Increase Score if much of the ground surface of the Box is supported
-  score += bpa::Params::instance()->W_SUPPORTED * helt /
-           (bpa::Params::instance()->HELT_RATE * (abox.m_width * abox.m_length));
+  score += paramsPtr_->w_supported() * helt / (paramsPtr_->helt_rate() * (abox.m_width * abox.m_length));
 
   // Increase Score if much of the area (without helt) of the Box are contacted by other boxes
   if (floatEqual(u_x, 0) || floatEqual(u_x + abox.m_length, abin.bin_length))
@@ -1041,13 +1033,13 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   {
     contact_area += abox.m_length * abox.m_height;
   }
-  score += bpa::Params::instance()->W_CONTACT * contact_area /
+  score += paramsPtr_->w_contact() * contact_area /
            (2 * (abox.m_width * abox.m_height) + 2 * (abox.m_length * abox.m_height));
 
   // Increase Score if the box is reach the height of the bin limit
   if (floatEqual(fp.coordinates.position(2) + abox.m_height, abin.bin_height))
   {
-    score += bpa::Params::instance()->BIN_HEIGHT;
+    score += paramsPtr_->bin_height();
   }
 
   // hake for the small boxes
@@ -1234,5 +1226,10 @@ bool BinPackingPlanner::addNexBoxToPackingConfigurationOneFunction(Bin& abin, Ho
       return false;
     }
   }
+}
+
+void BinPackingPlanner::setParams(const std::shared_ptr<Params>& paramsPtr)
+{
+  paramsPtr_ = paramsPtr;
 }
 }

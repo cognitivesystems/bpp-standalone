@@ -8,11 +8,12 @@
 #ifndef BOX_H_
 #define BOX_H_
 
+#include "FittingPoint.h"
+#include "Point.h"
 #include <algorithm>
 #include <iostream>
 #include <queue>
-#include "FittingPoint.h"
-#include "Point.h"
+#include <memory>
 #include <map>
 
 #include "Parameters.h"
@@ -83,6 +84,9 @@ public:
    */
   bool hasCorrespondBox(int id);
 
+  void setParams(const std::shared_ptr<Params>& paramsPtr);
+  std::shared_ptr<Params> getParams();
+
   double m_length;
   double m_width;
   double m_height;
@@ -126,6 +130,9 @@ public:
   // box current pose in the world frame
   Eigen::Vector3d current_position;
   double current_rotation;
+
+private:
+  std::shared_ptr<Params> paramsPtr_;
 };
 }
 

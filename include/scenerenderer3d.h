@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include "boxentity.h"
-#include "bpa/Box.h"
+#include "Box.h"
 
 class SceneRenderer3D : public QWidget
 {

@@ -284,4 +284,3 @@ void ParticleFilter::ParticleFilter::predict_with_beta_distribution()
 }
 
 }
-

@@ -248,6 +248,7 @@ void HoldingPlatform::generateRotationBoxes()
       a.is_rotated = true;
       a.rotation = 90;
       a.correspond_boxes.push_back(b.m_id);
+      a.setParams(b.getParams());
       rotation_boxes.push_back(a);
       count++;
     }

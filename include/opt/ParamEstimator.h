@@ -2,7 +2,7 @@
 #define PARAMESTIMATOR_H
 
 #include <opt/ParticleFilter.h>
-#include <bpa/Box.h>
+#include "Box.h"
 
 struct BPPParams{
 

@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <memory>
 #include "Box.h"
 #include "FittingPoint.h"
 #include "HoldingPlatform.h"
@@ -113,6 +114,8 @@ public:
   Eigen::Vector3d getProjectionVector(Eigen::Vector3d point, Eigen::Vector3d direction);
   bool isColliding(bpa::Box& box);
 
+  void setParams(const std::shared_ptr<Params>& paramsPtr);
+
   double bin_length;
   double bin_width;
   double bin_height;
@@ -131,6 +134,9 @@ public:
   std::vector<FittingPoint> packed_boxes_fps; /* The origin points of the packed boxes */
 
   PhysicsBullet* bulletPhysics;
+
+private:
+  std::shared_ptr<Params> paramsPtr_;
 };
 }
 

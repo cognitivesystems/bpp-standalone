@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <memory>
 #include "Box.h"
 #include "Bin.h"
 #include "HoldingPlatform.h"
@@ -75,6 +76,11 @@ public:
   bool addNextBoxToPackingConfigurationTwoFunctions(Bin& abin, HoldingPlatform& holding, double* cum_score);
 
   bool addNexBoxToPackingConfigurationOneFunction(Bin& abin, HoldingPlatform& holding, double* cum_score);
+
+  void setParams(const std::shared_ptr<Params>& paramsPtr);
+
+private:
+  std::shared_ptr<Params> paramsPtr_;
 };
 
 /*

@@ -1,10 +1,12 @@
 #ifndef BPP_ROS_H
 #define BPP_ROS_H
 
+#include "Parameters.h"
+
 #include <QQuaternion>
-#include <bpa/Box.h>
-#include <bpa/bpp_functions.h>
-#include <bpa/pp_functions.h>
+#include <Box.h>
+#include <bpp_functions.h>
+#include <pp_functions.h>
 #include <iomanip>
 #include <iostream>
 
@@ -25,6 +27,7 @@ public:
   std::vector<bpa::Box> binPackingBoxes(std::vector<bpa::Box>& holding_area_boxes);
 
   void loadParamsJSON(std::string& file_name);
+  void setParams(const std::shared_ptr<bpa::Params>& paramsPtr);
 
 private:
   /** *** member functions *****/
@@ -38,6 +41,7 @@ private:
   double bbox_offset;
 
   std::string parameter_file;
+  std::shared_ptr<bpa::Params> paramsPtr_;
 };
 }
 
