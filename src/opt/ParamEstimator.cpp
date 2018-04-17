@@ -32,6 +32,15 @@ void ParamEstimator::initialize()
     pf_.initialize(alpha_, beta_, n_particles_);
 
     pose.resize(dims_);
+}
+
+void ParamEstimator::setBoxData(std::vector<bpa::Box> boxes){
+
+    est_boxes_=boxes;
+}
+
+std::vector<bpa::Box> ParamEstimator::stepNext()
+{
 
 }
 
@@ -42,7 +51,7 @@ void ParamEstimator::run()
         pf_.predict();
         for(size_t n=0;n<pf_.nOfParticles();n+=4){
 
-            #pragma omp parallel for
+#pragma omp parallel for
             for(size_t t=0;t<4;++t){
                 int p_idx=n+t;
                 std::cout << "particle --> " << p_idx << std::endl;
@@ -63,9 +72,7 @@ void ParamEstimator::run()
         }
 
         pf_.correct();
-
     }
-
 }
 
 double ParamEstimator::eval_bpp(const VectorX data)

@@ -16,6 +16,7 @@
 #include "bppinterface.h"
 #include <box_factory/BoxJsonParser.h>
 #include <bpa/Box.h>
+#include <opt/ParamEstimator.h>
 
 namespace Ui
 {
@@ -46,6 +47,7 @@ private slots:
   void on_resetButton_clicked();
   void on_loadButton_clicked();
   void on_planButton_clicked();
+  void on_estimateButton_clicked();
   void on_deleteButton_clicked();
 
 private:

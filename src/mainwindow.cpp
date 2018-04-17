@@ -128,6 +128,30 @@ void MainWindow::on_planButton_clicked()
   }
 }
 
+
+void MainWindow::on_estimateButton_clicked()
+{
+  std::cout << "Estimating parameters" << std::endl;
+
+  ParamEstimator est;
+  est.initialize();
+
+  if(boxes_.size() <= 0){
+      std::cout << "Number of Boxes = 0. Estimator exiting!";
+  }
+  else{
+
+      std::cout << "Setting estimator with boxes --> " << boxes_.size() << std::endl;
+      est.setBoxData(boxes_);
+      est.run();
+
+
+  }
+
+
+}
+
+
 void MainWindow::on_deleteButton_clicked()
 {
   std::cout << "Deleting model" << std::endl;
