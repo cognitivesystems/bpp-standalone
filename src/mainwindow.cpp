@@ -109,14 +109,16 @@ void MainWindow::on_planButton_clicked()
 {
   std::cout << "Planning" << std::endl;
 
-  for (bpa::Box& b : boxes_)
+  std::vector<bpa::Box> boxes=boxes_;
+
+  for (bpa::Box& b : boxes)
   {
     b.position.position[0] -= b.m_length / 2;
     b.position.position[1] -= b.m_width / 2;
     b.position.position[2] -= b.m_height / 2;
   }
 
-  planned_boxes_ = bpp_inf_.binPackingBoxes(boxes_);
+  planned_boxes_ = bpp_inf_.binPackingBoxes(boxes);
 
   for (bpa::Box& b : planned_boxes_)
   {

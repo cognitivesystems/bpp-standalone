@@ -8,7 +8,7 @@ ParamEstimator::ParamEstimator()
 
 void ParamEstimator::initialize()
 {
-    dims_=3;
+    dims_=5;
     alpha_.resize(dims_);
     beta_.resize(dims_);
     for(size_t n=0;n<dims_;++n){
@@ -78,6 +78,60 @@ void ParamEstimator::run()
 
 double ParamEstimator::eval_bpp(const VectorX data)
 {
+    bpainf::BppInterface bpp;
+    std::shared_ptr<bpa::Params> paramsPtr;
+    double helt_rate=0.95;
+    double w_supported=0.1;
+    double neightbour_constant=0.0;
+    double w_assignment=0.3;
+    double w_place_near=0.3;
+    double bin_height=0.02;
+    double min_box_size=0.3;
+    double w_item_in_the_bottom_area=0.3;
+    double w_high_items_good_placed=0.0;
+    bool generate_simulated_boxes=false;
+    bool start_with_all_edges_as_fp=false;
+    int search_height=10;
+    int search_width=10;
+
+    paramsPtr.get()->setAll(data[0], data[1], data[2], data[3], helt_rate, w_supported, data[4],
+            neightbour_constant, w_assignment, w_place_near, bin_height, min_box_size, w_item_in_the_bottom_area, w_high_items_good_placed,
+            generate_simulated_boxes, start_with_all_edges_as_fp, search_height, search_width);
+
+    bpp.setParams(paramsPtr);
+
+    std::vector<bpa::Box> boxes=est_boxes_;
+
+    for (bpa::Box& b : boxes)
+    {
+      b.position.position[0] -= b.m_length / 2;
+      b.position.position[1] -= b.m_width / 2;
+      b.position.position[2] -= b.m_height / 2;
+    }
+
+    est_planned_boxes_ = bpp.binPackingBoxes(boxes);
+
+
+//            srv.request.W_MASS=data[0];
+//            srv.request.W_VOL=data[1];
+//            srv.request.W_MASSVOL=data[2];
+//            srv.request.W_COM=data[3];
+//            srv.request.HELT_RATE=0.95;
+//            srv.request.W_SUPPORTED=0.1;
+//            srv.request.W_CONTACT=data[4];
+//            srv.request.NEIGHBOUR_CONSTANT=0.0;
+//            srv.request.W_ASSIGNMENT=0.3;
+//            srv.request.W_PLACE_NEAR=0.3;
+//            srv.request.BIN_HEIGHT=0.02;
+//            srv.request.MIN_BOX_SIZE=0.3;
+//            srv.request.W_ITEM_IN_THE_BOTTOM_AREA=0.3;
+//            srv.request.W_HIGH_ITEMS_GOOD_PLACED=0.0;
+
     return dis(generator);
+
+}
+
+void Worker::doParamEst(filter::ParticleFilter &filter)
+{
 
 }

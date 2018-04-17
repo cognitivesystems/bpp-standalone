@@ -2,11 +2,26 @@
 #define PARAMESTIMATOR_H
 
 #include <opt/ParticleFilter.h>
+#include "bppinterface.h"
 #include "Box.h"
+#include <QThread>
+
 
 struct BPPParams{
 
 };
+
+class Worker : public QObject
+{
+    Q_OBJECT
+
+public slots:
+    void doParamEst(filter::ParticleFilter& filter);
+
+signals:
+    void resultReady(const QString &result);
+};
+
 
 class ParamEstimator
 {
