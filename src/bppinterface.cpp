@@ -8,7 +8,6 @@
  *
  */
 #include "bppinterface.h"
-#include "scenerenderer3d.h"
 #include "PhysicsBullet.h"
 
 namespace bpainf

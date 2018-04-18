@@ -1,5 +1,5 @@
-#ifndef SCENERENDERER3D_H
-#define SCENERENDERER3D_H
+#ifndef BINPACKINGVIEW_H
+#define BINPACKINGVIEW_H
 
 #include <QSharedPointer>
 #include <QString>
@@ -19,12 +19,15 @@
 #include "boxentity.h"
 #include "Box.h"
 
-class SceneRenderer3D : public QWidget
+class BinPackingView : public QWidget
 {
   Q_OBJECT
 
 public:
-  SceneRenderer3D(QWidget* parent = 0);
+  explicit BinPackingView(QWidget* parent = 0);
+
+  Qt3DCore::QEntity* getScene();
+  void clearScene();
 
   void addObjEntity(const std::string obj_url);
 
@@ -33,23 +36,18 @@ public:
   void removeBoxEntity(const bpa::Box& box);
   void removeAllBoxEntities();
 
-  void deleteScene();
-  void clearScene();
-
-  void createTestScene();
-
-  Qt3DCore::QEntity* getScene();
-
 public slots:
-  void slotAddBoxEntity(const bpa::Box& box);
-  void slotUpdateBoxEntity(const bpa::Box& box);
-  void slotRemoveBoxEntity(const bpa::Box& box);
-  void slotUpdateBoxEntities(const std::vector<bpa::Box>& boxes);
+  void onBoxAdded(const bpa::Box& box);
+  void onBoxUpdated(const bpa::Box& box);
+  void onBoxRemoved(const bpa::Box& box);
+
+  void onBoxesAdded(const std::vector<bpa::Box>& boxes);
+  void onBoxesUpdated(const std::vector<bpa::Box>& boxes);
+  void onBoxesRemoved(const std::vector<bpa::Box>& boxes);
 
 private:
-  std::string instance_name_;
   Qt3DCore::QEntity* root_;
   QMap<QString, BoxEntity*> uuid_entity_map_;
 };
 
-#endif  // SCENERENDERER3D_H
+#endif  // BINPACKINGVIEW_H

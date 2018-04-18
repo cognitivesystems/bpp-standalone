@@ -25,7 +25,6 @@ include_directories(
 
 set(qt3dsimple_hdr
   include/mainwindow.h
-  include/scenerenderer3d.h
   include/bppinterface.h
   include/objentity.h
   include/boxentity.h
@@ -33,19 +32,24 @@ set(qt3dsimple_hdr
   include/opt/ParticleFilter.h
   include/opt/ParamEstimator.h
   include/opt/pdflib.hpp
-  include/opt/rnglib.hpp)
+  include/opt/rnglib.hpp
+  include/BoxSet.h
+  include/BinPackingView.h
+  include/BinPackingViewMgr.h)
 
 set(qt3dsimple_src
   src/main.cpp
   src/mainwindow.cpp
-  src/scenerenderer3d.cpp
   src/bppinterface.cpp
   src/objentity.cpp
   src/boxentity.cpp
   src/opt/ParticleFilter.cpp
   src/opt/ParamEstimator.cpp
   src/opt/pdflib.cpp
-  src/opt/rnglib.cpp)
+  src/opt/rnglib.cpp
+  src/BoxSet.cpp
+  src/BinPackingView.cpp
+  src/BinPackingViewMgr.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui)

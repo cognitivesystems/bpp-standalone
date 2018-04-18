@@ -16,13 +16,15 @@
 #include <QLineSeries>
 
 #include "mainwindow.h"
-#include "scenerenderer3d.h"
 #include "ui_mainwindow.h"
 #include <iostream>
 
 #include "bppinterface.h"
 #include "BoxJsonParser.h"
 #include "Box.h"
+#include "BoxSet.h"
+#include "BinPackingView.h"
+#include "BinPackingViewMgr.h"
 #include "opt/ParamEstimator.h"
 
 using namespace QtDataVisualization;
@@ -81,7 +83,9 @@ private:
   Qt3DRender::QCamera* camera_;
   Qt3DExtras::QOrbitCameraController* manipulator_;
 
-  SceneRenderer3D* scene_3d_;
+  BoxSet* boxSet_;
+  BinPackingView& binPackingView_;
+  BinPackingViewMgr* binPackingViewMgr_;
 
   std::vector<bpa::Box> boxes_;
   std::vector<bpa::Box> planned_boxes_;

@@ -1,11 +1,11 @@
-#include "scenerenderer3d.h"
+#include "BinPackingView.h"
 #include <QTextureImage>
 
-SceneRenderer3D::SceneRenderer3D(QWidget* parent) : QWidget(parent), root_(new Qt3DCore::QEntity())
+BinPackingView::BinPackingView(QWidget* parent) : QWidget(parent), root_(new Qt3DCore::QEntity())
 {
 }
 
-void SceneRenderer3D::addObjEntity(const string obj_url)
+void BinPackingView::addObjEntity(const string obj_url)
 {
     ObjEntity* objEntityPtr = new ObjEntity(root_);
     objEntityPtr->mesh()->setSource(QUrl::fromLocalFile(obj_url.c_str()));
@@ -24,7 +24,17 @@ void SceneRenderer3D::addObjEntity(const string obj_url)
     objEntityPtr->material()->setAmbient("white");
 }
 
-void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
+Qt3DCore::QEntity* BinPackingView::getScene()
+{
+  return root_;
+}
+
+void BinPackingView::clearScene()
+{
+  removeAllBoxEntities();
+}
+
+void BinPackingView::addBoxEntity(const bpa::Box& box)
 {
     BoxEntity* boxEntityPtr = new BoxEntity(root_);
 
@@ -83,7 +93,7 @@ void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
     uuid_entity_map_[box.m_name.c_str()] = boxEntityPtr;
 }
 
-void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
+void BinPackingView::updateBoxEntity(const bpa::Box& box)
 {
     BoxEntity* boxEntityPtr = uuid_entity_map_[box.m_name.c_str()];
 
@@ -98,7 +108,7 @@ void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
 
 }
 
-void SceneRenderer3D::removeBoxEntity(const bpa::Box& box)
+void BinPackingView::removeBoxEntity(const bpa::Box& box)
 {
     QMap<QString, BoxEntity*>::iterator itr = uuid_entity_map_.find(box.m_name.c_str());
     if (itr != uuid_entity_map_.end())
@@ -107,7 +117,7 @@ void SceneRenderer3D::removeBoxEntity(const bpa::Box& box)
     }
 }
 
-void SceneRenderer3D::removeAllBoxEntities()
+void BinPackingView::removeAllBoxEntities()
 {
     if (!uuid_entity_map_.empty())
     {
@@ -116,40 +126,38 @@ void SceneRenderer3D::removeAllBoxEntities()
     }
 }
 
-void SceneRenderer3D::deleteScene()
+void BinPackingView::onBoxAdded(const bpa::Box& box)
 {
+  addBoxEntity(box);
 }
 
-void SceneRenderer3D::clearScene()
+void BinPackingView::onBoxUpdated(const bpa::Box& box)
 {
-    removeAllBoxEntities();
+  updateBoxEntity(box);
 }
 
-void SceneRenderer3D::createTestScene()
+void BinPackingView::onBoxRemoved(const bpa::Box& box)
 {
+  removeBoxEntity(box);
 }
 
-Qt3DCore::QEntity* SceneRenderer3D::getScene()
+void BinPackingView::onBoxesAdded(const std::vector<bpa::Box>& boxes)
 {
-    return root_;
-}
-
-void SceneRenderer3D::slotAddBoxEntity(const bpa::Box& box)
-{
+  for (const bpa::Box& box : boxes)
+  {
     addBoxEntity(box);
+  }
 }
 
-void SceneRenderer3D::slotUpdateBoxEntity(const bpa::Box& box)
+void BinPackingView::onBoxesUpdated(const std::vector<bpa::Box>& boxes)
 {
+  for (const bpa::Box& box : boxes)
+  {
     updateBoxEntity(box);
+  }
 }
 
-void SceneRenderer3D::slotRemoveBoxEntity(const bpa::Box& box)
-{
-    removeBoxEntity(box);
-}
-
-void SceneRenderer3D::slotUpdateBoxEntities(const std::vector<bpa::Box>& boxes)
+void BinPackingView::onBoxesRemoved(const std::vector<bpa::Box>& boxes)
 {
     for (const bpa::Box& box : boxes)
     {

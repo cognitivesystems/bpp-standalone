@@ -2,7 +2,12 @@
 #include <QtCore/QCoreApplication>
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
+  : QMainWindow(parent)
+  , ui(new Ui::MainWindow)
+  , boxSet_(new BoxSet(this))
+  , binPackingView_(*new BinPackingView(this))
+  , binPackingViewMgr_(new BinPackingViewMgr(this, *boxSet_, binPackingView_))
 {
     std::cout << "MainWindow constructor" << std::endl;
 
@@ -12,13 +17,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
 
     view_ = new Qt3DExtras::Qt3DWindow();
 
-    scene_3d_ = new SceneRenderer3D();
-
     // camera
     camera_ = view_->camera();
     resetCamera();
 
-    Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(scene_3d_->getScene());
+    Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(binPackingView_.getScene());
     Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
     light->setColor("white");
     light->setIntensity(0.5);
@@ -30,12 +33,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     lightEntity->addComponent(lightTransform);
 
     // manipulator
-    manipulator_ = new Qt3DExtras::QOrbitCameraController(scene_3d_->getScene());
+    manipulator_ = new Qt3DExtras::QOrbitCameraController(binPackingView_.getScene());
     manipulator_->setLinearSpeed(50.f);
     manipulator_->setLookSpeed(180.f);
     manipulator_->setCamera(camera_);
 
-    view_->setRootEntity(scene_3d_->getScene());
+    view_->setRootEntity(binPackingView_.getScene());
 
     QWidget* widget = createWindowContainer(view_, this);
     widget->resize(640, 480);
@@ -100,8 +103,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
 //    scene_3d_->addBoxEntity(pallet);
 
     std::string url="/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
-    scene_3d_->addObjEntity(url);
-
+  binPackingView_.addObjEntity(url);
 }
 
 MainWindow::~MainWindow()
@@ -141,7 +143,7 @@ void MainWindow::resetBoxes()
 
 void MainWindow::resetScene()
 {
-    scene_3d_->clearScene();
+  binPackingView_.clearScene();
 }
 
 void MainWindow::on_resetButton_clicked()
@@ -158,26 +160,20 @@ void MainWindow::on_loadButton_clicked()
     std::cout << "Loading boxes" << std::endl;
     QString boxes_file = ":/data/boxes.json";
 
-    boxes_ = box_factory::BoxJsonParser::getBoxesFromJsonFile(boxes_file);
-    std::cout << "Number of boxes " << boxes_.size() << std::endl;
+  boxSet_->addBoxesFromFile(boxes_file);
+  boxes_ = boxSet_->getBoxes();
 
-    for (bpa::Box& b : boxes_)
-    {
-       // b.position.position[0] += 4.0;
+  std::cout << "Number of boxes " << boxes_.size() << std::endl;
 
-//        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
-//        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
-
+  for (bpa::Box & b : boxes_)
+  {
         if(b.m_length==0.3 || b.m_width==0.3){
             std::cout << "Small box --> " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
             std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
-
         }
-
         b.rotation=30.0;
-        scene_3d_->addBoxEntity(b);
-
     }
+    boxSet_->updateBoxes(boxes_);
 }
 
 void MainWindow::on_planButton_clicked()
@@ -185,7 +181,6 @@ void MainWindow::on_planButton_clicked()
     std::cout << "Planning" << std::endl;
 
     doBinPacking();
-
 }
 
 void MainWindow::on_estimateButton_clicked()
@@ -305,7 +300,7 @@ void MainWindow::doBinPacking()
         b.position.position[0] -= b.m_length / 2;
         b.position.position[1] -= b.m_width / 2;
         b.position.position[2] -= b.m_height / 2;
-        scene_3d_->updateBoxEntity(b);
+        binPackingView_.updateBoxEntity(b);
 
     }
 
@@ -317,7 +312,7 @@ void MainWindow::doBinPacking()
         b.position.position[1] += b.m_width / 2;
         b.position.position[2] += b.m_height / 2;
 
-        scene_3d_->updateBoxEntity(b);
+      binPackingView_.updateBoxEntity(b);
     }
 }
 
@@ -330,7 +325,7 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
         b.position.position[0] -= b.m_length / 2;
         b.position.position[1] -= b.m_width / 2;
         b.position.position[2] -= b.m_height / 2;
-        scene_3d_->updateBoxEntity(b);
+      binPackingView_.updateBoxEntity(b);
 
     }
 
@@ -344,7 +339,7 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
         b.position.position[1] += b.m_width / 2;
         b.position.position[2] += b.m_height / 2;
 
-        scene_3d_->updateBoxEntity(b);
+      binPackingView_.updateBoxEntity(b);
     }
     QMainWindow::update();
     QApplication::processEvents();
