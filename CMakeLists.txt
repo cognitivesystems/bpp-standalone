@@ -12,7 +12,7 @@ if (NOT CMAKE_PREFIX_PATH)
   set(CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
 endif ()
 
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets 3DCore 3DExtras 3DRender 3DInput)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets 3DCore 3DExtras 3DRender 3DInput Charts DataVisualization)
 find_package(Eigen3 REQUIRED)
 find_package(Bullet REQUIRED)
 find_package(Boost REQUIRED)
@@ -30,7 +30,9 @@ set(qt3dsimple_hdr
   include/boxentity.h
   include/opt/defs.h
   include/opt/ParticleFilter.h
-  include/opt/ParamEstimator.h)
+  include/opt/ParamEstimator.h
+  include/opt/pdflib.hpp
+  include/opt/rnglib.hpp)
 
 set(qt3dsimple_src
   src/main.cpp
@@ -39,7 +41,9 @@ set(qt3dsimple_src
   src/bppinterface.cpp
   src/boxentity.cpp
   src/opt/ParticleFilter.cpp
-  src/opt/ParamEstimator.cpp)
+  src/opt/ParamEstimator.cpp
+  src/opt/pdflib.cpp
+  src/opt/rnglib.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui)
@@ -63,6 +67,8 @@ target_link_libraries(qt3dsimple
   Qt5::3DExtras
   Qt5::3DRender
   Qt5::3DInput
+  Qt5::Charts
+  Qt5::DataVisualization
   BoxFactory
   bpa)
 

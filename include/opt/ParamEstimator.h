@@ -4,10 +4,21 @@
 #include <opt/ParticleFilter.h>
 #include "bppinterface.h"
 #include "Box.h"
-#include <QThread>
+#include <QApplication>
+#include <QMainWindow>
+#include <QObject>
+#include <QtDataVisualization>
+#include <QtCharts>
+#include <QChart>
+#include <QLineSeries>
+#include <opt/pdflib.hpp>
 
-class ParamEstimator
+using namespace QtDataVisualization;
+
+class ParamEstimator : public QObject
 {
+    Q_OBJECT
+
 public:
     ParamEstimator();
 
@@ -45,16 +56,37 @@ private:
     Eigen::Vector3d compute_bin_com(const std::vector<bpa::Box>& boxes)
     {
         Eigen::Vector3d bin_com, box_com;
-//        double bin_mass = 0.0;
-//        for(actor_msgs::Actor b : actors)
-//        {
-//            box_com << b.desiredPoseVec[0].position.x, b.desiredPoseVec[0].position.y, b.desiredPoseVec[0].position.z;
-//            bin_com = (box_com * b.weight + bin_com * bin_mass) / (bin_mass + b.weight);
-//            bin_mass += b.weight;
-//        }
+        //        double bin_mass = 0.0;
+        //        for(actor_msgs::Actor b : actors)
+        //        {
+        //            box_com << b.desiredPoseVec[0].position.x, b.desiredPoseVec[0].position.y, b.desiredPoseVec[0].position.z;
+        //            bin_com = (box_com * b.weight + bin_com * bin_mass) / (bin_mass + b.weight);
+        //            bin_mass += b.weight;
+        //        }
         return bin_com;
     }
 
+    std::vector<double> linspace(double a, double b, int n) {
+        std::vector<double> array;
+        double step = (b-a) / (n-1);
+
+        while(a <= b) {
+            array.push_back(a);
+            a += step;           // could recode to better handle rounding errors
+        }
+        return array;
+    }
+
+    std::vector<double > computePDF(const double alpha, const double beta){
+
+        std::vector<double > y_est;
+        y_est=x_target;
+        for(size_t i=0;i<y_est.size();++i){
+            y_est[i]=r8_beta_pdf(alpha, beta, x_target[i]);
+        }
+
+        return y_est;
+    }
 
 private:
     filter::ParticleFilter pf_;
@@ -73,6 +105,31 @@ private:
     std::random_device rd;
     std::mt19937 generator;
     std::uniform_real_distribution<> dis;
+
+
+    //visualisation
+    std::vector<double > x_target;
+    std::vector<double > y_target;
+
+    QLineSeries *series0;
+    QLineSeries *series1;
+    QLineSeries *series2;
+    QLineSeries *series3;
+    QLineSeries *series4;
+
+    QChart *chart;
+
+    QChartView *chartView;
+
+
+    std::vector<double > pdf0;
+    std::vector<double > pdf1;
+    std::vector<double > pdf2;
+    std::vector<double > pdf3;
+    std::vector<double > pdf4;
+
+    QMainWindow window;
+
 };
 
 #endif  // PARAMESTIMATOR_H

@@ -1,8 +1,36 @@
 #include <opt/ParamEstimator.h>
+#include "mainwindow.h"
 
 ParamEstimator::ParamEstimator()
-    :pf_(0), n_particles_(1000), generator(rd()), dis(0.0, 1.0)
+    :pf_(0), n_particles_(100), generator(rd()), dis(0.0, 1.0)
 {
+    x_target=linspace(0.0,1.0, 100);
+    y_target=linspace(0.0,1.0, 100);
+
+    series0 = new QLineSeries();
+    series1 = new QLineSeries();
+    series2 = new QLineSeries();
+    series3 = new QLineSeries();
+    series4 = new QLineSeries();
+
+    chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series0);
+    chart->addSeries(series1);
+    chart->addSeries(series2);
+    chart->addSeries(series3);
+    chart->addSeries(series4);
+    chart->createDefaultAxes();
+    chart->axisY()->setRange(0, 20);
+    chart->setTitle("Parameter 0");
+    chart->show();
+
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    window.setCentralWidget(chartView);
+    window.resize(400, 300);
+    window.show();
 
 }
 
@@ -12,8 +40,8 @@ void ParamEstimator::initialize()
     alpha_.resize(dims_);
     beta_.resize(dims_);
     for(size_t n=0;n<dims_;++n){
-        alpha_[n]=1000.0;
-        beta_[n]=1000.0;
+        alpha_[n]=1.0;
+        beta_[n]=1.0;
     }
 
     for(size_t n=0;n<dim_active_.size();++n){
@@ -55,24 +83,63 @@ void ParamEstimator::run()
 #pragma omp parallel for
             for(size_t t=0;t<4;++t){
                 int p_idx=n+t;
-                std::cout << "particle --> " << p_idx << std::endl;
 
                 double likelihood=0.0;
                 pf_.getParticlePose(p_idx, pose);
-                std::cout << "pose --> " ;
-                for(size_t p=0;p<pose.size();++p){
-                    std::cout << pose[p] << " ";
-                }
-                std::cout << "\n";
+//                std::cout << "pose --> " ;
+//                for(size_t p=0;p<pose.size();++p){
+//                    std::cout << pose[p] << " ";
+//                }
+//                std::cout << "\n";
 
                 likelihood=eval_bpp(pose);
 
-                std::cout << "likelihood --> " << likelihood << std::endl;
+//                std::cout << "likelihood --> " << likelihood << std::endl;
+                std::cout << "particle --> " << p_idx << "  likelihood ---> " << likelihood << std::endl;
+
                 pf_.setParticleWeight(p_idx, likelihood);
             }
         }
 
         pf_.correct();
+
+        std::cout << "Average Weight ----> " << pf_.getAverageWeight() << std::endl;
+
+        VectorX alpha=pf_.getAlpha();
+        VectorX beta=pf_.getBeta();
+
+
+
+        pdf0=computePDF(alpha[0], beta[0]);
+        pdf1=computePDF(alpha[1], beta[1]);
+        pdf2=computePDF(alpha[2], beta[2]);
+        pdf3=computePDF(alpha[3], beta[3]);
+        pdf4=computePDF(alpha[4], beta[4]);
+
+        std::cout << "Param 0 --> " << alpha[0] << " " << beta[0] << std::endl;
+        std::cout << "Param 1 --> " << alpha[1] << " " << beta[1] << std::endl;
+        std::cout << "Param 2 --> " << alpha[2] << " " << beta[2] << std::endl;
+        std::cout << "Param 3 --> " << alpha[3] << " " << beta[3] << std::endl;
+        std::cout << "Param 4 --> " << alpha[4] << " " << beta[4] << std::endl;
+
+        series0->clear();
+        series1->clear();
+        series2->clear();
+        series3->clear();
+        series4->clear();
+
+        for(size_t i=0;i<pdf0.size();++i){
+            *series0<<QPointF(x_target[i], pdf0[i]);
+            *series1<<QPointF(x_target[i], pdf1[i]);
+            *series2<<QPointF(x_target[i], pdf2[i]);
+            *series3<<QPointF(x_target[i], pdf3[i]);
+            *series4<<QPointF(x_target[i], pdf4[i]);
+//            std::cout << pdf0[i] << " " << x_target[i] << std::endl;
+        }
+
+        window.update();
+        QApplication::processEvents();
+
     }
 }
 
@@ -104,9 +171,9 @@ double ParamEstimator::eval_bpp(const VectorX data)
 
     for (bpa::Box& b : boxes)
     {
-      b.position.position[0] -= b.m_length / 2;
-      b.position.position[1] -= b.m_width / 2;
-      b.position.position[2] -= b.m_height / 2;
+        b.position.position[0] -= b.m_length / 2;
+        b.position.position[1] -= b.m_width / 2;
+        b.position.position[2] -= b.m_height / 2;
     }
 
     est_planned_boxes_ = bpp.binPackingBoxes(boxes);
@@ -114,20 +181,20 @@ double ParamEstimator::eval_bpp(const VectorX data)
     static double norm_val = 2.2*3.0*3.0;
 
     double used_space=compute_used_space(est_planned_boxes_);
-//            srv.request.W_MASS=data[0];
-//            srv.request.W_VOL=data[1];
-//            srv.request.W_MASSVOL=data[2];
-//            srv.request.W_COM=data[3];
-//            srv.request.HELT_RATE=0.95;
-//            srv.request.W_SUPPORTED=0.1;
-//            srv.request.W_CONTACT=data[4];
-//            srv.request.NEIGHBOUR_CONSTANT=0.0;
-//            srv.request.W_ASSIGNMENT=0.3;
-//            srv.request.W_PLACE_NEAR=0.3;
-//            srv.request.BIN_HEIGHT=0.02;
-//            srv.request.MIN_BOX_SIZE=0.3;
-//            srv.request.W_ITEM_IN_THE_BOTTOM_AREA=0.3;
-//            srv.request.W_HIGH_ITEMS_GOOD_PLACED=0.0;
+    //            srv.request.W_MASS=data[0];
+    //            srv.request.W_VOL=data[1];
+    //            srv.request.W_MASSVOL=data[2];
+    //            srv.request.W_COM=data[3];
+    //            srv.request.HELT_RATE=0.95;
+    //            srv.request.W_SUPPORTED=0.1;
+    //            srv.request.W_CONTACT=data[4];
+    //            srv.request.NEIGHBOUR_CONSTANT=0.0;
+    //            srv.request.W_ASSIGNMENT=0.3;
+    //            srv.request.W_PLACE_NEAR=0.3;
+    //            srv.request.BIN_HEIGHT=0.02;
+    //            srv.request.MIN_BOX_SIZE=0.3;
+    //            srv.request.W_ITEM_IN_THE_BOTTOM_AREA=0.3;
+    //            srv.request.W_HIGH_ITEMS_GOOD_PLACED=0.0;
 
     return std::max(0.0, used_space/norm_val);
 }

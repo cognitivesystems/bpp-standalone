@@ -143,7 +143,7 @@ void ParticleFilter::updateDistribution()
 {
     std::qsort( mParticles.data(), mParticles.size(), sizeof( Particle ), particle_cmp );
 
-    int length=(int)(mParticles.size()*0.1);
+    int length=(int)(mParticles.size());
     std::cout << "length ----------------> " << length << std::endl;
 
     for(size_t n=0;n<mParams.dof_;++n){
@@ -155,12 +155,10 @@ void ParticleFilter::updateDistribution()
             datavec[i]=p.pose_[n];
         }
 
-        std::cout << __LINE__ << std::endl;
-
-
         std::pair <float, float> mv = getMeanVariance(datavec);
 
         float dist_params[2];
+        std::cout << "mean, var --> " << mv.first << " " << mv.second << std::endl;
         dist_params[0]=distributions[n].find_alpha(mv.first, mv.second);
         dist_params[1]=distributions[n].find_beta(mv.first, mv.second);
 
