@@ -79,7 +79,7 @@ void ParamEstimator::run()
 double ParamEstimator::eval_bpp(const VectorX data)
 {
     bpainf::BppInterface bpp;
-    std::shared_ptr<bpa::Params> paramsPtr;
+    std::shared_ptr<bpa::Params> paramsPtr(new bpa::Params());
     double helt_rate=0.95;
     double w_supported=0.1;
     double neightbour_constant=0.0;
@@ -111,7 +111,9 @@ double ParamEstimator::eval_bpp(const VectorX data)
 
     est_planned_boxes_ = bpp.binPackingBoxes(boxes);
 
+    static double norm_val = 2.2*3.0*3.0;
 
+    double used_space=compute_used_space(est_planned_boxes_);
 //            srv.request.W_MASS=data[0];
 //            srv.request.W_VOL=data[1];
 //            srv.request.W_MASSVOL=data[2];
@@ -127,11 +129,5 @@ double ParamEstimator::eval_bpp(const VectorX data)
 //            srv.request.W_ITEM_IN_THE_BOTTOM_AREA=0.3;
 //            srv.request.W_HIGH_ITEMS_GOOD_PLACED=0.0;
 
-    return dis(generator);
-
-}
-
-void Worker::doParamEst(filter::ParticleFilter &filter)
-{
-
+    return std::max(0.0, used_space/norm_val);
 }
