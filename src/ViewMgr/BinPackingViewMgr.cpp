@@ -8,7 +8,7 @@ BinPackingViewMgr::BinPackingViewMgr(QObject* parent, BoxSet& boxSet, BinPacking
 
 void BinPackingViewMgr::wireBoxSetAndBinPackingView()
 {
-  connect(&boxSet_, &BoxSet::notifyBoxesAdded, &binPackingView_, &BinPackingView::onBoxesAdded);
+  connect(&boxSet_, &BoxSet::notifyBoxesLoaded, &binPackingView_, &BinPackingView::onBoxesLoaded);
   connect(&boxSet_, &BoxSet::notifyBoxesUpdated, &binPackingView_, &BinPackingView::onBoxesUpdated);
   connect(&boxSet_, &BoxSet::notifyAllBoxesRemoved, &binPackingView_, &BinPackingView::onAllBoxesRemoved);
 }

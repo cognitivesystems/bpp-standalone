@@ -147,20 +147,9 @@ void MainWindow::on_loadButton_clicked()
     std::cout << "Loading boxes" << std::endl;
     QString boxes_file = ":/data/boxes.json";
 
-  boxSet_->addBoxesFromFile(boxes_file);
-  std::vector<bpa::Box> boxes = boxSet_->getBoxes();
+  boxSet_->loadBoxesFromFile(boxes_file);
 
-  std::cout << "Number of boxes " << boxes.size() << std::endl;
-
-  for (bpa::Box & b : boxes)
-  {
-        if(b.m_length==0.3 || b.m_width==0.3){
-            std::cout << "Small box --> " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
-            std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
-        }
-        b.rotation=30.0;
-    }
-    boxSet_->updateBoxes(boxes);
+  std::cout << "Number of boxes " << boxSet_->getBoxes().size() << std::endl;
 }
 
 void MainWindow::on_planButton_clicked()

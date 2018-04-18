@@ -13,14 +13,14 @@ class BoxSet : public QObject
 public:
   explicit BoxSet(QObject* parent = nullptr);
 
-  void addBoxesFromFile(const QString& fileName);
+  void loadBoxesFromFile(const QString& fileName);
   void updateBoxes(const std::vector<bpa::Box>& boxes);
   void removeAllBoxes();
 
   std::vector<bpa::Box> getBoxes();
 
 signals:
-  void notifyBoxesAdded(const std::vector<bpa::Box>& boxes);
+  void notifyBoxesLoaded(const std::vector<bpa::Box>& boxes);
   void notifyBoxesUpdated(const std::vector<bpa::Box>& boxes);
   void notifyAllBoxesRemoved();
 

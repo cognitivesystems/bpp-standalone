@@ -126,22 +126,7 @@ void BinPackingView::removeAllBoxEntities()
     }
 }
 
-void BinPackingView::onBoxAdded(const bpa::Box& box)
-{
-  addBoxEntity(box);
-}
-
-void BinPackingView::onBoxUpdated(const bpa::Box& box)
-{
-  updateBoxEntity(box);
-}
-
-void BinPackingView::onBoxRemoved(const bpa::Box& box)
-{
-  removeBoxEntity(box);
-}
-
-void BinPackingView::onBoxesAdded(const std::vector<bpa::Box>& boxes)
+void BinPackingView::onBoxesLoaded(const std::vector<bpa::Box>& boxes)
 {
   for (const bpa::Box& box : boxes)
   {

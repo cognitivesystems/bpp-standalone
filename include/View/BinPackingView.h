@@ -37,11 +37,7 @@ public:
   void removeAllBoxEntities();
 
 public slots:
-  void onBoxAdded(const bpa::Box& box);
-  void onBoxUpdated(const bpa::Box& box);
-  void onBoxRemoved(const bpa::Box& box);
-
-  void onBoxesAdded(const std::vector<bpa::Box>& boxes);
+  void onBoxesLoaded(const std::vector<bpa::Box>& boxes);
   void onBoxesUpdated(const std::vector<bpa::Box>& boxes);
   void onBoxesRemoved(const std::vector<bpa::Box>& boxes);
   void onAllBoxesRemoved();
