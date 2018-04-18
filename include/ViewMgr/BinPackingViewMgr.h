@@ -1,8 +1,8 @@
 #ifndef BINPACKINGVIEWMGR_H
 #define BINPACKINGVIEWMGR_H
 
-#include "BoxSet.h"
-#include "BinPackingView.h"
+#include "Model/BoxSet.h"
+#include "View/BinPackingView.h"
 #include <QObject>
 
 class BinPackingViewMgr : public QObject

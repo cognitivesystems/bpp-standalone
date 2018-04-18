@@ -131,19 +131,7 @@ void MainWindow::resetCamera()
 
 void MainWindow::resetBoxes()
 {
-    if (!boxes_.empty())
-    {
-        boxes_.clear();
-    }
-    if (!planned_boxes_.empty())
-    {
-        planned_boxes_.clear();
-    }
-}
-
-void MainWindow::resetScene()
-{
-  binPackingView_.clearScene();
+  boxSet_->removeAllBoxes();
 }
 
 void MainWindow::on_resetButton_clicked()
@@ -154,18 +142,17 @@ void MainWindow::on_resetButton_clicked()
 
 void MainWindow::on_loadButton_clicked()
 {
-    resetBoxes();
-//    resetScene();
+  resetBoxes();
 
     std::cout << "Loading boxes" << std::endl;
     QString boxes_file = ":/data/boxes.json";
 
   boxSet_->addBoxesFromFile(boxes_file);
-  boxes_ = boxSet_->getBoxes();
+  std::vector<bpa::Box> boxes = boxSet_->getBoxes();
 
-  std::cout << "Number of boxes " << boxes_.size() << std::endl;
+  std::cout << "Number of boxes " << boxes.size() << std::endl;
 
-  for (bpa::Box & b : boxes_)
+  for (bpa::Box & b : boxes)
   {
         if(b.m_length==0.3 || b.m_width==0.3){
             std::cout << "Small box --> " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
@@ -173,7 +160,7 @@ void MainWindow::on_loadButton_clicked()
         }
         b.rotation=30.0;
     }
-    boxSet_->updateBoxes(boxes_);
+    boxSet_->updateBoxes(boxes);
 }
 
 void MainWindow::on_planButton_clicked()
@@ -187,17 +174,19 @@ void MainWindow::on_estimateButton_clicked()
 {
     std::cout << "Estimating parameters" << std::endl;
 
+    vector<bpa::Box> boxes = boxSet_->getBoxes();
+
     ParamEstimator est;
     est.initialize();
 
-    if (boxes_.size() <= 0)
+    if (boxes.size() <= 0)
     {
         std::cout << "Number of Boxes = 0. Estimator exiting!";
     }
     else
     {
-        std::cout << "Setting estimator with boxes --> " << boxes_.size() << std::endl;
-        est.setBoxData(boxes_);
+        std::cout << "Setting estimator with boxes --> " << boxes.size() << std::endl;
+        est.setBoxData(boxes);
 
         while(true){
 
@@ -273,10 +262,8 @@ void MainWindow::on_estimateButton_clicked()
 
 void MainWindow::on_deleteButton_clicked()
 {
-    std::cout << "Deleting model" << std::endl;
-
-    resetBoxes();
-    resetScene();
+  std::cout << "Deleting model" << std::endl;
+  resetBoxes();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -293,7 +280,7 @@ void MainWindow::timerEvent(QTimerEvent* timerEvent)
 
 void MainWindow::doBinPacking()
 {
-    std::vector<bpa::Box> boxes=boxes_;
+    std::vector<bpa::Box> boxes=boxSet_->getBoxes();
 
     for (bpa::Box& b : boxes)
     {
@@ -304,9 +291,9 @@ void MainWindow::doBinPacking()
 
     }
 
-    planned_boxes_ = bpp_inf_.binPackingBoxes(boxes);
+  std::vector<bpa::Box> planned_boxes = bpp_inf_.binPackingBoxes(boxes);
 
-    for (bpa::Box& b : planned_boxes_)
+    for (bpa::Box& b : planned_boxes)
     {
         b.position.position[0] += b.m_length / 2;
         b.position.position[1] += b.m_width / 2;
@@ -318,7 +305,7 @@ void MainWindow::doBinPacking()
 
 void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
 {
-    std::vector<bpa::Box> boxes=boxes_;
+    std::vector<bpa::Box> boxes=boxSet_->getBoxes();
 
     for (bpa::Box& b : boxes)
     {
@@ -331,9 +318,9 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
 
     bpp_inf_.setParams(params);
 
-    planned_boxes_ = bpp_inf_.binPackingBoxes(boxes);
+  std::vector<bpa::Box> planned_boxes = bpp_inf_.binPackingBoxes(boxes);
 
-    for (bpa::Box& b : planned_boxes_)
+    for (bpa::Box& b : planned_boxes)
     {
         b.position.position[0] += b.m_length / 2;
         b.position.position[1] += b.m_width / 2;

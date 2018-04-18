@@ -22,9 +22,9 @@
 #include "bppinterface.h"
 #include "BoxJsonParser.h"
 #include "Box.h"
-#include "BoxSet.h"
-#include "BinPackingView.h"
-#include "BinPackingViewMgr.h"
+#include "Model/BoxSet.h"
+#include "View/BinPackingView.h"
+#include "ViewMgr/BinPackingViewMgr.h"
 #include "opt/ParamEstimator.h"
 
 using namespace QtDataVisualization;
@@ -44,7 +44,6 @@ public:
 
   void resetCamera();
   void resetBoxes();
-  void resetScene();
 
 protected:
   MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
@@ -86,9 +85,6 @@ private:
   BoxSet* boxSet_;
   BinPackingView& binPackingView_;
   BinPackingViewMgr* binPackingViewMgr_;
-
-  std::vector<bpa::Box> boxes_;
-  std::vector<bpa::Box> planned_boxes_;
 
   bpainf::BppInterface bpp_inf_;
 

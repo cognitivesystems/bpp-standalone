@@ -44,6 +44,7 @@ public slots:
   void onBoxesAdded(const std::vector<bpa::Box>& boxes);
   void onBoxesUpdated(const std::vector<bpa::Box>& boxes);
   void onBoxesRemoved(const std::vector<bpa::Box>& boxes);
+  void onAllBoxesRemoved();
 
 private:
   Qt3DCore::QEntity* root_;

@@ -15,12 +15,14 @@ public:
 
   void addBoxesFromFile(const QString& fileName);
   void updateBoxes(const std::vector<bpa::Box>& boxes);
+  void removeAllBoxes();
 
   std::vector<bpa::Box> getBoxes();
 
 signals:
   void notifyBoxesAdded(const std::vector<bpa::Box>& boxes);
   void notifyBoxesUpdated(const std::vector<bpa::Box>& boxes);
+  void notifyAllBoxesRemoved();
 
 private:
   std::vector<bpa::Box> boxes_;

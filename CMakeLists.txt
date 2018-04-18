@@ -33,9 +33,9 @@ set(qt3dsimple_hdr
   include/opt/ParamEstimator.h
   include/opt/pdflib.hpp
   include/opt/rnglib.hpp
-  include/BoxSet.h
-  include/BinPackingView.h
-  include/BinPackingViewMgr.h)
+  include/Model/BoxSet.h
+  include/View/BinPackingView.h
+  include/ViewMgr/BinPackingViewMgr.h)
 
 set(qt3dsimple_src
   src/main.cpp
@@ -47,9 +47,9 @@ set(qt3dsimple_src
   src/opt/ParamEstimator.cpp
   src/opt/pdflib.cpp
   src/opt/rnglib.cpp
-  src/BoxSet.cpp
-  src/BinPackingView.cpp
-  src/BinPackingViewMgr.cpp)
+  src/Model/BoxSet.cpp
+  src/View/BinPackingView.cpp
+  src/ViewMgr/BinPackingViewMgr.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui)

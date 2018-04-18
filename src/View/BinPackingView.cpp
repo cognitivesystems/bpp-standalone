@@ -1,4 +1,4 @@
-#include "BinPackingView.h"
+#include "View/BinPackingView.h"
 #include <QTextureImage>
 
 BinPackingView::BinPackingView(QWidget* parent) : QWidget(parent), root_(new Qt3DCore::QEntity())
@@ -159,8 +159,13 @@ void BinPackingView::onBoxesUpdated(const std::vector<bpa::Box>& boxes)
 
 void BinPackingView::onBoxesRemoved(const std::vector<bpa::Box>& boxes)
 {
-    for (const bpa::Box& box : boxes)
-    {
-        removeBoxEntity(box);
-    }
+  for (const bpa::Box& box : boxes)
+  {
+    removeBoxEntity(box);
+  }
+}
+
+void BinPackingView::onAllBoxesRemoved()
+{
+  removeAllBoxEntities();
 }
