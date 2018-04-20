@@ -2,35 +2,9 @@
 #include "mainwindow.h"
 
 ParamEstimator::ParamEstimator()
-    :pf_(0), n_particles_(100), generator(rd()), dis(0.0, 1.0)
+    :pf_(0), n_particles_(20), generator(rd()), dis(0.0, 1.0)
 {
-    x_target=linspace(0.0,1.0, 100);
-    y_target=linspace(0.0,1.0, 100);
 
-    series0 = new QLineSeries();
-    series1 = new QLineSeries();
-    series2 = new QLineSeries();
-    series3 = new QLineSeries();
-    series4 = new QLineSeries();
-
-    chart = new QChart();
-    chart->legend()->hide();
-    chart->addSeries(series0);
-    chart->addSeries(series1);
-    chart->addSeries(series2);
-    chart->addSeries(series3);
-    chart->addSeries(series4);
-    chart->createDefaultAxes();
-    chart->axisY()->setRange(0, 20);
-    chart->setTitle("Parameter 0");
-    chart->show();
-
-    chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    window.setCentralWidget(chartView);
-    window.resize(400, 300);
-    window.show();
 
 }
 
@@ -40,8 +14,8 @@ void ParamEstimator::initialize()
     alpha_.resize(dims_);
     beta_.resize(dims_);
     for(size_t n=0;n<dims_;++n){
-        alpha_[n]=1.0;
-        beta_[n]=1.0;
+        alpha_[n]=100.0;
+        beta_[n]=100.0;
     }
 
     for(size_t n=0;n<dim_active_.size();++n){
@@ -75,7 +49,7 @@ std::vector<bpa::Box> ParamEstimator::stepNext()
 
 void ParamEstimator::run()
 {
-    while(true){
+    //while(true){
 
         pf_.predict();
         for(size_t n=0;n<pf_.nOfParticles();n+=4){
@@ -105,42 +79,7 @@ void ParamEstimator::run()
 
         std::cout << "Average Weight ----> " << pf_.getAverageWeight() << std::endl;
 
-        VectorX alpha=pf_.getAlpha();
-        VectorX beta=pf_.getBeta();
-
-
-
-        pdf0=computePDF(alpha[0], beta[0]);
-        pdf1=computePDF(alpha[1], beta[1]);
-        pdf2=computePDF(alpha[2], beta[2]);
-        pdf3=computePDF(alpha[3], beta[3]);
-        pdf4=computePDF(alpha[4], beta[4]);
-
-        std::cout << "Param 0 --> " << alpha[0] << " " << beta[0] << std::endl;
-        std::cout << "Param 1 --> " << alpha[1] << " " << beta[1] << std::endl;
-        std::cout << "Param 2 --> " << alpha[2] << " " << beta[2] << std::endl;
-        std::cout << "Param 3 --> " << alpha[3] << " " << beta[3] << std::endl;
-        std::cout << "Param 4 --> " << alpha[4] << " " << beta[4] << std::endl;
-
-        series0->clear();
-        series1->clear();
-        series2->clear();
-        series3->clear();
-        series4->clear();
-
-        for(size_t i=0;i<pdf0.size();++i){
-            *series0<<QPointF(x_target[i], pdf0[i]);
-            *series1<<QPointF(x_target[i], pdf1[i]);
-            *series2<<QPointF(x_target[i], pdf2[i]);
-            *series3<<QPointF(x_target[i], pdf3[i]);
-            *series4<<QPointF(x_target[i], pdf4[i]);
-//            std::cout << pdf0[i] << " " << x_target[i] << std::endl;
-        }
-
-        window.update();
-        QApplication::processEvents();
-
-    }
+    //}
 }
 
 double ParamEstimator::eval_bpp(const VectorX data)

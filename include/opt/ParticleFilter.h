@@ -80,7 +80,9 @@ public:
 
   void getParticlePose(const int id, VectorX& pose);
 
-  VectorX getOutputPose();
+  VectorX getAvgOutputPose();
+
+  VectorX getMaxOutputPose();
 
   double getAverageWeight();
 

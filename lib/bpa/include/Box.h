@@ -91,6 +91,7 @@ public:
   double m_width;
   double m_height;
   double m_mass;
+  std::string m_type;
   int m_id;
   std::string m_name;   /* uuid Value of the Box */
   std::string material; /* carton(cardboard), wooden, styrofoam, plastic(drum) */

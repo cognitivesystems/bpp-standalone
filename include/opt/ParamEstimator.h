@@ -4,21 +4,11 @@
 #include <opt/ParticleFilter.h>
 #include "bppinterface.h"
 #include "Box.h"
-#include <QApplication>
-#include <QMainWindow>
-#include <QObject>
-#include <QtDataVisualization>
-#include <QtCharts>
-#include <QChart>
-#include <QLineSeries>
 #include <opt/pdflib.hpp>
 
-using namespace QtDataVisualization;
 
-class ParamEstimator : public QObject
+class ParamEstimator
 {
-    Q_OBJECT
-
 public:
     ParamEstimator();
 
@@ -29,6 +19,44 @@ public:
     std::vector<bpa::Box> stepNext();
 
     void run();
+
+    VectorX getAlpha(){
+        return pf_.getAlpha();
+    }
+
+    VectorX getBeta(){
+        return pf_.getBeta();
+    }
+
+    VectorX getAvg(){
+        return pf_.getAvgOutputPose();
+    }
+
+    std::vector<double > computePDF(const double alpha, const double beta, std::vector<double >& x_target){
+
+        std::vector<double > y_est;
+        y_est=x_target;
+        for(size_t i=0;i<y_est.size();++i){
+            y_est[i]=r8_beta_pdf(alpha, beta, x_target[i]);
+        }
+
+        return y_est;
+    }
+
+    int get_max_pos(double * array, int size)
+    {
+        double max=array[0];
+        int max_pos=0;
+
+        int i;
+        for (i=1; i<size; i++){
+            if (max<array[i]){
+                max=array[i];
+                max_pos=i;
+            }
+        }
+        return max_pos;
+    }
 
 private:
     double eval_bpp(const VectorX data);
@@ -66,27 +94,8 @@ private:
         return bin_com;
     }
 
-    std::vector<double> linspace(double a, double b, int n) {
-        std::vector<double> array;
-        double step = (b-a) / (n-1);
 
-        while(a <= b) {
-            array.push_back(a);
-            a += step;           // could recode to better handle rounding errors
-        }
-        return array;
-    }
 
-    std::vector<double > computePDF(const double alpha, const double beta){
-
-        std::vector<double > y_est;
-        y_est=x_target;
-        for(size_t i=0;i<y_est.size();++i){
-            y_est[i]=r8_beta_pdf(alpha, beta, x_target[i]);
-        }
-
-        return y_est;
-    }
 
 private:
     filter::ParticleFilter pf_;
@@ -105,31 +114,6 @@ private:
     std::random_device rd;
     std::mt19937 generator;
     std::uniform_real_distribution<> dis;
-
-
-    //visualisation
-    std::vector<double > x_target;
-    std::vector<double > y_target;
-
-    QLineSeries *series0;
-    QLineSeries *series1;
-    QLineSeries *series2;
-    QLineSeries *series3;
-    QLineSeries *series4;
-
-    QChart *chart;
-
-    QChartView *chartView;
-
-
-    std::vector<double > pdf0;
-    std::vector<double > pdf1;
-    std::vector<double > pdf2;
-    std::vector<double > pdf3;
-    std::vector<double > pdf4;
-
-    QMainWindow window;
-
 };
 
 #endif  // PARAMESTIMATOR_H

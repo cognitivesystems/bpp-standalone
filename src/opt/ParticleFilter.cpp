@@ -158,7 +158,7 @@ void ParticleFilter::updateDistribution()
         std::pair <float, float> mv = getMeanVariance(datavec);
 
         float dist_params[2];
-        std::cout << "mean, var --> " << mv.first << " " << mv.second << std::endl;
+//        std::cout << "mean, var --> " << mv.first << " " << mv.second << std::endl;
         dist_params[0]=distributions[n].find_alpha(mv.first, mv.second);
         dist_params[1]=distributions[n].find_beta(mv.first, mv.second);
 
@@ -170,23 +170,18 @@ void ParticleFilter::updateDistribution()
     distributions.clear();
     distributions.resize(mParams.dof_);
 
-    std::cout << "++++++++++ Updating Distribution Params +++++++++++++++" << std::endl;
+//    std::cout << "++++++++++ Updating Distribution Params +++++++++++++++" << std::endl;
     for(size_t n=0;n<mParams.dof_;++n){
 
         boost::math::beta_distribution<> beta_d(alpha_[n], beta_[n]);
         distributions[n]=beta_d;
-        std::cout << alpha_[n] << " " << beta_[n] << std::endl;
+//        std::cout << alpha_[n] << " " << beta_[n] << std::endl;
     }
 }
 
 void ParticleFilter::setParticleWeight(u_int id, float w)
 {
     mParticles[id].w = w;
-}
-
-VectorX ParticleFilter::getOutputPose()
-{
-    return getMaxParticle()->pose_;
 }
 
 double ParticleFilter::getAverageWeight()
@@ -253,6 +248,38 @@ VectorX ParticleFilter::getCovariance()
 void ParticleFilter::getParticlePose(const int id, VectorX &pose)
 {
     pose=mParticles[id].pose_;
+}
+
+VectorX ParticleFilter::getAvgOutputPose()
+{
+    if(mParticles.size()<0){
+        std::cout << "Error: particle count < 0" << std::endl;
+        throw;
+    }
+
+    VectorX pose_sum;
+    pose_sum.resize(mParticles[0].pose_.size());
+    for(size_t i=0; i<pose_sum.size(); ++i){
+            pose_sum[i]=0;
+    }
+
+    for(size_t i=0; i<mParams.n_particles_; ++i){
+        for(size_t n=0; n<pose_sum.size(); ++n){
+                pose_sum[n]+=mParticles[i].pose_[n];
+        }
+    }
+
+    for(size_t n=0; n<pose_sum.size(); ++n){
+            pose_sum[n]/=mParams.n_particles_;
+    }
+
+    return pose_sum;
+}
+
+VectorX ParticleFilter::getMaxOutputPose()
+{
+    return getMaxParticle()->pose_;
+
 }
 
 void ParticleFilter::ParticleFilter::predict_with_beta_distribution()

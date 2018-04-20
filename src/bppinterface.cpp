@@ -79,26 +79,26 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   /// get the current step packed boxes after bpp
   std::vector<bpa::Box> pack_boxes = new_pallet_config.getStepPackedBoxes();
 
-//  std::cout << "\nCurrent box plan size "
-//               "=================================================="
-//            << pack_boxes.size() << std::endl;
-//  std::cout << "Total boxes in pallet will be = " << new_pallet_config.packed_boxes.size() << std::endl;
+  std::cout << "\nCurrent box plan size "
+               "=================================================="
+            << pack_boxes.size() << std::endl;
+  std::cout << "Total boxes in pallet will be = " << new_pallet_config.packed_boxes.size() << std::endl;
 
   for (bpa::Box b : pack_boxes)
   {
-//    std::cout << "Bpp UUID " << b.m_name << "  l " << b.m_length << "  w " << b.m_width << "  h " << b.m_height
-//              << "  mass " << b.m_mass << " x " << b.position.position(0) << " y " << b.position.position(1) << " z "
-//              << b.position.position(2) << "  rotated " << b.is_rotated << "  rotation " << b.rotation << " "
-//              << b.material << "--";
+    std::cout << "Bpp UUID " << b.m_name << "  l " << b.m_length << "  w " << b.m_width << "  h " << b.m_height
+              << "  mass " << b.m_mass << " x " << b.position.position(0) << " y " << b.position.position(1) << " z "
+              << b.position.position(2) << "  rotated " << b.is_rotated << "  rotation " << b.rotation << " "
+              << b.material << "--";
 
-//    for (std::string label : b.box_labels)
-//    {
-//      std::cout << " " << label;
-//    }
-//    std::cout << ";  " << b.is_stackable;
-//    std::cout << " \n";
+    for (std::string label : b.box_labels)
+    {
+      std::cout << " " << label;
+    }
+    std::cout << ";  " << b.is_stackable;
+    std::cout << " \n";
   }
-//  std::cout << "==================================================================" << std::endl;
+  std::cout << "==================================================================" << std::endl;
   return pack_boxes;
 }
 
