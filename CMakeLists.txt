@@ -26,8 +26,9 @@ include_directories(
 set(qt3dsimple_hdr
   include/mainwindow.h
   include/bppinterface.h
-  include/objentity.h
-  include/boxentity.h
+  include/View/ObjEntity.h
+  include/View/BoxEntity.h
+  include/View/PlaneEntity.h
   include/opt/defs.h
   include/opt/ParticleFilter.h
   include/opt/ParamEstimator.h
@@ -41,8 +42,9 @@ set(qt3dsimple_src
   src/main.cpp
   src/mainwindow.cpp
   src/bppinterface.cpp
-  src/objentity.cpp
-  src/boxentity.cpp
+  src/View/ObjEntity.cpp
+  src/View/BoxEntity.cpp
+  src/View/PlaneEntity.cpp
   src/opt/ParticleFilter.cpp
   src/opt/ParamEstimator.cpp
   src/opt/pdflib.cpp

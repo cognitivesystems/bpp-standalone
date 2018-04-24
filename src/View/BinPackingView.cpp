@@ -1,8 +1,10 @@
 #include "View/BinPackingView.h"
 #include <QTextureImage>
 
-BinPackingView::BinPackingView(QWidget* parent) : QWidget(parent), root_(new Qt3DCore::QEntity())
+BinPackingView::BinPackingView(QWidget* parent)
+  : QWidget(parent), root_(new Qt3DCore::QEntity()), floor_(new PlaneEntity(root_)), pallet_(new PlaneEntity(root_))
 {
+  setupFloorAndPallet();
 }
 
 void BinPackingView::addObjEntity(const string obj_url)
@@ -12,13 +14,13 @@ void BinPackingView::addObjEntity(const string obj_url)
   objEntityPtr->transform()->setTranslation(QVector3D(0, 0, 0));
   objEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
 
-//  Qt3DRender::QTextureImage* textImg1 = new Qt3DRender::QTextureImage();
-//  std::string name = "/home/nair/workspace/bpp_code/bpp-standalone/build/mesh_material0000_map_Kd.png";
-//  textImg1->setSource(QUrl::fromLocalFile(name.c_str()));
+  //  Qt3DRender::QTextureImage* textImg1 = new Qt3DRender::QTextureImage();
+  //  std::string name = "/home/nair/workspace/bpp_code/bpp-standalone/build/mesh_material0000_map_Kd.png";
+  //  textImg1->setSource(QUrl::fromLocalFile(name.c_str()));
 
-//  objEntityPtr->material()->diffuse()->addTextureImage(textImg1);
-//  objEntityPtr->material()->normal()->addTextureImage(textImg1);
-//  objEntityPtr->material()->specular()->addTextureImage(textImg1);
+  //  objEntityPtr->material()->diffuse()->addTextureImage(textImg1);
+  //  objEntityPtr->material()->normal()->addTextureImage(textImg1);
+  //  objEntityPtr->material()->specular()->addTextureImage(textImg1);
   objEntityPtr->material()->setShininess(1.0);
   objEntityPtr->material()->setAmbient("white");
 }
@@ -41,27 +43,9 @@ void BinPackingView::addBoxEntity(const bpa::Box& box)
   boxEntityPtr->mesh()->setYExtent(box.m_width);
   boxEntityPtr->mesh()->setZExtent(box.m_height);
 
-  boxEntityPtr->transform()->setTranslation(QVector3D(0, 0, 0));
-
   double box_rot = box.is_rotated ? 90.0 : 0.0;
-
-  QColor color = QColor(qrand() % 255, qrand() % 255, qrand() % 255);
-
-  if (box.m_type == "box")
-  {
-    boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, box_rot));
-    boxEntityPtr->material()->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255, 1));
-  }
-  else if (box.m_type == "pallet")
-  {
-    boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
-    boxEntityPtr->material()->setDiffuse(QColor(255, 0, 0, 1));
-  }
-  else
-  {
-    boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
-    boxEntityPtr->material()->setDiffuse(QColor(0, 0, 255, 1));
-  }
+  boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, box_rot));
+  boxEntityPtr->material()->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255, 1));
 
   boxEntityPtr->transform()->setTranslation(
       QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
@@ -149,4 +133,21 @@ void BinPackingView::onBoxesRemoved(const std::vector<bpa::Box>& boxes)
 void BinPackingView::onAllBoxesRemoved()
 {
   removeAllBoxEntities();
+}
+
+void BinPackingView::setupFloorAndPallet()
+{
+  // values are incorrect, update needed
+
+  floor_->mesh()->setHeight(15.0);
+  floor_->mesh()->setWidth(15.0);
+  floor_->transform()->setTranslation(QVector3D(0.0, 0.0, 0.0));
+  floor_->transform()->setRotation(QQuaternion::fromEulerAngles(90.0, 0.0, 0.0));
+  floor_->material()->setDiffuse(QColor(255, 0, 0, 1));
+
+  pallet_->mesh()->setHeight(2.28);
+  pallet_->mesh()->setWidth(3.00);
+  pallet_->transform()->setTranslation(QVector3D(1.14, 1.5, 0.0));
+  pallet_->transform()->setRotation(QQuaternion::fromEulerAngles(90.0, 0.0, 0.0));
+  pallet_->material()->setDiffuse(QColor(0, 0, 255, 1));
 }

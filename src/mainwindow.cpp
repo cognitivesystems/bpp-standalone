@@ -74,34 +74,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   window.resize(400, 300);
   window.show();
 
-  bpa::Box floor;
-  floor.m_name = "floor";
-  floor.position.position[0] = 0.0;
-  floor.position.position[1] = 0.0;
-  floor.position.position[2] = 0.0;
-  floor.rotation = 0.0;
-  floor.m_length = 25.00;
-  floor.m_width = 25.00;
-  floor.m_height = 0.05;
-  floor.m_type = "floor";
-  //    scene_3d_->addBoxEntity(floor);
-
-  bpa::Box pallet;
-  pallet.m_name = "pallet";
-  pallet.m_type = "pallet";
-  pallet.position.position[0] = 0.0;
-  pallet.position.position[1] = 0.0;
-  pallet.position.position[2] = 0.0;
-  pallet.rotation = 0.0;
-  pallet.m_length = 2.28;
-  pallet.m_width = 3.00;
-  pallet.m_height = 0.05;
-  pallet.position.position[0] += pallet.m_length / 2;
-  pallet.position.position[1] += pallet.m_width / 2;
-  pallet.position.position[2] += pallet.m_height / 2;
-
-  //    scene_3d_->addBoxEntity(pallet);
-
   std::string url = "/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
   binPackingView_.addObjEntity(url);
 }

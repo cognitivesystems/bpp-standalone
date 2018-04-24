@@ -1,4 +1,4 @@
-#include "boxentity.h"
+#include "View/BoxEntity.h"
 
 BoxEntity::BoxEntity(Qt3DCore::QNode* parent)
   : Qt3DCore::QEntity(parent)

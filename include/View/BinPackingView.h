@@ -15,8 +15,9 @@
 #include <Qt3DRender/qrenderaspect.h>
 
 #include <iostream>
-#include "objentity.h"
-#include "boxentity.h"
+#include "ObjEntity.h"
+#include "BoxEntity.h"
+#include "PlaneEntity.h"
 #include "Box.h"
 
 class BinPackingView : public QWidget
@@ -43,8 +44,12 @@ public slots:
   void onAllBoxesRemoved();
 
 private:
+  void setupFloorAndPallet();
+
   Qt3DCore::QEntity* root_;
   QMap<QString, BoxEntity*> uuid_entity_map_;
+  PlaneEntity* floor_;
+  PlaneEntity* pallet_;
 };
 
 #endif  // BINPACKINGVIEW_H

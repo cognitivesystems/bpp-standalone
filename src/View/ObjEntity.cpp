@@ -1,4 +1,4 @@
-#include "objentity.h"
+#include "View/ObjEntity.h"
 
 ObjEntity::ObjEntity(Qt3DCore::QNode* parent)
   : Qt3DCore::QEntity(parent)
