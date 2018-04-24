@@ -36,7 +36,10 @@ set(qt3dsimple_hdr
   include/opt/rnglib.hpp
   include/Model/BoxSet.h
   include/View/BinPackingView.h
-  include/ViewMgr/BinPackingViewMgr.h)
+  include/ViewMgr/BinPackingViewMgr.h
+  include/View/DistributionView.h
+  include/ViewMgr/DistributionViewMgr.h
+  include/MathUtils.h)
 
 set(qt3dsimple_src
   src/main.cpp
@@ -51,7 +54,10 @@ set(qt3dsimple_src
   src/opt/rnglib.cpp
   src/Model/BoxSet.cpp
   src/View/BinPackingView.cpp
-  src/ViewMgr/BinPackingViewMgr.cpp)
+  src/ViewMgr/BinPackingViewMgr.cpp
+  src/View/DistributionView.cpp
+  src/ViewMgr/DistributionViewMgr.cpp
+  src/MathUtils.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui)

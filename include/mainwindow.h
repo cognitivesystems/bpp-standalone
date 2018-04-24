@@ -26,6 +26,9 @@
 #include "View/BinPackingView.h"
 #include "ViewMgr/BinPackingViewMgr.h"
 #include "opt/ParamEstimator.h"
+#include "opt/ParticleFilter.h"
+#include "View/DistributionView.h"
+#include "ViewMgr/DistributionViewMgr.h"
 
 using namespace QtDataVisualization;
 
@@ -87,6 +90,10 @@ private:
   BoxSet* boxSet_;
   BinPackingView& binPackingView_;
   BinPackingViewMgr* binPackingViewMgr_;
+
+  filter::ParticleFilter* particleFilter_;
+  DistributionView& distributionView_;
+  DistributionViewMgr* distributionViewMgr_;
 
   bpainf::BppInterface bpp_inf_;
 

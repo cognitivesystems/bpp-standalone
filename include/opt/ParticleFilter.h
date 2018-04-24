@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <QtCore/QObject>
 
 namespace filter
 {
@@ -41,9 +42,13 @@ public:
   float w; /**< weight */
 };
 
-class ParticleFilter
+class ParticleFilter : public QObject
 {
+  Q_OBJECT
+
 public:
+  explicit ParticleFilter(QObject* parent = nullptr);
+
   ParticleFilter(uint id);
   ~ParticleFilter();
 
@@ -138,6 +143,9 @@ public:
 
   VectorX getCovariance();
 
+signals:
+  void notifyDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions);
+
 private:
   void normalize();
 
@@ -155,7 +163,7 @@ protected:
   std::random_device rd;
   std::mt19937 generator;
   std::uniform_real_distribution<> dis;
-  std::vector<boost::math::beta_distribution<> > distributions;
+  std::vector<boost::math::beta_distribution<>> distributions;
 
   VectorX alpha_;
   VectorX beta_;

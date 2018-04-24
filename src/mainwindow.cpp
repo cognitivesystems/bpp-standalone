@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   , boxSet_(new BoxSet(this))
   , binPackingView_(*new BinPackingView(this))
   , binPackingViewMgr_(new BinPackingViewMgr(this, *boxSet_, binPackingView_))
+  , particleFilter_(new filter::ParticleFilter(this))
+  , distributionView_(*new DistributionView(this))
+  , distributionViewMgr_(new DistributionViewMgr(this, *particleFilter_, distributionView_))
 {
   std::cout << "MainWindow constructor" << std::endl;
 
@@ -24,11 +27,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(binPackingView_.getScene());
   Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
   light->setColor("white");
-  light->setIntensity(0.5);
+  light->setIntensity(1);
   lightEntity->addComponent(light);
   Qt3DCore::QTransform* lightTransform = new Qt3DCore::QTransform(lightEntity);
   lightTransform->setTranslation(camera_->position());
-  lightTransform->setTranslation(QVector3D(0, 0, 10.0));
+  lightTransform->setTranslation(QVector3D(0, 0, 5.0));
 
   lightEntity->addComponent(lightTransform);
 
@@ -46,31 +49,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
   this->timer_id_ = startTimer(1);
 
-  x_target = linspace(0.0, 1.0, 100);
-  y_target = linspace(0.0, 1.0, 100);
-
-  series0 = new QLineSeries();
-  series1 = new QLineSeries();
-  series2 = new QLineSeries();
-  series3 = new QLineSeries();
-  series4 = new QLineSeries();
-
-  chart = new QChart();
-  chart->legend()->hide();
-  chart->addSeries(series0);
-  chart->addSeries(series1);
-  chart->addSeries(series2);
-  chart->addSeries(series3);
-  chart->addSeries(series4);
-  chart->createDefaultAxes();
-  chart->axisY()->setRange(0, 20);
-  chart->setTitle("Parameter 0");
-  chart->show();
-
-  chartView = new QChartView(chart);
-  chartView->setRenderHint(QPainter::Antialiasing);
-
-  window.setCentralWidget(chartView);
+  window.setCentralWidget(distributionView_.getChartView());
   window.resize(400, 300);
   window.show();
 
@@ -137,7 +116,7 @@ void MainWindow::on_estimateButton_clicked()
 
   vector<bpa::Box> boxes = boxSet_->getBoxes();
 
-  ParamEstimator est;
+  ParamEstimator est(*particleFilter_);
   est.initialize();
 
   if (boxes.size() <= 0)
@@ -152,40 +131,6 @@ void MainWindow::on_estimateButton_clicked()
     while (true)
     {
       est.run();
-
-      std::vector<float> alpha = est.getAlpha();
-      std::vector<float> beta = est.getBeta();
-
-      pdf0 = est.computePDF((double)(alpha[0]), (double)(beta[0]), x_target);
-      pdf1 = est.computePDF((double)(alpha[1]), (double)(beta[1]), x_target);
-      pdf2 = est.computePDF((double)(alpha[2]), (double)(beta[2]), x_target);
-      pdf3 = est.computePDF((double)(alpha[3]), (double)(beta[3]), x_target);
-      pdf4 = est.computePDF((double)(alpha[4]), (double)(beta[4]), x_target);
-
-      //            std::cout << "Param 0 --> " << alpha[0] << " " << beta[0] << std::endl;
-      //            std::cout << "Param 1 --> " << alpha[1] << " " << beta[1] << std::endl;
-      //            std::cout << "Param 2 --> " << alpha[2] << " " << beta[2] << std::endl;
-      //            std::cout << "Param 3 --> " << alpha[3] << " " << beta[3] << std::endl;
-      //            std::cout << "Param 4 --> " << alpha[4] << " " << beta[4] << std::endl;
-
-      series0->clear();
-      series1->clear();
-      series2->clear();
-      series3->clear();
-      series4->clear();
-
-      for (size_t i = 0; i < pdf0.size(); ++i)
-      {
-        *series0 << QPointF(x_target[i], pdf0[i]);
-        *series1 << QPointF(x_target[i], pdf1[i]);
-        *series2 << QPointF(x_target[i], pdf2[i]);
-        *series3 << QPointF(x_target[i], pdf3[i]);
-        *series4 << QPointF(x_target[i], pdf4[i]);
-        //            std::cout << pdf0[i] << " " << x_target[i] << std::endl;
-      }
-
-      window.update();
-      QApplication::processEvents();
 
       std::vector<float> avg_est = est.getAvg();
 

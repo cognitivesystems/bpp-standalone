@@ -25,7 +25,7 @@ class BinPackingView : public QWidget
   Q_OBJECT
 
 public:
-  explicit BinPackingView(QWidget* parent = 0);
+  explicit BinPackingView(QWidget* parent = nullptr);
 
   Qt3DCore::QEntity* getScene();
   void clearScene();

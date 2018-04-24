@@ -2,6 +2,10 @@
 
 namespace filter
 {
+ParticleFilter::ParticleFilter(QObject* parent) : QObject(parent)
+{
+}
+
 ParticleFilter::ParticleFilter(uint id) : filter_id_(id), generator(rd()), dis(0.0, 1.0)
 {
 }
@@ -176,6 +180,8 @@ void ParticleFilter::updateDistribution()
     distributions[n] = beta_d;
     //        std::cout << alpha_[n] << " " << beta_[n] << std::endl;
   }
+
+  emit notifyDistributionsUpdated(distributions);
 }
 
 void ParticleFilter::setParticleWeight(u_int id, float w)

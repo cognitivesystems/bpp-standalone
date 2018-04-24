@@ -9,7 +9,7 @@
 class ParamEstimator
 {
 public:
-  ParamEstimator();
+  ParamEstimator(filter::ParticleFilter& particleFilter);
 
   void initialize();
 
@@ -101,7 +101,7 @@ private:
   }
 
 private:
-  filter::ParticleFilter pf_;
+  filter::ParticleFilter& pf_;
   VectorX alpha_;
   VectorX beta_;
 

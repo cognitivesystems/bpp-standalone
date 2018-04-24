@@ -1,7 +1,8 @@
 #include <opt/ParamEstimator.h>
 #include "mainwindow.h"
 
-ParamEstimator::ParamEstimator() : pf_(0), n_particles_(20), generator(rd()), dis(0.0, 1.0)
+ParamEstimator::ParamEstimator(filter::ParticleFilter& particleFilter)
+  : pf_(particleFilter), n_particles_(20), generator(rd()), dis(0.0, 1.0)
 {
 }
 
