@@ -21,7 +21,7 @@ Qt3DCore::QTransform* BoxEntity::transform() const
   return transform_;
 }
 
-Qt3DExtras::QPhongMaterial *BoxEntity::material() const
+Qt3DExtras::QPhongMaterial* BoxEntity::material() const
 {
   return material_;
 }

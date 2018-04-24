@@ -29,7 +29,7 @@ BppInterface::BppInterface()
   pallet_center(1) = 1.645;       // paramJson["pallet_center_translation"]["y"].asDouble();
   pallet_center(2) = 0.050;       // paramJson["pallet_center_translation"]["z"].asDouble();
 
-//  std::cout << "Ready..." << std::endl;
+  //  std::cout << "Ready..." << std::endl;
 }
 
 BppInterface::~BppInterface()
@@ -63,14 +63,14 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   // build the physics world for bullet
   new_pallet_config.bulletPhysics->addBinBoundingBox();
   new_pallet_config.bulletPhysics->addNewBoxesToPhysics(new_pallet_config.packed_boxes);
-//  std::cout << "************************size of the  packed boxes from last bpp is :"
-//            << new_pallet_config.packed_boxes.size() << std::endl;
-//  std::cout << "************************size of the fitting points from last bpp is:"
-//            << new_pallet_config.fitting_points.size() << std::endl;
+  //  std::cout << "************************size of the  packed boxes from last bpp is :"
+  //            << new_pallet_config.packed_boxes.size() << std::endl;
+  //  std::cout << "************************size of the fitting points from last bpp is:"
+  //            << new_pallet_config.fitting_points.size() << std::endl;
 
-//  std::cout << "\n\nBin "
-//               "Packing........................................................"
-//               ".........................\n";
+  //  std::cout << "\n\nBin "
+  //               "Packing........................................................"
+  //               ".........................\n";
   bpa::BinPackingPlanner bin_packing_planner;
   bin_packing_planner.setParams(paramsPtr_);
   new_pallet_config = bin_packing_planner.solveWithOneFunction(new_pallet_config, holding_area_boxes);
@@ -78,26 +78,27 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   /// get the current step packed boxes after bpp
   std::vector<bpa::Box> pack_boxes = new_pallet_config.getStepPackedBoxes();
 
-//  std::cout << "\nCurrent box plan size "
-//               "=================================================="
-//            << pack_boxes.size() << std::endl;
-//  std::cout << "Total boxes in pallet will be = " << new_pallet_config.packed_boxes.size() << std::endl;
+  //  std::cout << "\nCurrent box plan size "
+  //               "=================================================="
+  //            << pack_boxes.size() << std::endl;
+  //  std::cout << "Total boxes in pallet will be = " << new_pallet_config.packed_boxes.size() << std::endl;
 
-//  for (bpa::Box b : pack_boxes)
-//  {
-//    std::cout << "Bpp UUID " << b.m_name << "  l " << b.m_length << "  w " << b.m_width << "  h " << b.m_height
-//              << "  mass " << b.m_mass << " x " << b.position.position(0) << " y " << b.position.position(1) << " z "
-//              << b.position.position(2) << "  rotated " << b.is_rotated << "  rotation " << b.rotation << " "
-//              << b.material << "--";
+  //  for (bpa::Box b : pack_boxes)
+  //  {
+  //    std::cout << "Bpp UUID " << b.m_name << "  l " << b.m_length << "  w " << b.m_width << "  h " << b.m_height
+  //              << "  mass " << b.m_mass << " x " << b.position.position(0) << " y " << b.position.position(1) << " z
+  //              "
+  //              << b.position.position(2) << "  rotated " << b.is_rotated << "  rotation " << b.rotation << " "
+  //              << b.material << "--";
 
-//    for (std::string label : b.box_labels)
-//    {
-//      std::cout << " " << label;
-//    }
-//    std::cout << ";  " << b.is_stackable;
-//    std::cout << " \n";
-//  }
-//  std::cout << "==================================================================" << std::endl;
+  //    for (std::string label : b.box_labels)
+  //    {
+  //      std::cout << " " << label;
+  //    }
+  //    std::cout << ";  " << b.is_stackable;
+  //    std::cout << " \n";
+  //  }
+  //  std::cout << "==================================================================" << std::endl;
   return pack_boxes;
 }
 

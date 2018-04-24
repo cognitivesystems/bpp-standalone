@@ -21,7 +21,7 @@ Qt3DCore::QTransform* ObjEntity::transform() const
   return transform_;
 }
 
-Qt3DExtras::QNormalDiffuseSpecularMapMaterial *ObjEntity::material() const
+Qt3DExtras::QNormalDiffuseSpecularMapMaterial* ObjEntity::material() const
 {
   return material_;
 }
