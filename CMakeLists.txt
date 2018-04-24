@@ -27,6 +27,7 @@ set(qt3dsimple_hdr
   include/mainwindow.h
   include/scenerenderer3d.h
   include/bppinterface.h
+  include/objentity.h
   include/boxentity.h
   include/opt/defs.h
   include/opt/ParticleFilter.h
@@ -39,6 +40,7 @@ set(qt3dsimple_src
   src/mainwindow.cpp
   src/scenerenderer3d.cpp
   src/bppinterface.cpp
+  src/objentity.cpp
   src/boxentity.cpp
   src/opt/ParticleFilter.cpp
   src/opt/ParamEstimator.cpp
@@ -71,5 +73,16 @@ target_link_libraries(qt3dsimple
   Qt5::DataVisualization
   BoxFactory
   bpa)
+
+add_executable(testobj src/testobj.cpp)
+target_link_libraries(testobj
+  Qt5::Core
+  Qt5::Gui
+  Qt5::Widgets
+  Qt5::3DCore
+  Qt5::3DExtras
+  Qt5::3DRender
+  Qt5::3DInput)
+
 
 add_subdirectory(lib)

@@ -15,6 +15,7 @@
 #include <Qt3DRender/qrenderaspect.h>
 
 #include <iostream>
+#include "objentity.h"
 #include "boxentity.h"
 #include "Box.h"
 
@@ -24,6 +25,8 @@ class SceneRenderer3D : public QWidget
 
 public:
   SceneRenderer3D(QWidget* parent = 0);
+
+  void addObjEntity(const std::string obj_url);
 
   void addBoxEntity(const bpa::Box& box);
   void updateBoxEntity(const bpa::Box& box);

@@ -60,11 +60,11 @@ void ParamEstimator::run()
 
                 double likelihood=0.0;
                 pf_.getParticlePose(p_idx, pose);
-//                std::cout << "pose --> " ;
-//                for(size_t p=0;p<pose.size();++p){
-//                    std::cout << pose[p] << " ";
-//                }
-//                std::cout << "\n";
+                std::cout << "pose --> " ;
+                for(size_t p=0;p<pose.size();++p){
+                    std::cout << pose[p] << " ";
+                }
+                std::cout << "\n";
 
                 likelihood=eval_bpp(pose);
 

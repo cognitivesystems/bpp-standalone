@@ -21,11 +21,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(scene_3d_->getScene());
     Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
     light->setColor("white");
-    light->setIntensity(0.1);
+    light->setIntensity(0.5);
     lightEntity->addComponent(light);
     Qt3DCore::QTransform* lightTransform = new Qt3DCore::QTransform(lightEntity);
     lightTransform->setTranslation(camera_->position());
-//    lightTransform->setTranslation(QVector3D(0,0,10.0));
+    lightTransform->setTranslation(QVector3D(0,0,10.0));
 
     lightEntity->addComponent(lightTransform);
 
@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     floor.m_width=25.00;
     floor.m_height=0.05;
     floor.m_type="floor";
-    scene_3d_->addBoxEntity(floor);
+//    scene_3d_->addBoxEntity(floor);
 
     bpa::Box pallet;
     pallet.m_name="pallet";
@@ -97,7 +97,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     pallet.position.position[1] += pallet.m_width / 2;
     pallet.position.position[2] += pallet.m_height / 2;
 
-    scene_3d_->addBoxEntity(pallet);
+//    scene_3d_->addBoxEntity(pallet);
+
+    std::string url="/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
+    scene_3d_->addObjEntity(url);
 
 }
 
