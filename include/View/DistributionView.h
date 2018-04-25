@@ -13,7 +13,6 @@ class DistributionView : public QWidget
 
 public:
   explicit DistributionView(QWidget* parent = nullptr);
-  QChartView* getChartView();
 
 public slots:
   void onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions);
@@ -22,7 +21,10 @@ private:
   void setupChartAndChartView();
 
   QChart* chart_;
+  QValueAxis* axisX_;
+  QValueAxis* axisY_;
   QChartView* chartView_;
+  QMainWindow* window_;
 };
 
 #endif  // DISTRIBUTIONVIEW_H

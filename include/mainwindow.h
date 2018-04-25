@@ -55,19 +55,6 @@ protected:
 
   virtual void timerEvent(QTimerEvent* timerEvent);
 
-  std::vector<double> linspace(double a, double b, int n)
-  {
-    std::vector<double> array;
-    double step = (b - a) / (n - 1);
-
-    while (a <= b)
-    {
-      array.push_back(a);
-      a += step;  // could recode to better handle rounding errors
-    }
-    return array;
-  }
-
   void doBinPacking();
   void doBinPacking(std::shared_ptr<bpa::Params>& params);
 
@@ -98,28 +85,6 @@ private:
   bpainf::BppInterface bpp_inf_;
 
   int timer_id_;
-
-  // visualisation
-  std::vector<double> x_target;
-  std::vector<double> y_target;
-
-  QLineSeries* series0;
-  QLineSeries* series1;
-  QLineSeries* series2;
-  QLineSeries* series3;
-  QLineSeries* series4;
-
-  QChart* chart;
-
-  QChartView* chartView;
-
-  std::vector<double> pdf0;
-  std::vector<double> pdf1;
-  std::vector<double> pdf2;
-  std::vector<double> pdf3;
-  std::vector<double> pdf4;
-
-  QMainWindow window;
 };
 
 #endif  // MAINWINDOW_H

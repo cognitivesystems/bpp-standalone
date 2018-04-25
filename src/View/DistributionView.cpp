@@ -2,14 +2,14 @@
 #include "MathUtils.h"
 
 DistributionView::DistributionView(QWidget* parent)
-  : QWidget(parent), chart_(new QChart()), chartView_(new QChartView(chart_, this))
+  : QWidget(parent)
+  , chart_(new QChart())
+  , axisX_(new QValueAxis(chart_))
+  , axisY_(new QValueAxis(chart_))
+  , chartView_(new QChartView(chart_, this))
+  , window_(new QMainWindow(this))
 {
   setupChartAndChartView();
-}
-
-QChartView* DistributionView::getChartView()
-{
-  return chartView_;
 }
 
 void DistributionView::onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions)
@@ -27,16 +27,25 @@ void DistributionView::onDistributionsUpdated(const std::vector<boost::math::bet
     }
 
     chart_->addSeries(lineSeries);
+    lineSeries->attachAxis(axisX_);
+    lineSeries->attachAxis(axisY_);
   }
 }
 
 void DistributionView::setupChartAndChartView()
 {
+  axisX_->setRange(0.0, 1.0);
+  chart_->addAxis(axisX_, Qt::AlignBottom);
+
+  axisY_->setRange(0.0, 20.0);
+  chart_->addAxis(axisY_, Qt::AlignLeft);
+
   chart_->legend()->hide();
-  chart_->createDefaultAxes();
-  //  chart_->axisY()->setRange(0, 20);
-  chart_->setTitle("Parameter 0");
-  chart_->show();
+  chart_->setTitle("Distributions");
 
   chartView_->setRenderHint(QPainter::Antialiasing);
+
+  window_->setCentralWidget(chartView_);
+  window_->resize(400, 300);
+  window_->show();
 }

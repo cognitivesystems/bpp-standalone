@@ -49,10 +49,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
   this->timer_id_ = startTimer(1);
 
-  window.setCentralWidget(distributionView_.getChartView());
-  window.resize(400, 300);
-  window.show();
-
   std::string url = "/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
   binPackingView_.addObjEntity(url);
 }
