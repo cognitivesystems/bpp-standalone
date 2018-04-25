@@ -1,28 +1,11 @@
 #include "View/BinPackingView.h"
 #include <QTextureImage>
+#include <QtCore/QCoreApplication>
 
 BinPackingView::BinPackingView(QWidget* parent)
   : QWidget(parent), root_(new Qt3DCore::QEntity()), floor_(new PlaneEntity(root_)), pallet_(new PlaneEntity(root_))
 {
   setupFloorAndPallet();
-}
-
-void BinPackingView::addObjEntity(const string obj_url)
-{
-  ObjEntity* objEntityPtr = new ObjEntity(root_);
-  objEntityPtr->mesh()->setSource(QUrl::fromLocalFile(obj_url.c_str()));
-  objEntityPtr->transform()->setTranslation(QVector3D(0, 0, 0));
-  objEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
-
-  //  Qt3DRender::QTextureImage* textImg1 = new Qt3DRender::QTextureImage();
-  //  std::string name = "/home/nair/workspace/bpp_code/bpp-standalone/build/mesh_material0000_map_Kd.png";
-  //  textImg1->setSource(QUrl::fromLocalFile(name.c_str()));
-
-  //  objEntityPtr->material()->diffuse()->addTextureImage(textImg1);
-  //  objEntityPtr->material()->normal()->addTextureImage(textImg1);
-  //  objEntityPtr->material()->specular()->addTextureImage(textImg1);
-  objEntityPtr->material()->setShininess(1.0);
-  objEntityPtr->material()->setAmbient("white");
 }
 
 Qt3DCore::QEntity* BinPackingView::getScene()
@@ -39,16 +22,18 @@ void BinPackingView::addBoxEntity(const bpa::Box& box)
 {
   BoxEntity* boxEntityPtr = new BoxEntity(root_);
 
-  boxEntityPtr->mesh()->setXExtent(box.m_length);
-  boxEntityPtr->mesh()->setYExtent(box.m_width);
-  boxEntityPtr->mesh()->setZExtent(box.m_height);
+  boxEntityPtr->transform()->setTranslation(
+      QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
 
   double box_rot = box.is_rotated ? 90.0 : 0.0;
   boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, box_rot));
-  boxEntityPtr->material()->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255, 1));
 
-  boxEntityPtr->transform()->setTranslation(
-      QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
+  QString resourceDir = QCoreApplication::applicationDirPath() + "/../src/resources";
+  QUrl objFile = QUrl::fromLocalFile(resourceDir + "/obj/" + QString::fromStdString(box.m_name) + ".obj");
+  boxEntityPtr->mesh()->setSource(objFile);
+
+  QUrl textureImage = QUrl::fromLocalFile(resourceDir + "/textures/" + QString::fromStdString(box.m_name) + ".png");
+  boxEntityPtr->setTexture(textureImage);
 
   if (box.m_length == 0.3 || box.m_width == 0.3)
   {
@@ -59,18 +44,6 @@ void BinPackingView::addBoxEntity(const bpa::Box& box)
   qDebug() << boxEntityPtr->transform();
   qDebug() << boxEntityPtr->transform()->translation();
   qDebug() << boxEntityPtr->transform()->rotation();
-
-  //      boxEntityPtr->material()->setShininess(0.0);
-
-  //  if(box.m_name=="pallet")
-  //  {
-  //      std::cout << box.m_name << std::endl;
-  //      boxEntityPtr->material()->setAlpha(1.0);
-  //  }
-  //  else
-  //  {
-  //      boxEntityPtr->material()->setAlpha(1.0);
-  //  }
 
   uuid_entity_map_[box.m_name.c_str()] = boxEntityPtr;
 }

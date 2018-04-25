@@ -1,3 +1,5 @@
 .idea/
 build/
 *.user
+src/resources/obj/
+src/resources/textures/

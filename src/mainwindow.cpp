@@ -48,9 +48,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   ui->verticalLayout->addWidget(widget);
 
   this->timer_id_ = startTimer(1);
-
-  std::string url = "/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
-  binPackingView_.addObjEntity(url);
 }
 
 MainWindow::~MainWindow()
@@ -159,7 +156,6 @@ void MainWindow::on_estimateButton_clicked()
                               start_with_all_edges_as_fp, search_height, search_width);
 
       doBinPacking(paramsPtr);
-      QApplication::processEvents();
     }
   }
 }

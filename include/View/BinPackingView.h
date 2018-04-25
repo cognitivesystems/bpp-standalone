@@ -15,7 +15,6 @@
 #include <Qt3DRender/qrenderaspect.h>
 
 #include <iostream>
-#include "ObjEntity.h"
 #include "BoxEntity.h"
 #include "PlaneEntity.h"
 #include "Box.h"
@@ -29,8 +28,6 @@ public:
 
   Qt3DCore::QEntity* getScene();
   void clearScene();
-
-  void addObjEntity(const std::string obj_url);
 
   void addBoxEntity(const bpa::Box& box);
   void updateBoxEntity(const bpa::Box& box);
