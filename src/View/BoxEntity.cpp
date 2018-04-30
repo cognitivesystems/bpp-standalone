@@ -1,21 +1,26 @@
-#include <Qt3DRender/QTextureImage>
 #include "View/BoxEntity.h"
 
-BoxEntity::BoxEntity(Qt3DCore::QNode* parent)
-  : Qt3DCore::QEntity(parent), mesh_(new Qt3DRender::QMesh()), transform_(new Qt3DCore::QTransform())
-{
-  addComponent(mesh_);
-  addComponent(transform_);
-}
+#include <Qt3DRender/QTextureImage>
+#include <Qt3DExtras/QCuboidMesh>
+#include <Qt3DExtras/QPhongMaterial>
+#include <Qt3DRender/QMesh>
+#include <Qt3DExtras/QNormalDiffuseSpecularMapMaterial>
 
-Qt3DRender::QMesh* BoxEntity::mesh() const
+BoxEntity::BoxEntity(Qt3DCore::QNode* parent) : Qt3DCore::QEntity(parent), transform_(new Qt3DCore::QTransform())
 {
-  return mesh_;
+  addComponent(transform_);
 }
 
 Qt3DCore::QTransform* BoxEntity::transform() const
 {
   return transform_;
+}
+
+void BoxEntity::setMesh(const QUrl& meshSource)
+{
+  Qt3DRender::QMesh* mesh = new Qt3DRender::QMesh();
+  mesh->setSource(meshSource);
+  addComponent(mesh);
 }
 
 void BoxEntity::setTexture(const QUrl& textureImage)
@@ -38,4 +43,17 @@ void BoxEntity::setTexture(const QUrl& textureImage)
   normalDiffuseSpecularMapMaterial->setAmbient("white");
 
   addComponent(normalDiffuseSpecularMapMaterial);
+}
+
+void BoxEntity::generateMeshAndTexture(const QVector3D& vector3D)
+{
+  Qt3DExtras::QCuboidMesh* cuboidMesh = new Qt3DExtras::QCuboidMesh();
+  cuboidMesh->setXExtent(vector3D[0]);
+  cuboidMesh->setYExtent(vector3D[1]);
+  cuboidMesh->setZExtent(vector3D[2]);
+  addComponent(cuboidMesh);
+
+  Qt3DExtras::QPhongMaterial* phongMaterial = new Qt3DExtras::QPhongMaterial();
+  phongMaterial->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255, 1));
+  addComponent(phongMaterial);
 }

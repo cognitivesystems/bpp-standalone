@@ -1,6 +1,7 @@
 #include "View/BinPackingView.h"
 #include <QTextureImage>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QFileInfo>
 
 BinPackingView::BinPackingView(QWidget* parent)
   : QWidget(parent), root_(new Qt3DCore::QEntity()), floor_(new PlaneEntity(root_)), pallet_(new PlaneEntity(root_))
@@ -29,11 +30,17 @@ void BinPackingView::addBoxEntity(const bpa::Box& box)
   boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, box_rot));
 
   QString resourceDir = QCoreApplication::applicationDirPath() + "/../src/resources";
-  QUrl objFile = QUrl::fromLocalFile(resourceDir + "/obj/" + QString::fromStdString(box.m_name) + ".obj");
-  boxEntityPtr->mesh()->setSource(objFile);
-
-  QUrl textureImage = QUrl::fromLocalFile(resourceDir + "/textures/" + QString::fromStdString(box.m_name) + ".png");
-  boxEntityPtr->setTexture(textureImage);
+  QString objFile = resourceDir + "/obj/" + QString::fromStdString(box.m_name) + ".obj";
+  QString textureImage = resourceDir + "/textures/" + QString::fromStdString(box.m_name) + ".png";
+  if (QFileInfo::exists(objFile) && QFileInfo::exists(textureImage))
+  {
+    boxEntityPtr->setMesh(QUrl::fromLocalFile(objFile));
+    boxEntityPtr->setTexture(QUrl::fromLocalFile(textureImage));
+  }
+  else
+  {
+    boxEntityPtr->generateMeshAndTexture(QVector3D(box.m_length, box.m_width, box.m_height));
+  }
 
   if (box.m_length == 0.3 || box.m_width == 0.3)
   {

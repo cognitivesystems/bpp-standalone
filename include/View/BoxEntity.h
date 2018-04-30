@@ -3,20 +3,18 @@
 
 #include <QEntity>
 #include <Qt3DCore/QTransform>
-#include <Qt3DRender/QMesh>
-#include <Qt3DExtras/QNormalDiffuseSpecularMapMaterial>
 
 class BoxEntity : public Qt3DCore::QEntity
 {
 public:
   explicit BoxEntity(Qt3DCore::QNode* parent = nullptr);
 
-  Qt3DRender::QMesh* mesh() const;
   Qt3DCore::QTransform* transform() const;
+  void setMesh(const QUrl& meshSource);
   void setTexture(const QUrl& textureImage);
+  void generateMeshAndTexture(const QVector3D& vector3D);
 
 private:
-  Qt3DRender::QMesh* mesh_;
   Qt3DCore::QTransform* transform_;
 };
 
