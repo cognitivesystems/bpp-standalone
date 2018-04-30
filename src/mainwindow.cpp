@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   , binPackingViewMgr_(new BinPackingViewMgr(this, *boxSet_, binPackingView_))
   , particleFilter_(new filter::ParticleFilter(this))
   , distributionChart_(*new DistributionChart(nullptr))
-  , dashboardView_(*new DashboardView(this, distributionChart_))
+  , objectiveChart_(*new ObjectiveChart(nullptr))
+  , dashboardView_(*new DashboardView(this, distributionChart_, objectiveChart_))
   , distributionChartViewMgr_(new DistributionChartViewMgr(this, *particleFilter_, distributionChart_))
 {
   std::cout << "MainWindow constructor" << std::endl;

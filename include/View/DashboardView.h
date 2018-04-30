@@ -2,6 +2,7 @@
 #define DASHBOARDVIEW_H
 
 #include "DistributionChart.h"
+#include "ObjectiveChart.h"
 #include "ui_DashboardView.h"
 #include <QMainWindow>
 
@@ -15,11 +16,12 @@ class DashboardView : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit DashboardView(QWidget* parent, DistributionChart& distributionChart);
+  explicit DashboardView(QWidget* parent, DistributionChart& distributionChart, ObjectiveChart& objectiveChart);
   ~DashboardView();
 
 private:
   DistributionChart& distributionChart_;
+  ObjectiveChart& objectiveChart_;
   Ui::DashboardView* ui_;
 };
 

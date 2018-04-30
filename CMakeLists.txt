@@ -38,6 +38,7 @@ set(qt3dsimple_hdr
   include/View/BinPackingView.h
   include/ViewMgr/BinPackingViewMgr.h
   include/View/DistributionChart.h
+  include/View/ObjectiveChart.h
   include/ViewMgr/DistributionChartViewMgr.h
   include/MathUtils.h)
 
@@ -56,12 +57,14 @@ set(qt3dsimple_src
   src/View/BinPackingView.cpp
   src/ViewMgr/BinPackingViewMgr.cpp
   src/View/DistributionChart.cpp
+  src/View/ObjectiveChart.cpp
   src/ViewMgr/DistributionChartViewMgr.cpp
   src/MathUtils.cpp)
 
 set(qt3dsimple_ui
   include/mainwindow.ui
   include/View/DistributionChart.ui
+  include/View/ObjectiveChart.ui
   include/View/DashboardView.ui)
 
 set(qt3dsimple_resource

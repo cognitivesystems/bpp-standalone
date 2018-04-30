@@ -29,6 +29,7 @@
 #include "opt/ParamEstimator.h"
 #include "opt/ParticleFilter.h"
 #include "View/DistributionChart.h"
+#include "View/ObjectiveChart.h"
 #include "ViewMgr/DistributionChartViewMgr.h"
 
 using namespace QtDataVisualization;
@@ -81,6 +82,7 @@ private:
 
   filter::ParticleFilter* particleFilter_;
   DistributionChart& distributionChart_;
+  ObjectiveChart& objectiveChart_;
   DashboardView& dashboardView_;
   DistributionChartViewMgr* distributionChartViewMgr_;
 
