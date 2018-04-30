@@ -12,6 +12,7 @@ void BoxSet::loadBoxesFromFile(const QString& fileName)
 
 void BoxSet::updateBoxes(const std::vector<bpa::Box>& boxes)
 {
+  emit notifyBoxesUpdated(boxes_);
   emit notifyBoxesUpdated(boxes);
 }
 
