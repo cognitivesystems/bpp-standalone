@@ -26,11 +26,13 @@ void ObjectiveChart::onObjectivesUpdated(const std::map<std::string, std::vector
     QLineSeries* lineSeries = new QLineSeries();
     lineSeries->setName(QString::fromStdString(objectives.first));
 
-    for (size_t i = 0; i != objectives.second.size(); ++i)
+    size_t numOfValues = objectives.second.size();
+    for (size_t i = 0; i != numOfValues; ++i)
     {
       *lineSeries << QPointF(i + 1, objectives.second[i]);
     }
 
+    axisX_->setMax((numOfValues + 10) / 10 * 10);
     chart_->addSeries(lineSeries);
     lineSeries->attachAxis(axisX_);
     lineSeries->attachAxis(axisY_);
@@ -45,6 +47,8 @@ void ObjectiveChart::onAllObjectivesRemoved()
 void ObjectiveChart::setupChartAndChartView()
 {
   axisX_->setRange(0, 10);
+  axisX_->setLabelFormat("%i");
+  axisX_->applyNiceNumbers();
   chart_->addAxis(axisX_, Qt::AlignBottom);
 
   axisY_->setRange(0.0, 1.0);
