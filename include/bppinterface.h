@@ -28,6 +28,7 @@ public:
 
   void loadParamsJSON(std::string& file_name);
   void setParams(const std::shared_ptr<bpa::Params>& paramsPtr);
+  double getPalletVolume() const;
 
 private:
   /** *** member functions *****/

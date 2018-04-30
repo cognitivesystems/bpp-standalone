@@ -21,6 +21,8 @@ public:
   ~ObjectiveChart();
 
 public slots:
+  void onObjectivesUpdated(const std::map<std::string, std::vector<double>>& objectivesMap);
+  void onAllObjectivesRemoved();
 
 private:
   void setupChartAndChartView();

@@ -10,9 +10,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   , binPackingViewMgr_(new BinPackingViewMgr(this, *boxSet_, binPackingView_))
   , particleFilter_(new filter::ParticleFilter(this))
   , distributionChart_(*new DistributionChart(nullptr))
-  , objectiveChart_(*new ObjectiveChart(nullptr))
-  , dashboardView_(*new DashboardView(this, distributionChart_, objectiveChart_))
   , distributionChartViewMgr_(new DistributionChartViewMgr(this, *particleFilter_, distributionChart_))
+  , objectives_(new Objectives(this))
+  , objectiveChart_(*new ObjectiveChart(nullptr))
+  , objectiveChartViewMgr_(new ObjectiveChartViewMgr(this, *objectives_, objectiveChart_))
+  , dashboardView_(*new DashboardView(this, distributionChart_, objectiveChart_))
 {
   std::cout << "MainWindow constructor" << std::endl;
 
@@ -219,12 +221,15 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params>& params)
 
   std::vector<bpa::Box> planned_boxes = bpp_inf_.binPackingBoxes(boxes);
 
+  double packed_volume = 0.0;
   for (bpa::Box& b : planned_boxes)
   {
     b.position.position[0] += b.m_length / 2;
     b.position.position[1] += b.m_width / 2;
     b.position.position[2] += b.m_height / 2;
+    packed_volume += b.getVolume();
   }
 
+  objectives_->addObjectiveValue("% volume", packed_volume / bpp_inf_.getPalletVolume());
   boxSet_->updateBoxes(planned_boxes);
 }

@@ -24,13 +24,15 @@
 #include "Box.h"
 #include "Model/BoxSet.h"
 #include "View/BinPackingView.h"
-#include "View/DashboardView.h"
 #include "ViewMgr/BinPackingViewMgr.h"
 #include "opt/ParamEstimator.h"
 #include "opt/ParticleFilter.h"
 #include "View/DistributionChart.h"
-#include "View/ObjectiveChart.h"
 #include "ViewMgr/DistributionChartViewMgr.h"
+#include "Model/Objectives.h"
+#include "View/ObjectiveChart.h"
+#include "ViewMgr/ObjectiveChartViewMgr.h"
+#include "View/DashboardView.h"
 
 using namespace QtDataVisualization;
 
@@ -82,9 +84,13 @@ private:
 
   filter::ParticleFilter* particleFilter_;
   DistributionChart& distributionChart_;
-  ObjectiveChart& objectiveChart_;
-  DashboardView& dashboardView_;
   DistributionChartViewMgr* distributionChartViewMgr_;
+
+  Objectives* objectives_;
+  ObjectiveChart& objectiveChart_;
+  ObjectiveChartViewMgr* objectiveChartViewMgr_;
+
+  DashboardView& dashboardView_;
 
   bpainf::BppInterface bpp_inf_;
 

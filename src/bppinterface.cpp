@@ -106,4 +106,9 @@ void BppInterface::setParams(const std::shared_ptr<bpa::Params>& paramsPtr)
 {
   paramsPtr_ = paramsPtr;
 }
+
+double BppInterface::getPalletVolume() const
+{
+  return pallet_length * pallet_width * pallet_height;
+}
 }
