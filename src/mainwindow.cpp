@@ -4,19 +4,20 @@
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
   : QMainWindow(parent)
-  , ui(new Ui::MainWindow)
+  , ui_(new Ui::MainWindow)
   , boxSet_(new BoxSet(this))
   , binPackingView_(*new BinPackingView(this))
   , binPackingViewMgr_(new BinPackingViewMgr(this, *boxSet_, binPackingView_))
   , particleFilter_(new filter::ParticleFilter(this))
-  , distributionView_(*new DistributionView(this))
-  , distributionViewMgr_(new DistributionViewMgr(this, *particleFilter_, distributionView_))
+  , distributionChart_(*new DistributionChart(nullptr))
+  , dashboardView_(*new DashboardView(this, distributionChart_))
+  , distributionChartViewMgr_(new DistributionChartViewMgr(this, *particleFilter_, distributionChart_))
 {
   std::cout << "MainWindow constructor" << std::endl;
 
   MainWindow::singleton_ = this;
 
-  ui->setupUi(this);
+  ui_->setupUi(this);
 
   view_ = new Qt3DExtras::Qt3DWindow();
 
@@ -45,14 +46,14 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
   QWidget* widget = createWindowContainer(view_, this);
   widget->resize(640, 480);
-  ui->verticalLayout->addWidget(widget);
+  ui_->verticalLayout->addWidget(widget);
 
   this->timer_id_ = startTimer(1);
 }
 
 MainWindow::~MainWindow()
 {
-  delete ui;
+  delete ui_;
 }
 
 MainWindow* MainWindow::instance()
@@ -156,6 +157,7 @@ void MainWindow::on_estimateButton_clicked()
                               start_with_all_edges_as_fp, search_height, search_width);
 
       doBinPacking(paramsPtr);
+      QApplication::processEvents();
     }
   }
 }

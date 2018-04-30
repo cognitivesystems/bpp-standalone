@@ -24,11 +24,12 @@
 #include "Box.h"
 #include "Model/BoxSet.h"
 #include "View/BinPackingView.h"
+#include "View/DashboardView.h"
 #include "ViewMgr/BinPackingViewMgr.h"
 #include "opt/ParamEstimator.h"
 #include "opt/ParticleFilter.h"
-#include "View/DistributionView.h"
-#include "ViewMgr/DistributionViewMgr.h"
+#include "View/DistributionChart.h"
+#include "ViewMgr/DistributionChartViewMgr.h"
 
 using namespace QtDataVisualization;
 
@@ -66,7 +67,7 @@ private slots:
   void on_deleteButton_clicked();
 
 private:
-  Ui::MainWindow* ui;
+  Ui::MainWindow* ui_;
 
   static MainWindow* singleton_;
 
@@ -79,8 +80,9 @@ private:
   BinPackingViewMgr* binPackingViewMgr_;
 
   filter::ParticleFilter* particleFilter_;
-  DistributionView& distributionView_;
-  DistributionViewMgr* distributionViewMgr_;
+  DistributionChart& distributionChart_;
+  DashboardView& dashboardView_;
+  DistributionChartViewMgr* distributionChartViewMgr_;
 
   bpainf::BppInterface bpp_inf_;
 

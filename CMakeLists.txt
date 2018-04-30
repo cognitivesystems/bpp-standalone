@@ -34,10 +34,11 @@ set(qt3dsimple_hdr
   include/opt/pdflib.hpp
   include/opt/rnglib.hpp
   include/Model/BoxSet.h
+  include/View/DashboardView.h
   include/View/BinPackingView.h
   include/ViewMgr/BinPackingViewMgr.h
-  include/View/DistributionView.h
-  include/ViewMgr/DistributionViewMgr.h
+  include/View/DistributionChart.h
+  include/ViewMgr/DistributionChartViewMgr.h
   include/MathUtils.h)
 
 set(qt3dsimple_src
@@ -51,14 +52,17 @@ set(qt3dsimple_src
   src/opt/pdflib.cpp
   src/opt/rnglib.cpp
   src/Model/BoxSet.cpp
+  src/View/DashboardView.cpp
   src/View/BinPackingView.cpp
   src/ViewMgr/BinPackingViewMgr.cpp
-  src/View/DistributionView.cpp
-  src/ViewMgr/DistributionViewMgr.cpp
+  src/View/DistributionChart.cpp
+  src/ViewMgr/DistributionChartViewMgr.cpp
   src/MathUtils.cpp)
 
 set(qt3dsimple_ui
-  include/mainwindow.ui)
+  include/mainwindow.ui
+  include/View/DistributionChart.ui
+  include/View/DashboardView.ui)
 
 set(qt3dsimple_resource
   src/resources/boxes.qrc)

@@ -1,18 +1,25 @@
-#ifndef DISTRIBUTIONVIEW_H
-#define DISTRIBUTIONVIEW_H
+#ifndef DISTRIBUTIONCHART_H
+#define DISTRIBUTIONCHART_H
 
+#include "ui_DistributionChart.h"
 #include <QWidget>
 #include <QtCharts>
 #include <QChart>
 #include <QLineSeries>
 #include <boost/math/distributions/beta.hpp>
 
-class DistributionView : public QWidget
+namespace Ui
+{
+class DistributionChart;
+}
+
+class DistributionChart : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit DistributionView(QWidget* parent = nullptr);
+  explicit DistributionChart(QWidget* parent = nullptr);
+  ~DistributionChart();
 
 public slots:
   void onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions);
@@ -24,7 +31,7 @@ private:
   QValueAxis* axisX_;
   QValueAxis* axisY_;
   QChartView* chartView_;
-  QMainWindow* window_;
+  Ui::DistributionChart* ui_;
 };
 
-#endif  // DISTRIBUTIONVIEW_H
+#endif  // DISTRIBUTIONCHART_H
