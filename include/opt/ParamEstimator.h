@@ -6,9 +6,12 @@
 #include "Box.h"
 #include <opt/pdflib.hpp>
 
+typedef std::vector<bpa::Box> Boxes;
+Q_DECLARE_METATYPE(Boxes);
 
-class ParamEstimator
+class ParamEstimator : public QObject
 {
+    Q_OBJECT
 public:
     ParamEstimator();
 
@@ -94,8 +97,9 @@ private:
         return bin_com;
     }
 
-
-
+signals:
+    void send_reset_scene();
+    void send_update_boxes(const Boxes& );
 
 private:
     filter::ParticleFilter pf_;

@@ -41,8 +41,11 @@ public:
   static MainWindow* instance();
 
   void resetCamera();
-  void resetBoxes();
+  void clearBoxes();
+  void clearScene();
+
   void resetScene();
+
 
 protected:
   MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
@@ -71,6 +74,9 @@ private slots:
   void on_planButton_clicked();
   void on_estimateButton_clicked();
   void on_deleteButton_clicked();
+
+  void slot_reset_scene();
+  void slot_update_boxes(const Boxes& bxs);
 
 private:
   Ui::MainWindow* ui;

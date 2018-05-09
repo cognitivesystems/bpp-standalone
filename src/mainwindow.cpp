@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     floor.m_width=25.00;
     floor.m_height=0.05;
     floor.m_type="floor";
-//    scene_3d_->addBoxEntity(floor);
+    scene_3d_->addBoxEntity(floor);
 
     bpa::Box pallet;
     pallet.m_name="pallet";
@@ -97,11 +97,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     pallet.position.position[1] += pallet.m_width / 2;
     pallet.position.position[2] += pallet.m_height / 2;
 
-//    scene_3d_->addBoxEntity(pallet);
+    scene_3d_->addBoxEntity(pallet);
 
-    std::string url="/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
-    scene_3d_->addObjEntity(url);
-
+    //    std::string url="/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
+    //    scene_3d_->addObjEntity(url);
 }
 
 MainWindow::~MainWindow()
@@ -127,7 +126,7 @@ void MainWindow::resetCamera()
     camera_->setViewCenter(QVector3D(0, 0, 0));
 }
 
-void MainWindow::resetBoxes()
+void MainWindow::clearBoxes()
 {
     if (!boxes_.empty())
     {
@@ -139,9 +138,18 @@ void MainWindow::resetBoxes()
     }
 }
 
-void MainWindow::resetScene()
+void MainWindow::clearScene()
 {
     scene_3d_->clearScene();
+}
+
+void MainWindow::resetScene()
+{    std::vector<bpa::Box> boxes=boxes_;
+
+     for (bpa::Box& b : boxes)
+     {
+         scene_3d_->updateBoxEntity(b);
+     }
 }
 
 void MainWindow::on_resetButton_clicked()
@@ -152,8 +160,8 @@ void MainWindow::on_resetButton_clicked()
 
 void MainWindow::on_loadButton_clicked()
 {
-    resetBoxes();
-//    resetScene();
+    clearBoxes();
+    //    resetScene();
 
     std::cout << "Loading boxes" << std::endl;
     QString boxes_file = ":/data/boxes.json";
@@ -163,10 +171,10 @@ void MainWindow::on_loadButton_clicked()
 
     for (bpa::Box& b : boxes_)
     {
-       // b.position.position[0] += 4.0;
+         b.position.position[0] += 4.0;
 
-//        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
-//        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
+        //        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
+        //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
 
         if(b.m_length==0.3 || b.m_width==0.3){
             std::cout << "Small box --> " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
@@ -195,6 +203,13 @@ void MainWindow::on_estimateButton_clicked()
     ParamEstimator est;
     est.initialize();
 
+
+    QObject::connect(&est, SIGNAL(send_reset_scene()),
+                     this, SLOT(slot_reset_scene()));
+    QObject::connect(&est, SIGNAL(send_update_boxes(Boxes)),
+                     this, SLOT(slot_update_boxes(Boxes)));
+
+
     if (boxes_.size() <= 0)
     {
         std::cout << "Number of Boxes = 0. Estimator exiting!";
@@ -217,11 +232,11 @@ void MainWindow::on_estimateButton_clicked()
             pdf3=est.computePDF((double)(alpha[3]), (double)(beta[3]), x_target);
             pdf4=est.computePDF((double)(alpha[4]), (double)(beta[4]), x_target);
 
-//            std::cout << "Param 0 --> " << alpha[0] << " " << beta[0] << std::endl;
-//            std::cout << "Param 1 --> " << alpha[1] << " " << beta[1] << std::endl;
-//            std::cout << "Param 2 --> " << alpha[2] << " " << beta[2] << std::endl;
-//            std::cout << "Param 3 --> " << alpha[3] << " " << beta[3] << std::endl;
-//            std::cout << "Param 4 --> " << alpha[4] << " " << beta[4] << std::endl;
+            //            std::cout << "Param 0 --> " << alpha[0] << " " << beta[0] << std::endl;
+            //            std::cout << "Param 1 --> " << alpha[1] << " " << beta[1] << std::endl;
+            //            std::cout << "Param 2 --> " << alpha[2] << " " << beta[2] << std::endl;
+            //            std::cout << "Param 3 --> " << alpha[3] << " " << beta[3] << std::endl;
+            //            std::cout << "Param 4 --> " << alpha[4] << " " << beta[4] << std::endl;
 
             series0->clear();
             series1->clear();
@@ -245,7 +260,7 @@ void MainWindow::on_estimateButton_clicked()
 
             std::cout << "Avg pose --> " ;
             for(size_t i=0;i<avg_est.size();++i){
-                std:;cout << avg_est[i] << " ";
+                std::cout << avg_est[i] << " ";
             }
             std::cout << "\n";
 
@@ -269,8 +284,8 @@ void MainWindow::on_estimateButton_clicked()
                     generate_simulated_boxes, start_with_all_edges_as_fp, search_height, search_width);
 
 
-            doBinPacking(paramsPtr);
-            QApplication::processEvents();
+            //doBinPacking(paramsPtr);
+            //QApplication::processEvents();
         }
 
     }
@@ -280,8 +295,25 @@ void MainWindow::on_deleteButton_clicked()
 {
     std::cout << "Deleting model" << std::endl;
 
-    resetBoxes();
+    clearBoxes();
+    clearScene();
+}
+
+void MainWindow::slot_reset_scene()
+{
     resetScene();
+}
+
+void MainWindow::slot_update_boxes(const Boxes &bxs)
+{
+    std::cout << "Updating Boxes +++++++++++++++++++++++++++++++= " << std::endl;
+    for (bpa::Box b : bxs)
+    {
+        scene_3d_->updateBoxEntity(b);
+    }
+    QMainWindow::update();
+    QApplication::processEvents();
+
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

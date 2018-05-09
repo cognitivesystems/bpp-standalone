@@ -5,6 +5,7 @@ ParamEstimator::ParamEstimator()
     :pf_(0), n_particles_(20), generator(rd()), dis(0.0, 1.0)
 {
 
+        qRegisterMetaType<std::vector<bpa::Box> >("Boxes");
 
 }
 
@@ -72,6 +73,7 @@ void ParamEstimator::run()
                 std::cout << "particle --> " << p_idx << "  likelihood ---> " << likelihood << std::endl;
 
                 pf_.setParticleWeight(p_idx, likelihood);
+
             }
         }
 
@@ -96,7 +98,7 @@ double ParamEstimator::eval_bpp(const VectorX data)
     double w_item_in_the_bottom_area=0.3;
     double w_high_items_good_placed=0.0;
     bool generate_simulated_boxes=false;
-    bool start_with_all_edges_as_fp=false;
+    bool start_with_all_edges_as_fp=true;
     int search_height=10;
     int search_width=10;
 
@@ -120,20 +122,16 @@ double ParamEstimator::eval_bpp(const VectorX data)
     static double norm_val = 2.2*3.0*3.0;
 
     double used_space=compute_used_space(est_planned_boxes_);
-    //            srv.request.W_MASS=data[0];
-    //            srv.request.W_VOL=data[1];
-    //            srv.request.W_MASSVOL=data[2];
-    //            srv.request.W_COM=data[3];
-    //            srv.request.HELT_RATE=0.95;
-    //            srv.request.W_SUPPORTED=0.1;
-    //            srv.request.W_CONTACT=data[4];
-    //            srv.request.NEIGHBOUR_CONSTANT=0.0;
-    //            srv.request.W_ASSIGNMENT=0.3;
-    //            srv.request.W_PLACE_NEAR=0.3;
-    //            srv.request.BIN_HEIGHT=0.02;
-    //            srv.request.MIN_BOX_SIZE=0.3;
-    //            srv.request.W_ITEM_IN_THE_BOTTOM_AREA=0.3;
-    //            srv.request.W_HIGH_ITEMS_GOOD_PLACED=0.0;
+
+    for (bpa::Box& b : est_planned_boxes_)
+    {
+        b.position.position[0] += b.m_length / 2;
+        b.position.position[1] += b.m_width / 2;
+        b.position.position[2] += b.m_height / 2;
+    }
+
+    send_reset_scene();
+    send_update_boxes(est_planned_boxes_);
 
     return std::max(0.0, used_space/norm_val);
 }
