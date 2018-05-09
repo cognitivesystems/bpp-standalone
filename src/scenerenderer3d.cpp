@@ -87,6 +87,10 @@ void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
 {
     BoxEntity* boxEntityPtr = uuid_entity_map_[box.m_name.c_str()];
 
+    boxEntityPtr->mesh()->setXExtent(box.m_length);
+    boxEntityPtr->mesh()->setYExtent(box.m_width);
+    boxEntityPtr->mesh()->setZExtent(box.m_height);
+
     boxEntityPtr->transform()->setTranslation(
                 QVector3D(0,0,0));
 

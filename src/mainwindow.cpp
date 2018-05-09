@@ -171,7 +171,7 @@ void MainWindow::on_loadButton_clicked()
 
     for (bpa::Box& b : boxes_)
     {
-         b.position.position[0] += 4.0;
+        b.position.position[0] += 4.0;
 
         //        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
         //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
@@ -299,6 +299,41 @@ void MainWindow::on_deleteButton_clicked()
     clearScene();
 }
 
+void MainWindow::on_genButton_clicked()
+{
+
+    QObject::connect(ui->sizeSlider, SIGNAL(valueChanged(int)),
+                     this, SLOT(boxSizeUpdate(int)));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis_l(0, 2.28);
+    std::uniform_real_distribution<> dis_w(0, 3.0);
+    std::uniform_real_distribution<> dis_h(0, 3.0);
+
+    boxes_.clear();
+
+    bpa::Box b;
+    b.m_type="box";
+    b.m_length=0.01;
+    b.m_width=0.01;
+    b.m_height=0.01;
+
+    for(size_t i=0;i<100;++i){
+        b.m_name=QString::number(i).toStdString();
+        b.position.position[0]=dis_l(gen);
+        b.position.position[1]=dis_w(gen);
+        b.position.position[2]=dis_h(gen);
+        b.rotation=0.0;
+
+        //        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
+        //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
+
+        boxes_.push_back(b);
+        scene_3d_->addBoxEntity(b);
+    }
+}
+
 void MainWindow::slot_reset_scene()
 {
     resetScene();
@@ -314,6 +349,24 @@ void MainWindow::slot_update_boxes(const Boxes &bxs)
     QMainWindow::update();
     QApplication::processEvents();
 
+}
+
+void MainWindow::boxSizeUpdate(int value)
+{
+    std::cout << "Updating Boxes Sizes +++++++++++++++++++++++++++++++= " << std::endl;
+
+    std::vector<bpa::Box> boxes=boxes_;
+
+    for (bpa::Box b : boxes)
+    {
+        b.m_length=0.01*value;
+        b.m_width=0.01*value;
+        b.m_height=0.01*value;
+
+        scene_3d_->updateBoxEntity(b);
+    }
+    QMainWindow::update();
+    QApplication::processEvents();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

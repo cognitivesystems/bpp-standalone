@@ -15,6 +15,8 @@
 #include <QChart>
 #include <QLineSeries>
 
+#include <random>
+
 #include "mainwindow.h"
 #include "scenerenderer3d.h"
 #include "ui_mainwindow.h"
@@ -68,6 +70,9 @@ protected:
   void doBinPacking();
   void doBinPacking(std::shared_ptr<bpa::Params>& params);
 
+signals:
+    void valueChanged(int value);
+
 private slots:
   void on_resetButton_clicked();
   void on_loadButton_clicked();
@@ -75,8 +80,12 @@ private slots:
   void on_estimateButton_clicked();
   void on_deleteButton_clicked();
 
+  void on_genButton_clicked();
+
   void slot_reset_scene();
   void slot_update_boxes(const Boxes& bxs);
+
+  void boxSizeUpdate(int value);
 
 private:
   Ui::MainWindow* ui;

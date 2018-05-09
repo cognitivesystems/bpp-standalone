@@ -29,6 +29,7 @@ set(qt3dsimple_hdr
   include/bppinterface.h
   include/objentity.h
   include/boxentity.h
+  include/pointentity.h
   include/opt/defs.h
   include/opt/ParticleFilter.h
   include/opt/ParamEstimator.h
@@ -42,6 +43,7 @@ set(qt3dsimple_src
   src/bppinterface.cpp
   src/objentity.cpp
   src/boxentity.cpp
+  src/pointentity.cpp
   src/opt/ParticleFilter.cpp
   src/opt/ParamEstimator.cpp
   src/opt/pdflib.cpp
