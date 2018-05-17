@@ -14,6 +14,7 @@
 #include <QtCharts>
 #include <QChart>
 #include <QLineSeries>
+#include <QDebug>
 
 #include <random>
 
@@ -29,6 +30,17 @@
 
 using namespace QtDataVisualization;
 
+static void myTickCallback(btDynamicsWorld *world, btScalar timeStep);
+
+struct ExtrusionStatus{
+    bool extr_left;
+    bool extr_right;
+    bool extr_top;
+    bool extr_bottom;
+    bool extr_front;
+    bool extr_back;
+};
+
 namespace Ui
 {
 class MainWindow;
@@ -36,96 +48,114 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  virtual ~MainWindow();
-  static MainWindow* instance();
+    virtual ~MainWindow();
+    static MainWindow* instance();
 
-  void resetCamera();
-  void clearBoxes();
-  void clearScene();
+    void resetCamera();
+    void clearBoxes();
+    void clearScene();
 
-  void resetScene();
+    void resetScene();
 
+    //  void myTickCallback(btDynamicsWorld *dynamicsWorld, btScalar timeStep);
+
+    bool doExtrs=true;
+
+    std::vector<bpa::Box> boxes_;
+    std::vector<bpa::Box> planned_boxes_;
+    QMap<QString, ExtrusionStatus> extr_status_map_;
+    QMap<QString, bpa::Box> boxes_map_;
 
 protected:
-  MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
+    MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
 
-  void closeEvent(QCloseEvent* event);
+    void closeEvent(QCloseEvent* event);
 
-  virtual void timerEvent(QTimerEvent* timerEvent);
+    virtual void timerEvent(QTimerEvent* timerEvent);
 
-  std::vector<double> linspace(double a, double b, int n) {
-      std::vector<double> array;
-      double step = (b-a) / (n-1);
+    std::vector<double> linspace(double a, double b, int n) {
+        std::vector<double> array;
+        double step = (b-a) / (n-1);
 
-      while(a <= b) {
-          array.push_back(a);
-          a += step;           // could recode to better handle rounding errors
-      }
-      return array;
-  }
+        while(a <= b) {
+            array.push_back(a);
+            a += step;           // could recode to better handle rounding errors
+        }
+        return array;
+    }
 
-  void doBinPacking();
-  void doBinPacking(std::shared_ptr<bpa::Params>& params);
+    void doBinPacking();
+    void doBinPacking(std::shared_ptr<bpa::Params>& params);
+
+    void generateRigidBodies(std::vector<bpa::Box >& boxes);
+    void cleanupRigidBodies();
+
+    void testBullet();
+    void testBulletExtr();
 
 signals:
     void valueChanged(int value);
 
 private slots:
-  void on_resetButton_clicked();
-  void on_loadButton_clicked();
-  void on_planButton_clicked();
-  void on_estimateButton_clicked();
-  void on_deleteButton_clicked();
+    void on_resetButton_clicked();
+    void on_loadButton_clicked();
+    void on_planButton_clicked();
+    void on_estimateButton_clicked();
+    void on_deleteButton_clicked();
 
-  void on_genButton_clicked();
+    void on_genButton_clicked();
+    void on_bulletButton_clicked();
+    void on_extrButton_clicked();
 
-  void slot_reset_scene();
-  void slot_update_boxes(const Boxes& bxs);
+    void slot_reset_scene();
+    void slot_update_boxes(const Boxes& bxs);
 
-  void boxSizeUpdate(int value);
+    void boxSizeExtrude(float perc);
+    void boxSizeUpdate(int value);
 
 private:
-  Ui::MainWindow* ui;
+    Ui::MainWindow* ui;
 
-  static MainWindow* singleton_;
+    static MainWindow* singleton_;
 
-  Qt3DExtras::Qt3DWindow* view_;
-  Qt3DRender::QCamera* camera_;
-  Qt3DExtras::QOrbitCameraController* manipulator_;
+    Qt3DExtras::Qt3DWindow* view_;
+    Qt3DRender::QCamera* camera_;
+    Qt3DExtras::QOrbitCameraController* manipulator_;
 
-  SceneRenderer3D* scene_3d_;
+    SceneRenderer3D* scene_3d_;
+    bpainf::BppInterface bpp_inf_;
 
-  std::vector<bpa::Box> boxes_;
-  std::vector<bpa::Box> planned_boxes_;
+    int timer_id_;
 
-  bpainf::BppInterface bpp_inf_;
+    //visualisation
+    std::vector<double > x_target;
+    std::vector<double > y_target;
 
-  int timer_id_;
+    QLineSeries *series0;
+    QLineSeries *series1;
+    QLineSeries *series2;
+    QLineSeries *series3;
+    QLineSeries *series4;
 
-  //visualisation
-  std::vector<double > x_target;
-  std::vector<double > y_target;
+    QChart *chart;
 
-  QLineSeries *series0;
-  QLineSeries *series1;
-  QLineSeries *series2;
-  QLineSeries *series3;
-  QLineSeries *series4;
+    QChartView *chartView;
 
-  QChart *chart;
+    std::vector<double > pdf0;
+    std::vector<double > pdf1;
+    std::vector<double > pdf2;
+    std::vector<double > pdf3;
+    std::vector<double > pdf4;
 
-  QChartView *chartView;
+    btDiscreteDynamicsWorld* dynamicsWorld;
 
-  std::vector<double > pdf0;
-  std::vector<double > pdf1;
-  std::vector<double > pdf2;
-  std::vector<double > pdf3;
-  std::vector<double > pdf4;
+    std::vector<btRigidBody *> fallRigidBodies;
+    std::vector<btCollisionShape* > fallShapes;
 
-  QMainWindow window;
+    QMainWindow window;
 
 };
 

@@ -18,10 +18,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     camera_ = view_->camera();
     resetCamera();
 
+    camera_->setPosition(QVector3D(0, 5, 1));
+
     Qt3DCore::QEntity* lightEntity = new Qt3DCore::QEntity(scene_3d_->getScene());
     Qt3DRender::QPointLight* light = new Qt3DRender::QPointLight(lightEntity);
     light->setColor("white");
-    light->setIntensity(0.5);
+    light->setIntensity(0.9);
     lightEntity->addComponent(light);
     Qt3DCore::QTransform* lightTransform = new Qt3DCore::QTransform(lightEntity);
     lightTransform->setTranslation(camera_->position());
@@ -77,27 +79,27 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     floor.position.position[1]=0.0;
     floor.position.position[2]=0.0;
     floor.rotation=0.0;
-    floor.m_length=25.00;
-    floor.m_width=25.00;
+    floor.m_length=50.00;
+    floor.m_width=50.00;
     floor.m_height=0.05;
     floor.m_type="floor";
     scene_3d_->addBoxEntity(floor);
 
-    bpa::Box pallet;
-    pallet.m_name="pallet";
-    pallet.m_type="pallet";
-    pallet.position.position[0]=0.0;
-    pallet.position.position[1]=0.0;
-    pallet.position.position[2]=0.0;
-    pallet.rotation=0.0;
-    pallet.m_length=2.28;
-    pallet.m_width=3.00;
-    pallet.m_height=0.05;
-    pallet.position.position[0] += pallet.m_length / 2;
-    pallet.position.position[1] += pallet.m_width / 2;
-    pallet.position.position[2] += pallet.m_height / 2;
+    //    bpa::Box pallet;
+    //    pallet.m_name="pallet";
+    //    pallet.m_type="pallet";
+    //    pallet.position.position[0]=0.0;
+    //    pallet.position.position[1]=0.0;
+    //    pallet.position.position[2]=0.0;
+    //    pallet.rotation=0.0;
+    //    pallet.m_length=2.28;
+    //    pallet.m_width=3.00;
+    //    pallet.m_height=0.05;
+    //    pallet.position.position[0] += pallet.m_length / 2;
+    //    pallet.position.position[1] += pallet.m_width / 2;
+    //    pallet.position.position[2] += pallet.m_height / 2;
 
-    scene_3d_->addBoxEntity(pallet);
+    //    scene_3d_->addBoxEntity(pallet);
 
     //    std::string url="/home/nair/workspace/bpp_code/bpp-standalone/build/mesh.obj";
     //    scene_3d_->addObjEntity(url);
@@ -299,39 +301,274 @@ void MainWindow::on_deleteButton_clicked()
     clearScene();
 }
 
-void MainWindow::on_genButton_clicked()
-{
+//void MainWindow::on_genButton_clicked()
+//{
 
-    QObject::connect(ui->sizeSlider, SIGNAL(valueChanged(int)),
-                     this, SLOT(boxSizeUpdate(int)));
+//    QObject::connect(ui->sizeSlider, SIGNAL(valueChanged(int)),
+//                     this, SLOT(boxSizeUpdate(int)));
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis_l(0, 2.28);
-    std::uniform_real_distribution<> dis_w(0, 3.0);
-    std::uniform_real_distribution<> dis_h(0, 3.0);
+//    std::random_device rd;
+//    std::mt19937 gen(rd());
+//    //    std::uniform_real_distribution<> dis_l(0, 2.28);
+//    //    std::uniform_real_distribution<> dis_w(0, 3.0);
+//    //    std::uniform_real_distribution<> dis_h(0, 3.0);
 
+//    std::uniform_real_distribution<> dis_l(0, 10);
+//    std::uniform_real_distribution<> dis_w(0, 10);
+//    std::uniform_real_distribution<> dis_h(3, 10);
+
+//    boxes_.clear();
+
+//    bpa::Box b;
+//    b.m_type="box";
+//    b.m_length=1.0;
+//    b.m_width=1.0;
+//    b.m_height=1.0;
+
+//    b.m_name="0";
+//    //    b.m_name="box_top";
+
+//    b.position.position[0]=0;
+//    b.position.position[1]=0;
+//    b.position.position[2]=15;
+//    b.rotation=0.0;
+//    boxes_.push_back(b);
+//    boxes_map_[QString(b.m_name.c_str())]=b;
+//    ExtrusionStatus extr_st;
+//    extr_st.extr_back=false;
+//    extr_st.extr_front=false;
+//    extr_st.extr_left=false;
+//    extr_st.extr_right=false;
+//    extr_st.extr_top=false;
+//    extr_st.extr_bottom=false;
+//    extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//    scene_3d_->addBoxEntity(b);
+
+//    b.m_name="1";
+//    //    b.m_name="box_bottom";
+//    b.position.position[0]=0;
+//    b.position.position[1]=0;
+//    b.position.position[2]=7.5;
+//    b.rotation=0.0;
+//    boxes_.push_back(b);
+//    boxes_map_[QString(b.m_name.c_str())]=b;
+
+//    extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//    scene_3d_->addBoxEntity(b);
+
+//    b.m_name="2";
+//    //    b.m_name="box_left";
+//    b.position.position[0]=0;
+//    b.position.position[1]=5;
+//    b.position.position[2]=10;
+//    b.rotation=0.0;
+//    boxes_.push_back(b);
+//    boxes_map_[QString(b.m_name.c_str())]=b;
+
+//    extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//    scene_3d_->addBoxEntity(b);
+
+//    b.m_name="3";
+//    //    b.m_name="box_right";
+//    b.position.position[0]=0;
+//    b.position.position[1]=-5;
+//    b.position.position[2]=10;
+//    b.rotation=0.0;
+//    boxes_.push_back(b);
+//    boxes_map_[QString(b.m_name.c_str())]=b;
+
+//    extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//    scene_3d_->addBoxEntity(b);
+
+
+//    b.m_name="4";
+//    //    b.m_name="box_front";
+//    b.position.position[0]=5;
+//    b.position.position[1]=0;
+//    b.position.position[2]=10;
+//    b.rotation=0.0;
+//    boxes_.push_back(b);
+//    boxes_map_[QString(b.m_name.c_str())]=b;
+
+//    extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//    scene_3d_->addBoxEntity(b);
+
+//    b.m_name="5";
+//    //    b.m_name="box_back";
+//    b.position.position[0]=-5;
+//    b.position.position[1]=0;
+//    b.position.position[2]=10;
+//    b.rotation=0.0;
+//    boxes_.push_back(b);
+//    boxes_map_[QString(b.m_name.c_str())]=b;
+
+//    extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//    scene_3d_->addBoxEntity(b);
+
+
+//    std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
+//    //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
+
+//    float height=10;
+
+//    for(size_t i=0;i<1;++i){
+//        b.m_name=QString::number(i+6).toStdString();
+//        b.position.position[0]=0;//dis_l(gen);
+//        b.position.position[1]=0;//dis_w(gen);
+//        b.position.position[2]=10+ i*2;//dis_h(gen);
+//        b.rotation=0.0;
+
+//        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
+//        //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
+
+//        boxes_.push_back(b);
+//        boxes_map_[QString(b.m_name.c_str())]=b;
+
+//        extr_st.extr_back=true;
+//        extr_st.extr_front=true;
+//        extr_st.extr_left=true;
+//        extr_st.extr_right=true;
+//        extr_st.extr_top=true;
+//        extr_st.extr_bottom=true;
+//        extr_status_map_[QString(b.m_name.c_str())]=extr_st;
+//        scene_3d_->addBoxEntity(b);
+//    }
+//}
+
+void MainWindow::on_genButton_clicked(){
     boxes_.clear();
 
     bpa::Box b;
-    b.m_type="box";
+    b.m_type="pallet_face";
     b.m_length=0.01;
-    b.m_width=0.01;
-    b.m_height=0.01;
+    b.m_width=3.0;
+    b.m_height=3.0;
+    b.m_name="0";
 
-    for(size_t i=0;i<100;++i){
-        b.m_name=QString::number(i).toStdString();
-        b.position.position[0]=dis_l(gen);
-        b.position.position[1]=dis_w(gen);
+    b.position.position[0]=1.5;
+    b.position.position[1]=0;
+    b.position.position[2]=1.5;
+    b.rotation=0.0;
+    boxes_.push_back(b);
+    boxes_map_[QString(b.m_name.c_str())]=b;
+    scene_3d_->addBoxEntity(b);
+
+    b.m_type="pallet_face";
+    b.m_length=0.01;
+    b.m_width=3.0;
+    b.m_height=3.0;
+    b.m_name="1";
+
+    b.position.position[0]=-1.5;
+    b.position.position[1]=0;
+    b.position.position[2]=1.5;
+    b.rotation=0.0;
+    boxes_.push_back(b);
+    boxes_map_[QString(b.m_name.c_str())]=b;
+    scene_3d_->addBoxEntity(b);
+
+    b.m_type="pallet_face";
+    b.m_length=3.0;
+    b.m_width=0.01;
+    b.m_height=3.0;
+    b.m_name="2";
+
+    b.position.position[0]=0;
+    b.position.position[1]=1.5;
+    b.position.position[2]=1.5;
+    b.rotation=0.0;
+    boxes_.push_back(b);
+    boxes_map_[QString(b.m_name.c_str())]=b;
+    scene_3d_->addBoxEntity(b);
+
+
+    b.m_type="pallet_face";
+    b.m_length=3.0;
+    b.m_width=0.01;
+    b.m_height=3.0;
+    b.m_name="3";
+
+    b.position.position[0]=0;
+    b.position.position[1]=-1.5;
+    b.position.position[2]=1.5;
+    b.rotation=0.0;
+    boxes_.push_back(b);
+    boxes_map_[QString(b.m_name.c_str())]=b;
+    scene_3d_->addBoxEntity(b);
+
+    b.m_type="pallet_face";
+    b.m_length=3.0;
+    b.m_width=3.0;
+    b.m_height=0.01;
+    b.m_name="4";
+
+    b.position.position[0]=0;
+    b.position.position[1]=0;
+    b.position.position[2]=0;
+    b.rotation=0.0;
+    boxes_.push_back(b);
+    boxes_map_[QString(b.m_name.c_str())]=b;
+    scene_3d_->addBoxEntity(b);
+
+
+    b.m_type="pallet_face";
+    b.m_length=3.0;
+    b.m_width=3.0;
+    b.m_height=0.01;
+    b.m_name="5";
+
+    b.position.position[0]=0;
+    b.position.position[1]=0;
+    b.position.position[2]=3.0;
+    b.rotation=0.0;
+    boxes_.push_back(b);
+    boxes_map_[QString(b.m_name.c_str())]=b;
+    scene_3d_->addBoxEntity(b);
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis_l(0, 3);
+    std::uniform_real_distribution<> dis_w(0, 3);
+    std::uniform_real_distribution<> dis_h(0, 3);
+
+    b.m_length=0.1;
+    b.m_width=0.1;
+    b.m_height=0.1;
+    b.m_type="box";
+
+    for(size_t i=0;i<25;++i){
+        b.m_name=QString::number(i+6).toStdString();
+        b.position.position[0]=dis_l(gen)-1.5;
+        b.position.position[1]=dis_w(gen)-1.5;
         b.position.position[2]=dis_h(gen);
         b.rotation=0.0;
 
-        //        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
-        //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
-
         boxes_.push_back(b);
+        boxes_map_[QString(b.m_name.c_str())]=b;
+
+        std::cout << b.position.position.transpose() << std::endl;
+
+        ExtrusionStatus extr_st;
+        extr_st.extr_back=true;
+        extr_st.extr_front=true;
+        extr_st.extr_left=true;
+        extr_st.extr_right=true;
+        extr_st.extr_top=true;
+        extr_st.extr_bottom=true;
+        extr_status_map_[QString(b.m_name.c_str())]=extr_st;
         scene_3d_->addBoxEntity(b);
     }
+}
+
+
+void MainWindow::on_bulletButton_clicked()
+{
+    testBullet();
+}
+
+void MainWindow::on_extrButton_clicked()
+{
+    testBullet();
 }
 
 void MainWindow::slot_reset_scene()
@@ -349,6 +586,59 @@ void MainWindow::slot_update_boxes(const Boxes &bxs)
     QMainWindow::update();
     QApplication::processEvents();
 
+}
+
+void MainWindow::boxSizeExtrude(float perc)
+{
+    std::cout << "Updating Boxes Extrude Sizes +++++++++++++++++++++++++++++++= " << std::endl;
+
+    for (bpa::Box& b : boxes_)
+    {
+        if(b.m_type=="box"){
+            ExtrusionStatus extr_st=extr_status_map_[QString(b.m_name.c_str())];
+
+            if(extr_st.extr_top){
+                double half_val=b.m_height*perc/2.0;
+                b.m_height+=half_val;
+                b.position.position[2]+=half_val/2.0;
+            }
+
+            if(extr_st.extr_bottom){
+                double half_val=b.m_height*perc/2.0;
+                b.m_height+=half_val;
+                b.position.position[2]-=half_val/2.0;
+            }
+
+            if(extr_st.extr_front){
+                double half_val=b.m_length*perc/2.0;
+                b.m_length+=half_val;
+                b.position.position[0]+=half_val/2.0;
+            }
+
+            if(extr_st.extr_back){
+                double half_val=b.m_length*perc/2.0;
+                b.m_length+=half_val;
+                b.position.position[0]-=half_val/2.0;
+            }
+
+            if(extr_st.extr_left){
+                double half_val=b.m_width*perc/2.0;
+                b.m_width+=half_val;
+                b.position.position[1]+=half_val/2.0;
+            }
+
+            if(extr_st.extr_right){
+                double half_val=b.m_width*perc/2.0;
+                b.m_width+=half_val;
+                b.position.position[1]-=half_val/2.0;
+            }
+
+            scene_3d_->updateBoxEntity(b);
+        }
+
+        QMainWindow::update();
+        QApplication::processEvents();
+    }
 }
 
 void MainWindow::boxSizeUpdate(int value)
@@ -379,6 +669,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::timerEvent(QTimerEvent* timerEvent)
 {
+
 }
 
 void MainWindow::doBinPacking()
@@ -433,4 +724,257 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
     }
     QMainWindow::update();
     QApplication::processEvents();
+}
+
+void MainWindow::generateRigidBodies(std::vector<bpa::Box> &boxes)
+{
+    int counter=0;
+
+    fallShapes.clear();
+    fallRigidBodies.clear();
+    for (bpa::Box& b : boxes)
+    {
+        btCollisionShape* fallShape = new btBoxShape(btVector3(b.m_length/2.0, b.m_width/2.0, b.m_height/2.0));
+
+        btDefaultMotionState* fallMotionState =
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(b.position.position[0], b.position.position[1], b.position.position[2])));
+        btScalar mass = 1;
+        btVector3 fallInertia(0, 0, 0);
+        fallShape->calculateLocalInertia(mass, fallInertia);
+
+        fallShapes.push_back(fallShape);
+        btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, fallShape, fallInertia);
+        btRigidBody* fallRigidBody = new btRigidBody(fallRigidBodyCI);
+        fallRigidBody->setUserIndex(counter);
+        counter++;
+
+        fallRigidBodies.push_back(fallRigidBody);
+    }
+}
+
+void MainWindow::cleanupRigidBodies()
+{
+    for(int n=0;n<fallRigidBodies.size();++n){
+        dynamicsWorld->removeRigidBody(fallRigidBodies[n]);
+        delete fallRigidBodies[n]->getMotionState();
+        delete fallRigidBodies[n];
+        delete fallShapes[n];
+    }
+
+}
+
+void MainWindow::testBullet()
+{
+    btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+
+    btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+    btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+    btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+
+    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+    dynamicsWorld->setGravity(btVector3(0, 0, 0));
+    dynamicsWorld->setInternalTickCallback(myTickCallback, static_cast<void *>(this));
+
+    btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 0, 1), 0);
+
+    btDefaultMotionState* groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    btRigidBody::btRigidBodyConstructionInfo
+            groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
+    btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
+    dynamicsWorld->addRigidBody(groundRigidBody);
+
+
+    for (int i = 0; i < 600; i++) {
+
+        generateRigidBodies(boxes_);
+        for (int i = 0; i < fallRigidBodies.size(); i++) {
+            dynamicsWorld->addRigidBody(fallRigidBodies[i]);
+        }
+
+        dynamicsWorld->stepSimulation(1 / 60.f, 10);
+
+        for(int n=0;n<fallRigidBodies.size();++n){
+
+            btTransform trans;
+            fallRigidBodies[n]->getMotionState()->getWorldTransform(trans);
+
+            boxes_[n].position.position[0]=trans.getOrigin().getX();
+            boxes_[n].position.position[1]=trans.getOrigin().getY();
+            boxes_[n].position.position[2]=trans.getOrigin().getZ();
+
+            scene_3d_->updateBoxEntity(boxes_[n]);
+        }
+
+        QMainWindow::update();
+        QApplication::processEvents();
+        usleep(200000);
+        cleanupRigidBodies();
+
+        boxSizeExtrude(0.05);
+
+    }
+
+    dynamicsWorld->removeRigidBody(groundRigidBody);
+    delete groundRigidBody->getMotionState();
+    delete groundRigidBody;
+
+    delete groundShape;
+
+    delete dynamicsWorld;
+    delete solver;
+    delete collisionConfiguration;
+    delete dispatcher;
+    delete broadphase;
+}
+
+void MainWindow::testBulletExtr()
+{
+
+}
+
+void myTickCallback(btDynamicsWorld *dynamicsWorld, btScalar timeStep)
+{
+    std::map<const btCollisionObject*,std::vector<btManifoldPoint*>> objectsCollisions;
+
+    MainWindow *w = static_cast<MainWindow *>(dynamicsWorld->getWorldUserInfo());
+
+    objectsCollisions.clear();
+    int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+    for (int i = 0; i < numManifolds; i++) {
+        btPersistentManifold *contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        auto *objA = contactManifold->getBody0();
+        auto *objB = contactManifold->getBody1();
+        auto& collisionsA = objectsCollisions[objA];
+        auto& collisionsB = objectsCollisions[objB];
+        int numContacts = contactManifold->getNumContacts();
+
+        std::cout << "Contacts --> " << numContacts << std::endl;
+        std::cout << "ObjectA --> " << objA->getUserIndex() << std::endl;
+        std::cout << "ObjectB --> " << objB->getUserIndex() << std::endl;
+
+        QString objA_name=QString::number(objA->getUserIndex());
+        QString objB_name=QString::number(objB->getUserIndex());
+
+        std::cout << "Name --> " << objA->getCollisionShape()->getName() << std::endl;
+
+        std::vector<QVector3D > vecs;
+        vecs.clear();
+        for (int j = 0; j < numContacts; j++) {
+            btManifoldPoint& pt = contactManifold->getContactPoint(j);
+            std::cout << "Contact " << j << std::endl;
+            std::cout << "A --> " << pt.getPositionWorldOnA().getX() << " " << pt.getPositionWorldOnA().getY() << " " << pt.getPositionWorldOnA().getZ() << std::endl;
+            std::cout << "B --> " << pt.getPositionWorldOnB().getX() << " " << pt.getPositionWorldOnB().getY() << " " << pt.getPositionWorldOnB().getZ() << std::endl;
+
+            collisionsA.push_back(&pt);
+            collisionsB.push_back(&pt);
+
+            vecs.push_back(QVector3D(pt.getPositionWorldOnA().getX(), pt.getPositionWorldOnA().getY(), pt.getPositionWorldOnA().getZ()));
+        }
+
+
+        if(vecs.size()>2){
+            QVector3D v1=vecs[1]-vecs[0];
+            QVector3D v2=vecs[2]-vecs[0];
+            QVector3D cp=QVector3D::crossProduct(v1,v2);
+
+            qDebug() << cp;
+
+            ExtrusionStatus extr_obj_1=w->extr_status_map_[objA_name];
+            ExtrusionStatus extr_obj_2=w->extr_status_map_[objB_name];
+
+            bpa::Box box_1=w->boxes_map_[objA_name];
+            bpa::Box box_2=w->boxes_map_[objB_name];
+
+            if(cp.x()!=0){
+
+                if(vecs[0].x()>box_1.position.position[0]){
+                    extr_obj_1.extr_front=false;
+                    std::cout << "Disabling Object A front extrusion" << std::endl;
+                }
+                else{
+                    extr_obj_1.extr_back=false;
+                    std::cout << "Disabling Object A back extrusion" << std::endl;
+
+                }
+
+                if(vecs[0].x()>box_2.position.position[0]){
+                    extr_obj_2.extr_front=false;
+                    std::cout << "Disabling Object B front extrusion" << std::endl;
+
+                }
+                else{
+                    extr_obj_2.extr_back=false;
+                    std::cout << "Disabling Object B back extrusion" << std::endl;
+
+                }
+            }
+            else if(cp.y()!=0){
+
+                if(vecs[1].y()>box_1.position.position[1]){
+                    extr_obj_1.extr_left=false;
+                    std::cout << "Disabling Object A left extrusion" << std::endl;
+
+                }
+                else{
+                    extr_obj_1.extr_right=false;
+                    std::cout << "Disabling Object A right extrusion" << std::endl;
+
+                }
+
+                if(vecs[1].y()>box_2.position.position[1]){
+                    extr_obj_2.extr_left=false;
+                    std::cout << "Disabling Object B left extrusion" << std::endl;
+
+                }
+                else{
+                    extr_obj_2.extr_right=false;
+                    std::cout << "Disabling Object B right extrusion" << std::endl;
+                }
+            }
+            else if(cp.z()!=0){
+                if(vecs[2].z()>box_1.position.position[2]){
+                    extr_obj_1.extr_top=false;
+                    std::cout << "Disabling Object A top extrusion" << std::endl;
+
+                }
+                else{
+                    extr_obj_1.extr_bottom=false;
+                    std::cout << "Disabling Object A Bottom extrusion" << std::endl;
+
+                }
+
+                if(vecs[2].z()>box_2.position.position[2]){
+                    extr_obj_2.extr_top=false;
+                    std::cout << "Disabling Object B top extrusion" << std::endl;
+
+                }
+                else{
+                    extr_obj_2.extr_bottom=false;
+                    std::cout << "Disabling Object B bottom extrusion" << std::endl;
+
+                }
+            }
+            else{
+
+                std::cout << "Invalid Plane!!!!!!!!!!!" << std::endl;
+                throw;
+            }
+
+            w->extr_status_map_[objA_name]=extr_obj_1;
+            w->extr_status_map_[objB_name]=extr_obj_2;
+
+        }
+    }
+
+    for( QString key: w->extr_status_map_.keys() ){
+        qDebug() << key;// << "," << w->extr_status_map_.value( key );// << std::endl;
+    }
+
+    std::cout << "============ MAP ===================" << std::endl;
+    foreach (ExtrusionStatus value, w->extr_status_map_){
+        cout << value.extr_front << " " << value.extr_back << " " << value.extr_left << " " << value.extr_right << " " << value.extr_top << " " << value.extr_bottom << endl;
+    }
+
+    //    }
 }

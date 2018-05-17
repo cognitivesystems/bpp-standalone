@@ -49,6 +49,17 @@ void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
         boxEntityPtr->material()->setDiffuse(QColor(255, 0, 0, 1));
 
     }
+    else if(box.m_type=="pallet_face"){
+        boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
+        boxEntityPtr->material()->setDiffuse(QColor(255, 0, 0, 1));
+        boxEntityPtr->material()->setAlpha(1.0);
+
+    }
+    else if(box.m_type=="floor"){
+        boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
+        boxEntityPtr->material()->setDiffuse(QColor(192, 192, 192, 1));
+
+    }
     else{
         boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
         boxEntityPtr->material()->setDiffuse(QColor(0, 0, 255, 1));
