@@ -51,6 +51,7 @@ Bin::Bin(double length, double width, double height, bool modus)
 
 Bin::~Bin()
 {
+  delete bulletPhysics;
 }
 
 void Bin::copyData(Bin& other)

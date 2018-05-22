@@ -28,9 +28,9 @@ public:
   * \param boxes_on_holdingplatform: Boxes representing the current boxes waiting on the Holding Platform to be packed
   * \return A Bin Object with the new packing configuration
   */
-  Bin solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
+  void solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
 
-  Bin solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
+  void solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
 
   /*
   * To pack a subset of boxes of the boxes on the Holding Platform into the bin with the Deep Search Algorithm
@@ -38,9 +38,9 @@ public:
   * \param boxes_on_holdingplatform: Boxes representing the current boxes waiting on the Holding Platform to be packed
   * \return A Bin Object with the new packing configuration
   */
-  Bin solveWithDeepSearchOneFunction(Bin& curr_best_solution, std::vector<Box> boxes_on_holdingplatform);
+  void solveWithDeepSearchOneFunction(Bin& curr_best_solution, std::vector<Box> boxes_on_holdingplatform);
 
-  Bin solveWithDeepSearchTwoFunctions(Bin& curr_best_solution, std::vector<Box> boxes_on_holdingplatform);
+  void solveWithDeepSearchTwoFunctions(Bin& curr_best_solution, std::vector<Box> boxes_on_holdingplatform);
 
   /**
   * To get the relative position of one Box in the bin to another one

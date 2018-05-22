@@ -17,6 +17,11 @@ PhysicsBullet::PhysicsBullet()
   initPhysics();
 }
 
+PhysicsBullet::~PhysicsBullet()
+{
+  exitPhysics();
+}
+
 Eigen::Vector3d PhysicsBullet::castRays(Eigen::Vector3d& point, Eigen::Vector3d& direction)
 {
   Eigen::Vector3d projection;
@@ -361,7 +366,15 @@ void PhysicsBullet::exitPhysics()
     delete obj;
   }
   m_collisionBodies.clear();
+
+  // delete convex shapes
+  for (int j = 0; j < m_convexShapes.size(); j++)
+  {
+    btConvexShape* shape = m_convexShapes[j];
+    delete shape;
+  }
   m_convexShapes.clear();
+
   delete m_dynamicsWorld;
   delete m_solver;
   delete m_broadphase;
@@ -595,7 +608,7 @@ bool PhysicsBullet::isColliding(bpa::Box& new_box)
     return false;
 }
 
-bool PhysicsBullet::isCollidingBox(bpa::Box& new_box, bpa::Box& old_box)
+bool PhysicsBullet::isCollidingBox(const bpa::Box& new_box, const bpa::Box& old_box)
 {
   // if box and other boxes are touch contact, should not be consided as collided !!!
   if (m_dynamicsWorld)

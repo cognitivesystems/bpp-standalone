@@ -49,12 +49,12 @@ public:
    * All directions: X, Y, Z
    * TODO: add the box feature (mass, fragile...) to decide the orders
    */
-  bool isBlocking(Box abox, Box b, Bin abin);
+  bool isBlocking(Box abox, const Box& b, const Bin& abin);
 
   /// is abox blocked in the x direction move
-  bool xBlocking(Box abox, Box b, Bin abin);
-  bool yBlocking(Box abox, Box b, Bin abin);
-  bool zBlocking(Box abox, Box b, Bin abin);
+  bool xBlocking(Box abox, const Box& b, const Bin& abin);
+  bool yBlocking(Box abox, const Box& b, const Bin& abin);
+  bool zBlocking(Box abox, const Box& b, const Bin& abin);
 
   /*
    * To get the place position for boxes

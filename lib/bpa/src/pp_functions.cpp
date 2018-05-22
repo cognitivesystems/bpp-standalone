@@ -351,7 +351,7 @@ void PalletizationPlanner::getPlacePositionFork(Box& box, Bin& abin)
 }
 
 // abox is current box, if abox is blocked by b, move abox first
-bool PalletizationPlanner::isBlocking(Box abox, Box b, Bin abin)
+bool PalletizationPlanner::isBlocking(Box abox, const Box& b, const Bin& abin)
 {  // first check if abox can move in x and y direction
   bool flag = false;
 
@@ -372,7 +372,7 @@ bool PalletizationPlanner::isBlocking(Box abox, Box b, Bin abin)
 }
 
 // abox is blocked by b, abox should move first!
-bool PalletizationPlanner::xBlocking(Box abox, Box b, Bin abin)
+bool PalletizationPlanner::xBlocking(Box abox, const Box& b, const Bin& abin)
 {
   // check if direction +x is blocking, 2D
   if (abox.position.position(0) >= b.position.position(0))
@@ -386,7 +386,7 @@ bool PalletizationPlanner::xBlocking(Box abox, Box b, Bin abin)
   return false;
 }
 
-bool PalletizationPlanner::yBlocking(Box abox, Box b, Bin abin)
+bool PalletizationPlanner::yBlocking(Box abox, const Box& b, const Bin& abin)
 {
   // check if direction -y is blocking, 2D
   if (abox.position.position(1) <= b.position.position(1))
@@ -400,7 +400,7 @@ bool PalletizationPlanner::yBlocking(Box abox, Box b, Bin abin)
   return false;
 }
 
-bool PalletizationPlanner::zBlocking(Box abox, Box b, Bin abin)
+bool PalletizationPlanner::zBlocking(Box abox, const Box& b, const Bin& abin)
 {
   // check if direction +z is blocking
   if ((abox.position.position(2) + abox.m_height) <= b.position.position(2))

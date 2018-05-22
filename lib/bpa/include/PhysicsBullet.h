@@ -31,11 +31,7 @@ class PhysicsBullet
 {
 public:
   PhysicsBullet();
-
-  virtual ~PhysicsBullet()
-  {
-    exitPhysics();
-  }
+  ~PhysicsBullet();
 
   Eigen::Vector3d castRays(Eigen::Vector3d& point, Eigen::Vector3d& direction);
   void addNewBoxToPhysics(bpa::Box& new_box);
@@ -43,7 +39,7 @@ public:
   void addNewBoxesToPhysics(std::vector<bpa::Box>& packed_boxes);
 
   bool isColliding(bpa::Box& new_box);
-  bool isCollidingBox(bpa::Box& new_box, bpa::Box& old_box);
+  bool isCollidingBox(const bpa::Box& new_box, const bpa::Box& old_box);
   bool isPointContact(Eigen::Vector3d& point);
 
   // only get the support area (down)

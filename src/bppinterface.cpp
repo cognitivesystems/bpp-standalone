@@ -73,7 +73,7 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   //               ".........................\n";
   bpa::BinPackingPlanner bin_packing_planner;
   bin_packing_planner.setParams(paramsPtr_);
-  new_pallet_config = bin_packing_planner.solveWithOneFunction(new_pallet_config, holding_area_boxes);
+  bin_packing_planner.solveWithOneFunction(new_pallet_config, holding_area_boxes);
 
   /// get the current step packed boxes after bpp
   std::vector<bpa::Box> pack_boxes = new_pallet_config.getStepPackedBoxes();

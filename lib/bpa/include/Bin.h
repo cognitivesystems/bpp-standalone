@@ -37,7 +37,7 @@ public:
   Bin(double length, double width, double height, bool modus);
 
   // \brief Destructor
-  virtual ~Bin();
+  ~Bin();
 
   /*
    * To copy the data from another bin into this bin

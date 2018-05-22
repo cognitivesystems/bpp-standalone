@@ -23,7 +23,7 @@ BinPackingPlanner::BinPackingPlanner()
 {
 }
 
-Bin BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
+void BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
 {
   std::vector<bpa::Box>::iterator pack_it = abin.packed_boxes.begin();
   int highest_id = 0;  // 1;
@@ -58,10 +58,9 @@ Bin BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on
   {
     iter++;
   }
-  return abin;
 }
 
-Bin BinPackingPlanner::solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
+void BinPackingPlanner::solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
 {
   std::vector<bpa::Box>::iterator pack_it = abin.packed_boxes.begin();
   int highest_id = 0;  // 1;
@@ -104,11 +103,10 @@ Bin BinPackingPlanner::solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_o
   {
     iter++;
   }
-  return abin;
 }
 
-Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
-                                                      std::vector<Box> boxes_on_holdingplatform)
+void BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
+                                                       std::vector<Box> boxes_on_holdingplatform)
 {
   std::vector<bpa::Box>::iterator pack_it = curr_best_solution.packed_boxes.begin();
   int highest_id = 0;  // 1;
@@ -155,7 +153,7 @@ Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
   {
     if (holding_curr_best_solution.boxes_to_pack.size() == 0)
     {
-      return curr_best_solution;
+      return;
     }
     else
     {
@@ -213,7 +211,7 @@ Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
       }
       else
       {
-        return curr_best_solution;
+        return;
       }
     }
 
@@ -224,11 +222,10 @@ Bin BinPackingPlanner::solveWithDeepSearchOneFunction(Bin& curr_best_solution,
   {
     cout << "Terminated by max_iter" << endl;
   }
-  return curr_best_solution;
 }
 
-Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
-                                                       std::vector<Box> boxes_on_holdingplatform)
+void BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
+                                                        std::vector<Box> boxes_on_holdingplatform)
 {
   std::vector<bpa::Box>::iterator pack_it = curr_best_solution.packed_boxes.begin();
   int highest_id = 0;  // 1;
@@ -281,7 +278,7 @@ Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
     if (holding_curr_best_solution.boxes_to_pack.size() == 0 ||
         holding_curr_best_solution.it_choosing == holding_curr_best_solution.boxes_to_pack.end())
     {
-      return curr_best_solution;
+      return;
     }
     else
     {
@@ -351,7 +348,6 @@ Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
   {
     cout << "Terminated by max_iter" << endl;
   }
-  return curr_best_solution;
 }
 
 int BinPackingPlanner::givePosition(Box& abox, FittingPoint& fp, Box& b, double& count_neighbours, double& distance_x,
