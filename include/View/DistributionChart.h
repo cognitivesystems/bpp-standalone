@@ -22,7 +22,7 @@ public:
   ~DistributionChart();
 
 public slots:
-  void onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions);
+  void onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>>& distributions);
 
 private:
   void setupChartAndChartView();

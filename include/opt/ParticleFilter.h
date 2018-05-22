@@ -144,7 +144,7 @@ public:
   VectorX getCovariance();
 
 signals:
-  void notifyDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions);
+  void notifyDistributionsUpdated(const std::vector<boost::math::beta_distribution<>>& distributions);
 
 private:
   void normalize();

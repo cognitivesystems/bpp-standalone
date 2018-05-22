@@ -18,7 +18,7 @@ DistributionChart::~DistributionChart()
   delete ui_;
 }
 
-void DistributionChart::onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>> distributions)
+void DistributionChart::onDistributionsUpdated(const std::vector<boost::math::beta_distribution<>>& distributions)
 {
   chart_->removeAllSeries();
 
