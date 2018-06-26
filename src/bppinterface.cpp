@@ -14,9 +14,9 @@
 namespace bpainf
 {
 BppInterface::BppInterface()
-  : pallet_length(2.28)
-  , pallet_width(3.00)
-  , pallet_height(3.0)
+  : pallet_length(2.44)
+  , pallet_width(3.18)
+  , pallet_height(3.10)
   , bbox_offset(0.01)
   , paramsPtr_(std::make_shared<bpa::Params>(0.8, 0.6, 0.1, 0.2, 0.9, 0.1, 0.1, 0.0, 0.4, 0.8, 0.02, 0.42, 0.3, 0.0, 0,
                                              0, 10, 10))

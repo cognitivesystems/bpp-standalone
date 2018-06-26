@@ -16,6 +16,7 @@
 #include <QLineSeries>
 #include <QDebug>
 
+
 #include <random>
 
 #include "mainwindow.h"
@@ -60,6 +61,7 @@ public:
 
     void resetScene();
 
+
     //  void myTickCallback(btDynamicsWorld *dynamicsWorld, btScalar timeStep);
 
     bool doExtrs=true;
@@ -68,6 +70,8 @@ public:
     std::vector<bpa::Box> planned_boxes_;
     QMap<QString, ExtrusionStatus> extr_status_map_;
     QMap<QString, bpa::Box> boxes_map_;
+
+
 
 protected:
     MainWindow(QWidget* parent = NULL, Qt::WindowFlags f = 0);
@@ -95,6 +99,7 @@ protected:
 
     void testBullet();
     void testBulletExtr();
+
 
 signals:
     void valueChanged(int value);

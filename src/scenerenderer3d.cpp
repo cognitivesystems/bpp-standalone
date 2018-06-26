@@ -3,6 +3,12 @@
 
 SceneRenderer3D::SceneRenderer3D(QWidget* parent) : QWidget(parent), root_(new Qt3DCore::QEntity())
 {
+
+//    picker1 = new Qt3DRender::QObjectPicker(root_);
+//    picker1->setHoverEnabled(false);
+//    picker1->setEnabled(true);
+//    QObject::connect(picker1, &Qt3DRender::QObjectPicker::pressed, this, &SceneRenderer3D::onPicked);
+//    root_->addComponent(picker1);
 }
 
 void SceneRenderer3D::addObjEntity(const string obj_url)
@@ -26,7 +32,7 @@ void SceneRenderer3D::addObjEntity(const string obj_url)
 
 void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
 {
-    BoxEntity* boxEntityPtr = new BoxEntity(root_);
+    BoxEntity* boxEntityPtr = new BoxEntity(QString(box.m_name.c_str()), root_);
 
     boxEntityPtr->mesh()->setXExtent(box.m_length);
     boxEntityPtr->mesh()->setYExtent(box.m_width);
@@ -42,7 +48,6 @@ void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
     if(box.m_type=="box"){
         boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, box_rot));
         boxEntityPtr->material()->setDiffuse(QColor(qrand() % 255, qrand() % 255, qrand() % 255, 1));
-
     }
     else if(box.m_type=="pallet"){
         boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
@@ -52,13 +57,10 @@ void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
     else if(box.m_type=="pallet_face"){
         boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
         boxEntityPtr->material()->setDiffuse(QColor(255, 0, 0, 1));
-        boxEntityPtr->material()->setAlpha(1.0);
-
     }
     else if(box.m_type=="floor"){
         boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
         boxEntityPtr->material()->setDiffuse(QColor(192, 192, 192, 1));
-
     }
     else{
         boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, 0));
@@ -78,20 +80,10 @@ void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
     qDebug() << boxEntityPtr->transform()->translation();
     qDebug() << boxEntityPtr->transform()->rotation();
 
-
-//      boxEntityPtr->material()->setShininess(0.0);
-
-    //  if(box.m_name=="pallet")
-    //  {
-    //      std::cout << box.m_name << std::endl;
-    //      boxEntityPtr->material()->setAlpha(1.0);
-    //  }
-    //  else
-    //  {
-    //      boxEntityPtr->material()->setAlpha(1.0);
-    //  }
-
     uuid_entity_map_[box.m_name.c_str()] = boxEntityPtr;
+
+    QObject::connect(boxEntityPtr->picker(), &Qt3DRender::QObjectPicker::pressed, this, &SceneRenderer3D::onPicked);
+
 }
 
 void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
@@ -116,6 +108,7 @@ void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
 void SceneRenderer3D::removeBoxEntity(const bpa::Box& box)
 {
     QMap<QString, BoxEntity*>::iterator itr = uuid_entity_map_.find(box.m_name.c_str());
+
     if (itr != uuid_entity_map_.end())
     {
         uuid_entity_map_.erase(itr);
@@ -131,8 +124,8 @@ void SceneRenderer3D::removeAllBoxEntities()
     }
 }
 
-void SceneRenderer3D::deleteScene()
-{
+void SceneRenderer3D::deleteScene(){
+
 }
 
 void SceneRenderer3D::clearScene()
@@ -148,6 +141,7 @@ Qt3DCore::QEntity* SceneRenderer3D::getScene()
 {
     return root_;
 }
+
 
 void SceneRenderer3D::slotAddBoxEntity(const bpa::Box& box)
 {
@@ -171,3 +165,10 @@ void SceneRenderer3D::slotUpdateBoxEntities(const std::vector<bpa::Box>& boxes)
         removeBoxEntity(box);
     }
 }
+
+void SceneRenderer3D::onPicked(Qt3DRender::QPickEvent *evt)
+{
+    Qt3DCore::QEntity *entity = qobject_cast<Qt3DCore::QEntity*>(sender()->parent());
+    qDebug() << "Picked " << entity->objectName();
+}
+

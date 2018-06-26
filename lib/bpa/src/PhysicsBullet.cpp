@@ -558,7 +558,7 @@ bool PhysicsBullet::isBoxContact(bpa::Box new_box, bpa::Box& old_box, ContactRes
 
 bool PhysicsBullet::isColliding(bpa::Box& new_box)
 {
-  // if box and other boxes are touch contact, should not be consided as collided !!!
+  // if box and other boxes are touch contact, should not be consider as collided !!!
   if (m_dynamicsWorld)
   {
     btScalar mass(0.0);
