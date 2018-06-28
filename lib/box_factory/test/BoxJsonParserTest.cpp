@@ -143,8 +143,8 @@ TEST_F(BoxJsonParserTestFixture, JsonFilesToBoxesTest)
 
   bpa::Box box = boxes[2];
 
-  EXPECT_DOUBLE_EQ(0.51, box.m_length);
-  EXPECT_DOUBLE_EQ(0.50, box.m_width);
+  EXPECT_DOUBLE_EQ(0.50, box.m_length);
+  EXPECT_DOUBLE_EQ(0.490, box.m_width);
   EXPECT_DOUBLE_EQ(1.120, box.m_height);
   EXPECT_DOUBLE_EQ(19.0, box.m_mass);
   EXPECT_EQ("0b99554a", box.m_name);
@@ -166,8 +166,8 @@ TEST_F(BoxJsonParserTestFixture, JsonObjectToBoxTest)
 {
   bpa::Box box = BoxJsonParser::getBoxFromJsonObject(jsonObject_);
 
-  EXPECT_DOUBLE_EQ(1.20, box.m_length);
-  EXPECT_DOUBLE_EQ(1.20, box.m_width);
+  EXPECT_DOUBLE_EQ(1.190, box.m_length);
+  EXPECT_DOUBLE_EQ(1.190, box.m_width);
   EXPECT_DOUBLE_EQ(1.050, box.m_height);
   EXPECT_DOUBLE_EQ(39.09999847412109, box.m_mass);
   EXPECT_EQ("8c49a221", box.m_name);

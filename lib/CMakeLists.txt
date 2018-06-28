@@ -1,2 +1,4 @@
+add_subdirectory(google_test)
 add_subdirectory(box_factory)
+add_subdirectory(physics_engine)
 add_subdirectory(bpa)
