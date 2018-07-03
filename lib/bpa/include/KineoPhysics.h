@@ -7,6 +7,12 @@ namespace bpa
 {
 class KineoPhysics : public PhysicsEngine
 {
+public:
+  KineoPhysics() = default;
+  virtual ~KineoPhysics() = default;
+
+private:
+  virtual void createBox(const bpa::Box& box, bool rotate);
 };
 }  // namespace engine_factory
 

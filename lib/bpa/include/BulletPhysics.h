@@ -19,6 +19,9 @@ public:
   virtual ~BulletPhysics();
 
 private:
+  virtual void createBox(const bpa::Box& box, bool rotate);
+  void createBox(btScalar mass, btVector3 size, btVector3 origin);
+
   btScalar defaultContactProcessingThreshold_;
   btBroadphaseInterface* broadphase_;
   btDefaultCollisionConfiguration* collisionConfiguration_;
