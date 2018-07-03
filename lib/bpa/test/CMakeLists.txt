@@ -1,3 +1,4 @@
+find_package(Bullet REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Qt5Core REQUIRED)
 
@@ -5,7 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(${BULLET_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR})
 
 enable_testing()
 
@@ -29,9 +30,12 @@ set(BpaTest_src
 add_executable(bpa-test ${BpaTest_src})
 target_link_libraries(bpa-test
   bpa
+  ${BULLET_DYNAMICS_LIBRARY}
+  ${BULLET_COLLISION_LIBRARY}
+  ${BULLET_MATH_LIBRARY}
+  Qt5::Core
   gtest
-  gtest_main
-  Qt5::Core)
+  gtest_main)
 add_test(NAME BpaTest
   COMMAND bpa-test
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

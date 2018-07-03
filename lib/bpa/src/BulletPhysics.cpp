@@ -25,6 +25,7 @@ BulletPhysics::~BulletPhysics()
     if (body && body->getMotionState())
     {
       delete body->getMotionState();
+      delete body->getCollisionShape();
     }
     dynamicsWorld_->removeCollisionObject(obj);
     delete obj;
