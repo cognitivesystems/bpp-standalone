@@ -1220,9 +1220,10 @@ bool BinPackingPlanner::addNexBoxToPackingConfigurationOneFunction(Bin& abin, Ho
     }
     else
     {
-//      std::cout << "No boxes' score > 0 !!!\n";
-//      std::cout << "Pallet packed boxes = " << abin.packed_boxes.size() << ", fp = " << abin.fitting_points.size()
-//                << std::endl;
+      //      std::cout << "No boxes' score > 0 !!!\n";
+      //      std::cout << "Pallet packed boxes = " << abin.packed_boxes.size() << ", fp = " <<
+      //      abin.fitting_points.size()
+      //                << std::endl;
       return false;
     }
   }

@@ -236,8 +236,8 @@ void HoldingPlatform::generateRotationBoxes()
 
   int count = 1;
 
-//  std::cout << "-----------------------------------------------------------------" << std::endl;
-//  std::cout << "Before generateRotationBoxes for MA is = " << boxes_to_pack.size() << endl;
+  //  std::cout << "-----------------------------------------------------------------" << std::endl;
+  //  std::cout << "Before generateRotationBoxes for MA is = " << boxes_to_pack.size() << endl;
   std::vector<Box> rotation_boxes;
   for (Box b : boxes_to_pack)
   {
@@ -254,7 +254,7 @@ void HoldingPlatform::generateRotationBoxes()
     }
   }
   boxes_to_pack.insert(boxes_to_pack.end(), rotation_boxes.begin(), rotation_boxes.end());
-//  std::cout << "After generateRotationBoxes, boxes = " << boxes_to_pack.size() << endl;
+  //  std::cout << "After generateRotationBoxes, boxes = " << boxes_to_pack.size() << endl;
 }
 
 void HoldingPlatform::generateSimulatedBoxes()

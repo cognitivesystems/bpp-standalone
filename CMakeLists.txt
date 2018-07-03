@@ -71,7 +71,6 @@ target_link_libraries(qt3dsimple
   Qt5::3DInput
   Qt5::Charts
   Qt5::DataVisualization
-  BoxFactory
   bpa)
 
 add_executable(testobj src/testobj.cpp)

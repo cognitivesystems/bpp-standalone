@@ -1,10 +1,14 @@
 find_package(Bullet REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenMP REQUIRED)
+find_package(Qt5Core REQUIRED)
 if (OPENMP_FOUND)
   set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 
 set(LIB_VERSION_MAJOR 0)
 set(LIB_VERSION_MINOR 1)
@@ -26,7 +30,8 @@ set(BpaLib_hdr
   include/Point.h
   include/pp_functions.h
   include/SimulatedBox.h
-  include/PhysicsBullet.h)
+  include/PhysicsBullet.h
+  include/BoxJsonParser.h)
 
 set(BpaLib_src
   src/Bin.cpp
@@ -39,7 +44,8 @@ set(BpaLib_src
   src/PhysicsBullet.cpp
   src/Point.cpp
   src/pp_functions.cpp
-  src/PhysicsBullet.cpp)
+  src/PhysicsBullet.cpp
+  src/BoxJsonParser.cpp)
 
 add_library(bpa SHARED ${BpaLib_hdr} ${BpaLib_src})
 set_target_properties(bpa PROPERTIES VERSION ${LIB_VERSION_STRING} SOVERSION ${LIB_VERSION_MAJOR})
@@ -49,7 +55,8 @@ target_link_libraries(bpa
   ${BULLET_DYNAMICS_LIBRARY}
   ${BULLET_COLLISION_LIBRARY}
   ${BULLET_MATH_LIBRARY}
-  jsoncpp)
+  jsoncpp
+  Qt5::Core)
 
 add_library(bpa_static STATIC ${BpaLib_hdr} ${BpaLib_src})
 set_target_properties(bpa_static PROPERTIES OUTPUT_NAME "bpa")
@@ -59,7 +66,10 @@ target_link_libraries(bpa_static
   ${BULLET_DYNAMICS_LIBRARY}
   ${BULLET_COLLISION_LIBRARY}
   ${BULLET_MATH_LIBRARY}
-  jsoncpp)
+  jsoncpp
+  Qt5::Core)
+
+add_subdirectory(test)
 
 install(TARGETS bpa bpa_static
   LIBRARY DESTINATION lib

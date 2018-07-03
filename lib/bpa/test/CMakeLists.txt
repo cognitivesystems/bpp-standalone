@@ -1,3 +1,12 @@
+find_package(Eigen3 REQUIRED)
+find_package(Qt5Core REQUIRED)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+include_directories(${EIGEN3_INCLUDE_DIR})
+
 enable_testing()
 
 set(3rdPartyDir ${PROJECT_BINARY_DIR}/3rdparty)
@@ -12,3 +21,14 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 add_subdirectory("${3rdPartyDir}/googletest-src"
   "${3rdPartyDir}/googletest-build")
+
+set(BpaTest_src BoxJsonParserTest.cpp resources/boxes.qrc)
+add_executable(bpa-test ${BpaTest_src})
+target_link_libraries(bpa-test
+  bpa
+  gtest
+  gtest_main
+  Qt5::Core)
+add_test(NAME BpaTest
+  COMMAND bpa-test
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

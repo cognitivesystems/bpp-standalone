@@ -7,7 +7,7 @@
 
 #include "Box.h"
 
-namespace box_factory
+namespace bpa
 {
 class BoxJsonParser
 {

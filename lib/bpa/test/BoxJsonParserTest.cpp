@@ -4,7 +4,7 @@
 #include <QJsonDocument>
 #include "BoxJsonParser.h"
 
-namespace box_factory
+namespace bpa
 {
 class BoxJsonParserTestFixture : public testing::Test
 {
