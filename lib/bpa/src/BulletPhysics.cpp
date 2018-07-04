@@ -58,7 +58,7 @@ BulletPhysics* BulletPhysics::instance()
   return instance_;
 }
 
-void BulletPhysics::addBox(const bpa::Box &box, bool rotate)
+void BulletPhysics::addBox(const bpa::Box& box, bool rotate)
 {
   btScalar mass(0.0);
   btVector3 size;
@@ -81,12 +81,79 @@ void BulletPhysics::addBox(const bpa::Box &box, bool rotate)
   addBox(mass, size, origin);
 }
 
-void BulletPhysics::addBoxes(const std::vector<bpa::Box> &boxes)
+bool BulletPhysics::isColliding(const bpa::Box& new_box)
+{
+  // if box and other boxes are touch contact, should not be consided as collided !!!
+  if (dynamicsWorld_)
+  {
+    btScalar mass(0.0);
+    btVector3 size(new_box.m_length, new_box.m_width, new_box.m_height);
+    btVector3 origin(new_box.position.position(0) + new_box.center_of_mass.position(0),
+                     new_box.position.position(1) + new_box.center_of_mass.position(1),
+                     new_box.position.position(2) + new_box.center_of_mass.position(2));
+    btCollisionShape* colShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
+    btRigidBody* body = createRigidBody(mass, colShape, origin);
+
+    ContactResultCallback resultCallback;
+
+#pragma omp critical
+    {
+      dynamicsWorld_->contactTest(body, resultCallback);
+    }
+
+    delete body->getCollisionShape();
+    delete body->getMotionState();
+    delete body;
+
+    // check all contact distances, and exclude the surface contact points
+    double maxDistance = 0.0;
+    for (size_t i = 0; i < resultCallback.collisionVec.size(); ++i)
+    {  // distance are negtive
+      if (floatLessThan(resultCallback.distanceVec[i], maxDistance))
+      {
+        maxDistance = resultCallback.distanceVec[i];
+        // std::cout << "collide distance is = " << maxDistance << std::endl;
+      }
+    }
+    if (!resultCallback.collisionVec.empty() && (std::fabs(maxDistance) > std::numeric_limits<float>::epsilon()))
+      return true;
+  }
+  return false;
+}
+
+bool BulletPhysics::isColliding(const bpa::Box& new_box, const bpa::Box& old_box)
+{
+}
+
+void BulletPhysics::addBoxes(const std::vector<bpa::Box>& boxes)
 {
   for (const bpa::Box& b : boxes)
   {
     addBox(b);
   }
+}
+
+btRigidBody* BulletPhysics::createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin)
+{
+  btAssert((!shape || shape->getShapeType() != INVALID_SHAPE_PROXYTYPE));
+  shape->setMargin(0.0);
+
+  btTransform startTransform;
+  startTransform.setIdentity();
+  startTransform.setOrigin(btVector3(origin.getX(), origin.getY(), origin.getZ()));
+
+  bool isDynamic = (mass != 0.f);
+
+  btVector3 localInertia(0, 0, 0);
+  if (isDynamic)
+    shape->calculateLocalInertia(mass, localInertia);
+
+  btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+  btRigidBody::btRigidBodyConstructionInfo cInfo(mass, myMotionState, shape, localInertia);
+  btRigidBody* body = new btRigidBody(cInfo);
+  body->setContactProcessingThreshold(defaultContactProcessingThreshold_);
+
+  return body;
 }
 
 void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin)
@@ -120,5 +187,55 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin)
   dynamicsWorld_->performDiscreteCollisionDetection();
   dynamicsWorld_->updateAabbs();
   dynamicsWorld_->computeOverlappingPairs();
+}
+
+BulletPhysics::ContactResultCallback::ContactResultCallback()
+  : collision(false)
+  , distance(0)
+  , positionWorldOnA(0.0, 0.0, 0.0)
+  , positionWorldOnB(0.0, 0.0, 0.0)
+  , localPointA(0.0, 0.0, 0.0)
+  , localPointB(0.0, 0.0, 0.0)
+  , normalWorldOnB(0.0, 0.0, 0.0)
+{
+}
+
+btScalar BulletPhysics::ContactResultCallback::addSingleResult(btManifoldPoint& cp,
+                                                               const ::btCollisionObjectWrapper* colObj0, int partId0,
+                                                               int index0, const btCollisionObjectWrapper* colObj1,
+                                                               int partId1, int index1)
+{
+  collision = true;
+  distance = cp.getDistance();
+  positionWorldOnA = cp.getPositionWorldOnA();
+  positionWorldOnB = cp.getPositionWorldOnB();
+  normalWorldOnB = cp.m_normalWorldOnB;
+  localPointA = cp.m_localPointA;
+  localPointB = cp.m_localPointB;
+
+  collisionVec.push_back(collision);
+  distanceVec.push_back(distance);
+  posWorldOnAVec.push_back(positionWorldOnA);
+  posWorldOnBVec.push_back(positionWorldOnB);
+  normalWorldOnBVec.push_back(normalWorldOnB);
+
+  return 0;
+}
+
+void BulletPhysics::ContactResultCallback::clearData()
+{
+  collision = false;
+  distance = 0;
+  positionWorldOnA.setValue(0.0, 0.0, 0.0);
+  positionWorldOnB.setValue(0.0, 0.0, 0.0);
+  normalWorldOnB.setValue(0.0, 0.0, 0.0);
+  localPointA.setValue(0.0, 0.0, 0.0);
+  localPointB.setValue(0.0, 0.0, 0.0);
+
+  collisionVec.clear();
+  distanceVec.clear();
+  posWorldOnAVec.clear();
+  posWorldOnBVec.clear();
+  normalWorldOnBVec.clear();
 }
 }
