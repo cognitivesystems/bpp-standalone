@@ -54,14 +54,16 @@ TEST_F(BulletPhysicsTestFixture, OneBoxCollisionTest)
   box.position.position(1) = 0.5;
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
-  // bullet is able to detect this collision
-  box.position.position(1) = 0.999;
+  // we are still able to detect this collision
+  box.position.position(1) = 0.99999;
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
   // but not this
-  box.position.position(1) = 0.9999;
+  box.position.position(1) = 0.999999;
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 
+  // the precision is controlled by FLOAT_EPS defined in Parameters.h
+  // it cannot be more precise than current value, otherwise the following will be reported as collision
   box.position.position(1) = 1.0;
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 }
