@@ -14,9 +14,9 @@
 namespace bpainf
 {
 BppInterface::BppInterface()
-  : pallet_length(2.44)
-  , pallet_width(3.18)
-  , pallet_height(3.10)
+  : pallet_length(1.0)
+  , pallet_width(1.0)
+  , pallet_height(3.0)
   , bbox_offset(0.01)
   , paramsPtr_(std::make_shared<bpa::Params>(0.8, 0.6, 0.1, 0.2, 0.9, 0.1, 0.1, 0.0, 0.4, 0.8, 0.02, 0.42, 0.3, 0.0, 0,
                                              0, 10, 10))
@@ -64,14 +64,14 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   // build the physics world for bullet
   new_pallet_config.bulletPhysics->addBinBoundingBox();
   new_pallet_config.bulletPhysics->addNewBoxesToPhysics(new_pallet_config.packed_boxes);
-//  std::cout << "************************size of the  packed boxes from last bpp is :"
-//            << new_pallet_config.packed_boxes.size() << std::endl;
-//  std::cout << "************************size of the fitting points from last bpp is:"
-//            << new_pallet_config.fitting_points.size() << std::endl;
+  std::cout << "************************size of the  packed boxes from last bpp is :"
+            << new_pallet_config.packed_boxes.size() << std::endl;
+  std::cout << "************************size of the fitting points from last bpp is:"
+            << new_pallet_config.fitting_points.size() << std::endl;
 
-//  std::cout << "\n\nBin "
-//               "Packing........................................................"
-//               ".........................\n";
+  std::cout << "\n\nBin "
+               "Packing........................................................"
+               ".........................\n";
   bpa::BinPackingPlanner bin_packing_planner;
   bin_packing_planner.setParams(paramsPtr_);
   new_pallet_config = bin_packing_planner.solveWithOneFunction(new_pallet_config, holding_area_boxes);

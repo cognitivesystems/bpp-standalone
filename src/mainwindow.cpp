@@ -134,8 +134,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     pallet.position.position[1]=0.0;
     pallet.position.position[2]=0.0;
     pallet.rotation=0.0;
-    pallet.m_length=2.44;
-    pallet.m_width=3.18;
+    pallet.m_length=1.0;
+    pallet.m_width=1.0;
     pallet.m_height=0.05;
     pallet.position.position[0] += pallet.m_length / 2;
     pallet.position.position[1] += pallet.m_width / 2;

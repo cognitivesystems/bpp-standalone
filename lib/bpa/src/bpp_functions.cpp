@@ -798,7 +798,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
         }
     }
 
-    // hake for 0.8 boxes
+    // hack for 0.8 boxes
     if ((abox.material == "styrofoam" || abox.material == "Styrofoam") && abox.tool_name == "cranepalletfork" &&
             (!abox.is_rotated))
     {
@@ -830,6 +830,8 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
                 abox.box_labels);
     new_box.position.position = fp.coordinates.position + box_size * fp.direction_box_pos;
 
+    std::cout << "Collision Box Position ----> " << new_box.position.position.transpose() << std::endl;
+
     // Return -1 if it collide with packed boxes
     if (abin.bulletPhysics->isColliding(new_box))
     {
@@ -841,6 +843,10 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
     for (Box b : abin.packed_boxes)
     {
         overlap = abin.bulletPhysics->getSupportArea(new_box, b);
+        std::cout << "overlap1 --> " << overlap << std::endl;
+        std::cout << "New box ---> " << new_box.position.position.transpose() << " (l,w,h ) --> " << new_box.m_length << " " << new_box.m_width << " " << new_box.m_height << std::endl;
+        std::cout << "Placed box ---> " << b.position.position.transpose() << " (l,w,h ) --> " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
+
 
         double area = abin.bulletPhysics->getContactArea(new_box, b);
         contact_area += area;
@@ -863,7 +869,11 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
                 }
             }
             helt += overlap;
+
+           std::cout << "overlap --> " << overlap << std::endl;
         }
+
+        std::cout << "helt --> " << helt << std::endl;
 
         position = givePosition(abox, fp, b, count_neighbours, distance_x,
                                 distance_y);  // get the count_neighbours, should be removed
@@ -950,6 +960,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
     // Return -1 if not enough ground surface of the Box is supported
     if (floatLessThan(helt / (abox.m_width * abox.m_length), paramsPtr_->helt_rate()))
     {
+        std::cout << "Helt Fail " << helt / (abox.m_width * abox.m_length) << " " << paramsPtr_->helt_rate() << std::endl;
         std::cout << "+++++++++++++++++++ Check failed 7" << std::endl;
 
         return -1;
