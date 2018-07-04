@@ -2,6 +2,8 @@
 
 namespace bpa
 {
+BulletPhysics* BulletPhysics::instance_ = nullptr;
+
 BulletPhysics::BulletPhysics()
   : defaultContactProcessingThreshold_(BT_LARGE_FLOAT)
   , broadphase_(new btDbvtBroadphase())
@@ -47,7 +49,16 @@ BulletPhysics::~BulletPhysics()
   delete broadphase_;
 }
 
-void BulletPhysics::createBox(const bpa::Box& box, bool rotate)
+BulletPhysics* BulletPhysics::instance()
+{
+  if (!instance_)
+  {
+    return new BulletPhysics();
+  }
+  return instance_;
+}
+
+void BulletPhysics::addBox(const bpa::Box &box, bool rotate)
 {
   btScalar mass(0.0);
   btVector3 size;
@@ -67,10 +78,18 @@ void BulletPhysics::createBox(const bpa::Box& box, bool rotate)
                        box.position.position(1) + box.center_of_mass.position(1),
                        box.position.position(2) + box.center_of_mass.position(2));
   }
-  createBox(mass, size, origin);
+  addBox(mass, size, origin);
 }
 
-void BulletPhysics::createBox(btScalar mass, btVector3 size, btVector3 origin)
+void BulletPhysics::addBoxes(const std::vector<bpa::Box> &boxes)
+{
+  for (const bpa::Box& b : boxes)
+  {
+    addBox(b);
+  }
+}
+
+void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin)
 {
   btCollisionShape* colShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
   colShape->setMargin(-0.00001);  // the margin affect the contact distance and normal.

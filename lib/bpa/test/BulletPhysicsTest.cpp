@@ -8,30 +8,36 @@ class BulletPhysicsTestFixture : public testing::Test
 protected:
   void SetUp()
   {
-    physicsEngine = PhysicsEngine::get(Engine::Bullet);
+    bulletPhysics = BulletPhysics::instance();
   }
 
   void TearDown()
   {
-    delete physicsEngine;
+    delete bulletPhysics;
   }
 
-  PhysicsEngine* physicsEngine;
+  BulletPhysics* bulletPhysics;
 };
 
+/**
+ * used with valgrind memcheck to detect memory leaks
+ */
 TEST_F(BulletPhysicsTestFixture, AddBoxToBulletPhysicsTest)
 {
   Box box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
-  physicsEngine->addBox(box);
+  bulletPhysics->addBox(box);
 
   EXPECT_TRUE(true);
 }
 
+/**
+ * used with valgrind memcheck to detect memory leaks
+ */
 TEST_F(BulletPhysicsTestFixture, AddBoxesToBulletPhysicsTest)
 {
   Box box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
-  std::vector<Box> boxes{100, box};
-  physicsEngine->addBoxes(boxes);
+  std::vector<Box> boxes{ 100, box };
+  bulletPhysics->addBoxes(boxes);
 
   EXPECT_TRUE(true);
 }

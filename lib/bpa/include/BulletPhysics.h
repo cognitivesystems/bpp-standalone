@@ -8,19 +8,25 @@
 #include <BulletCollision/NarrowPhaseCollision/btPointCollector.h>
 #include <LinearMath/btAlignedObjectArray.h>
 #include <vector>
-#include "PhysicsEngine.h"
+#include "Box.h"
 
 namespace bpa
 {
-class BulletPhysics : public PhysicsEngine
+class BulletPhysics
 {
 public:
   BulletPhysics();
-  virtual ~BulletPhysics();
+  ~BulletPhysics();
+
+  static BulletPhysics* instance();
+
+  void addBox(const bpa::Box& box, bool rotate = true);
+  void addBoxes(const std::vector<bpa::Box>& boxes);
 
 private:
-  virtual void createBox(const bpa::Box& box, bool rotate);
-  void createBox(btScalar mass, btVector3 size, btVector3 origin);
+  void addBox(btScalar mass, btVector3 size, btVector3 origin);
+
+  static BulletPhysics* instance_;
 
   btScalar defaultContactProcessingThreshold_;
   btBroadphaseInterface* broadphase_;

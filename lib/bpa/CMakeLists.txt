@@ -32,9 +32,7 @@ set(BpaLib_hdr
   include/SimulatedBox.h
   include/PhysicsBullet.h
   include/BoxJsonParser.h
-  include/BulletPhysics.h
-  include/KineoPhysics.h
-  include/PhysicsEngine.h)
+  include/BulletPhysics.h)
 
 set(BpaLib_src
   src/Bin.cpp
@@ -49,9 +47,7 @@ set(BpaLib_src
   src/pp_functions.cpp
   src/PhysicsBullet.cpp
   src/BoxJsonParser.cpp
-  src/BulletPhysics.cpp
-  src/KineoPhysics.cpp
-  src/PhysicsEngine.cpp)
+  src/BulletPhysics.cpp)
 
 add_library(bpa SHARED ${BpaLib_hdr} ${BpaLib_src})
 set_target_properties(bpa PROPERTIES VERSION ${LIB_VERSION_STRING} SOVERSION ${LIB_VERSION_MAJOR})
