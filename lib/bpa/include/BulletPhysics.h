@@ -23,12 +23,14 @@ public:
   void addBox(const bpa::Box& box, bool rotate = true);
   void addBoxes(const std::vector<bpa::Box>& boxes);
 
-  bool isColliding(const bpa::Box& new_box);
-  bool isColliding(const bpa::Box& new_box, const bpa::Box& old_box);
+  bool isColliding(const bpa::Box& new_box) const;
+  bool isColliding(const bpa::Box& new_box, const bpa::Box& old_box) const;
+
+  int numCollisionObjects() const;
 
 private:
   void addBox(btScalar mass, btVector3 size, btVector3 origin);
-  btRigidBody* createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin);
+  btRigidBody* createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin) const;
 
   static BulletPhysics* instance_;
 

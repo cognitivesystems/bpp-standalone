@@ -48,6 +48,7 @@ TEST_F(BulletPhysicsTestFixture, OneBoxCollisionTest)
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 
   bulletPhysics->addBox(box);
+  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
   box.position.position(0) = 0.5;
@@ -66,5 +67,31 @@ TEST_F(BulletPhysicsTestFixture, OneBoxCollisionTest)
   // it cannot be more precise than current value, otherwise the following will be reported as collision
   box.position.position(1) = 1.0;
   EXPECT_FALSE(bulletPhysics->isColliding(box));
+
+  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+}
+
+TEST_F(BulletPhysicsTestFixture, TwoBoxesCollisionTest)
+{
+  Box box_a(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  Box box_b(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  EXPECT_TRUE(bulletPhysics->isColliding(box_a, box_b));
+
+  box_a.position.position(0) = 0.5;
+  box_a.position.position(1) = 0.5;
+  EXPECT_TRUE(bulletPhysics->isColliding(box_a, box_b));
+
+  // we are only able to detect this collision
+  box_a.position.position(1) = 0.99;
+  EXPECT_TRUE(bulletPhysics->isColliding(box_a, box_b));
+
+  // but not this
+  box_a.position.position(1) = 0.999;
+  EXPECT_FALSE(bulletPhysics->isColliding(box_a, box_b));
+
+  box_a.position.position(1) = 1.0;
+  EXPECT_FALSE(bulletPhysics->isColliding(box_a, box_b));
+
+  EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
 }
 }

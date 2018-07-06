@@ -81,7 +81,7 @@ void BulletPhysics::addBox(const bpa::Box& box, bool rotate)
   addBox(mass, size, origin);
 }
 
-bool BulletPhysics::isColliding(const bpa::Box& new_box)
+bool BulletPhysics::isColliding(const bpa::Box& new_box) const
 {
   // if box and other boxes are touch contact, should not be consided as collided !!!
   if (dynamicsWorld_)
@@ -112,7 +112,7 @@ bool BulletPhysics::isColliding(const bpa::Box& new_box)
       if (floatLessThan(resultCallback.distanceVec[i], maxDistance))
       {
         maxDistance = resultCallback.distanceVec[i];
-        // std::cout << "collide distance is = " << maxDistance << std::endl;
+        // std::cout << "collision distance is = " << maxDistance << std::endl;
       }
     }
     if (!resultCallback.collisionVec.empty() && (std::fabs(maxDistance) > std::numeric_limits<float>::epsilon()))
@@ -121,8 +121,72 @@ bool BulletPhysics::isColliding(const bpa::Box& new_box)
   return false;
 }
 
-bool BulletPhysics::isColliding(const bpa::Box& new_box, const bpa::Box& old_box)
+bool BulletPhysics::isColliding(const bpa::Box& new_box, const bpa::Box& old_box) const
 {
+  // if box and other boxes are touch contact, should not be consided as collided !!!
+  if (dynamicsWorld_)
+  {
+    // new box
+    Eigen::Vector3d bbox, old_bbox;
+    if (new_box.is_rotated)
+      bbox << new_box.m_width, new_box.m_length, new_box.m_height;
+    else
+      bbox << new_box.m_length, new_box.m_width, new_box.m_height;
+    btScalar mass(0.0);
+    btVector3 size(btVector3(bbox(0) - 0.01, bbox(1) - 0.01, bbox(2) - 0.01));
+    btVector3 origin(new_box.position.position(0) + bbox(0) / 2.0, new_box.position.position(1) + bbox(1) / 2.0,
+                     new_box.position.position(2) + bbox(2) / 2.0);
+    btCollisionShape* colShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
+    btRigidBody* body = createRigidBody(mass, colShape, origin);
+
+    // old box
+    if (old_box.is_rotated)
+      old_bbox << old_box.m_width, old_box.m_length, old_box.m_height;
+    else
+      old_bbox << old_box.m_length, old_box.m_width, old_box.m_height;
+    btVector3 sizeOld(btVector3(old_bbox(0), old_bbox(1), old_bbox(2)));
+    btVector3 originOld(old_box.position.position(0) + old_bbox(0) / 2.0,
+                        old_box.position.position(1) + old_bbox(1) / 2.0,
+                        old_box.position.position(2) + old_bbox(2) / 2.0);
+    btCollisionShape* shapeOld =
+        new btBoxShape(btVector3(sizeOld.getX() / 2.0, sizeOld.getY() / 2.0, sizeOld.getZ() / 2.0));
+    btRigidBody* bodyOld = createRigidBody(mass, shapeOld, originOld);
+
+    // checking collistion
+    ContactResultCallback resultCallback;
+
+#pragma omp critical
+    {
+      dynamicsWorld_->contactPairTest(body, bodyOld, resultCallback);
+    }
+
+    delete body->getCollisionShape();
+    delete body->getMotionState();
+    delete body;
+
+    delete bodyOld->getCollisionShape();
+    delete bodyOld->getMotionState();
+    delete bodyOld;
+
+    // check all contact distances, and exclude the surface contact points
+    double maxDistance = 0.0;
+    for (size_t i = 0; i < resultCallback.collisionVec.size(); ++i)
+    {
+      if (floatLessThan(resultCallback.distanceVec[i], maxDistance))
+      {
+        maxDistance = resultCallback.distanceVec[i];
+        // std::cout << "collision distance is = " << maxDistance << std::endl;
+      }
+    }
+    if (!resultCallback.collisionVec.empty() && std::fabs(maxDistance) > std::numeric_limits<float>::epsilon())
+      return true;
+  }
+  return false;
+}
+
+int BulletPhysics::numCollisionObjects() const
+{
+  return dynamicsWorld_->getNumCollisionObjects();
 }
 
 void BulletPhysics::addBoxes(const std::vector<bpa::Box>& boxes)
@@ -133,7 +197,7 @@ void BulletPhysics::addBoxes(const std::vector<bpa::Box>& boxes)
   }
 }
 
-btRigidBody* BulletPhysics::createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin)
+btRigidBody* BulletPhysics::createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin) const
 {
   btAssert((!shape || shape->getShapeType() != INVALID_SHAPE_PROXYTYPE));
   shape->setMargin(0.0);
