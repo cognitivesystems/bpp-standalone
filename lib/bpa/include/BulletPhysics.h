@@ -25,12 +25,14 @@ public:
 
   bool isColliding(const bpa::Box& new_box) const;
   bool isColliding(const bpa::Box& new_box, const bpa::Box& old_box) const;
+  bool isPointContact(const Eigen::Vector3d& point) const;
 
   int numCollisionObjects() const;
 
 private:
   void addBox(btScalar mass, btVector3 size, btVector3 origin);
   btRigidBody* createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin) const;
+  btRigidBody* createPointSphere(btVector3 origin) const;
 
   static BulletPhysics* instance_;
 

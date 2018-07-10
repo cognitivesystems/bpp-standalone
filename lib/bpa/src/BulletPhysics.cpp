@@ -184,6 +184,35 @@ bool BulletPhysics::isColliding(const bpa::Box& new_box, const bpa::Box& old_box
   return false;
 }
 
+bool BulletPhysics::isPointContact(const Eigen::Vector3d& point) const
+{
+  if (dynamicsWorld_)
+  {
+    btRigidBody* pointBall = createPointSphere(btVector3(point(0), point(1), point(2)));
+    // 1: point & world, setMargin = -0.0001
+    ContactResultCallback resultCallback;
+    dynamicsWorld_->contactTest(pointBall, resultCallback);
+
+    delete pointBall->getCollisionShape();
+    delete pointBall->getMotionState();
+    delete pointBall;
+
+    double maxDistance = 0.0;
+    for (size_t i = 0; i < resultCallback.collisionVec.size(); ++i)
+    {
+      if (floatLessThan(resultCallback.distanceVec[i], maxDistance))
+      {
+        maxDistance = resultCallback.distanceVec[i];
+        // std::cout << "collision distance is = " << maxDistance << std::endl;
+      }
+    }
+
+    if (!resultCallback.collisionVec.empty() && std::fabs(maxDistance) > std::numeric_limits<float>::epsilon())
+      return true;
+  }
+  return false;
+}
+
 int BulletPhysics::numCollisionObjects() const
 {
   return dynamicsWorld_->getNumCollisionObjects();
@@ -201,6 +230,30 @@ btRigidBody* BulletPhysics::createRigidBody(btScalar mass, btCollisionShape* sha
 {
   btAssert((!shape || shape->getShapeType() != INVALID_SHAPE_PROXYTYPE));
   shape->setMargin(0.0);
+
+  btTransform startTransform;
+  startTransform.setIdentity();
+  startTransform.setOrigin(btVector3(origin.getX(), origin.getY(), origin.getZ()));
+
+  bool isDynamic = (mass != 0.f);
+
+  btVector3 localInertia(0, 0, 0);
+  if (isDynamic)
+    shape->calculateLocalInertia(mass, localInertia);
+
+  btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+  btRigidBody::btRigidBodyConstructionInfo cInfo(mass, myMotionState, shape, localInertia);
+  btRigidBody* body = new btRigidBody(cInfo);
+  body->setContactProcessingThreshold(defaultContactProcessingThreshold_);
+
+  return body;
+}
+
+btRigidBody* BulletPhysics::createPointSphere(btVector3 origin) const
+{
+  btCollisionShape* shape = new btSphereShape(0.0);
+  shape->setMargin(0.0);
+  btScalar mass = 0.0f;
 
   btTransform startTransform;
   startTransform.setIdentity();

@@ -94,4 +94,27 @@ TEST_F(BulletPhysicsTestFixture, TwoBoxesCollisionTest)
 
   EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
 }
+
+TEST_F(BulletPhysicsTestFixture, PointContactTest)
+{
+  Eigen::Vector3d point_a(0.5, 0.5, 0.5);
+  EXPECT_FALSE(bulletPhysics->isPointContact(point_a));
+
+  Box box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  bulletPhysics->addBox(box);
+  EXPECT_TRUE(bulletPhysics->isPointContact(point_a));
+
+  // we are only able to detect this collision
+  Eigen::Vector3d point_b(0.9999, 0.9999, 0.9999);
+  EXPECT_TRUE(bulletPhysics->isPointContact(point_b));
+
+  // but not this
+  Eigen::Vector3d point_c(0.99999, 0.99999, 0.99999);
+  EXPECT_FALSE(bulletPhysics->isPointContact(point_c));
+
+  Eigen::Vector3d point_d(1.0, 1.0, 1.0);
+  EXPECT_FALSE(bulletPhysics->isPointContact(point_d));
+
+  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+}
 }
