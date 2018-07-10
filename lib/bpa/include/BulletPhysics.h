@@ -27,6 +27,8 @@ public:
   bool isColliding(const bpa::Box& new_box, const bpa::Box& old_box) const;
   bool isPointContact(const Eigen::Vector3d& point) const;
 
+  Eigen::Vector3d castRays(const Eigen::Vector3d& point, const Eigen::Vector3d& direction) const;
+
   int numCollisionObjects() const;
 
 private:

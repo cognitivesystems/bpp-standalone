@@ -213,6 +213,81 @@ bool BulletPhysics::isPointContact(const Eigen::Vector3d& point) const
   return false;
 }
 
+Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eigen::Vector3d& direction) const
+{
+  Eigen::Vector3d projection;
+  projection = point;
+
+  if (dynamicsWorld_)
+  {
+    // first hit
+    btVector3 from = btVector3((float)(point(0)), (float)(point(1)), (float)(point(2)));
+    btVector3 to = btVector3((float)(point(0) + 5 * direction(0)), (float)(point(1) + 5 * direction(1)),
+                             (float)(point(2) + 5 * direction(2)));
+
+    ////////////////////////////////////////////////////////////////////////////////
+    /// \brief Problem:  If this point already contacts with a box, then the rayTest will get next point instead of this
+    /// contact point.
+    /// \brief Solution: check if this direction is contacted. If it is contacted, don't need projection!
+    bool needProj = true;
+    btRigidBody* pointBall = createPointSphere(from);
+    ContactResultCallback resultCallback;
+    dynamicsWorld_->contactTest(pointBall, resultCallback);
+
+    delete pointBall->getCollisionShape();
+    delete pointBall->getMotionState();
+    delete pointBall;
+
+    size_t oldNum = resultCallback.collisionVec.size();
+
+    btRigidBody* pointTemp =
+        createPointSphere(btVector3((float)(point(0) - 0.01 * direction(0)), (float)(point(1) - 0.01 * direction(1)),
+                                    (float)(point(2) - 0.01 * direction(2))));
+    resultCallback.clearData();
+    dynamicsWorld_->contactTest(pointTemp, resultCallback);
+
+    delete pointTemp->getCollisionShape();
+    delete pointTemp->getMotionState();
+    delete pointTemp;
+
+    if (resultCallback.collisionVec.size() < oldNum)
+    {
+      needProj = false;
+    }
+    /////////////////////////////////////////////////////////////////////////
+
+    btCollisionWorld::ClosestRayResultCallback closestResults(from, to);
+    dynamicsWorld_->rayTest(from, to, closestResults);
+
+    if (closestResults.hasHit() && needProj)
+    {
+      btVector3 p = closestResults.m_hitPointWorld;
+      projection << p.getX(), p.getY(), p.getZ();
+
+      // check for 0.0
+      for (size_t i = 0; i < 3; ++i)
+      {
+        if (projection(i) < 1.0e-04)
+        {
+          projection(i) = 0.0;
+        }
+      }
+
+      if (floatEqual(point(0), projection(0)) && floatEqual(point(1), projection(1)) &&
+          floatEqual(point(2), projection(2)))
+      {
+        projection = point;
+      }
+      // cut for 0.00
+      for (size_t i = 0; i < 3; ++i)
+      {
+        projection(i) = ((int)(floor((projection(i) + 1e-3) * 100))) / 100.0;
+      }
+    }
+  }
+  return projection;
+}
+
 int BulletPhysics::numCollisionObjects() const
 {
   return dynamicsWorld_->getNumCollisionObjects();

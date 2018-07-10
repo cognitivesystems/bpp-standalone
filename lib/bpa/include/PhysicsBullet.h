@@ -45,9 +45,9 @@ public:
   bool isCollidingBox(bpa::Box& new_box, bpa::Box& old_box);
   bool isPointContact(Eigen::Vector3d& point);
 
-  // TODO: implement the following in BulletPhysics class
-
   Eigen::Vector3d castRays(Eigen::Vector3d& point, Eigen::Vector3d& direction);
+
+  // TODO: implement the following in BulletPhysics class
 
   // only get the support area (down)
   double getSupportArea(bpa::Box& new_box, bpa::Box& old_box);

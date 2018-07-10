@@ -117,4 +117,23 @@ TEST_F(BulletPhysicsTestFixture, PointContactTest)
 
   EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
 }
+
+TEST_F(BulletPhysicsTestFixture, CastRaysTest)
+{
+  Eigen::Vector3d point_a(1.5, 0.5, 0.5);
+  Box box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  bulletPhysics->addBox(box);
+
+  Eigen::Vector3d negative_x_direction(-1.0, 0.0, 0.0);
+  Eigen::Vector3d actual_projection = bulletPhysics->castRays(point_a, negative_x_direction);
+  Eigen::Vector3d expected_projection(1.0, 0.5, 0.5);
+  EXPECT_EQ(expected_projection, actual_projection);
+
+  Eigen::Vector3d point_b(1.0, 0.5, 0.5);
+  Eigen::Vector3d x_direction(1.0, 0.0, 0.0);
+  actual_projection = bulletPhysics->castRays(point_b, x_direction);
+  EXPECT_EQ(expected_projection, actual_projection);
+
+  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+}
 }
