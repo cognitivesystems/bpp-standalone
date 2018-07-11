@@ -32,6 +32,9 @@ public:
   // assume old_box is already in physics world
   // add new_box into the world, calculate the support area, and remove it from the world
   double getSupportArea(const bpa::Box& new_box, const bpa::Box& old_box);
+  // assume old_box is already in physics world
+  // add new_box into the world, calculate the contact area, and remove it from the world
+  double getContactArea(const bpa::Box& new_box, const bpa::Box& old_box);
 
   int numCollisionObjects() const;
 
@@ -40,8 +43,13 @@ private:
   btRigidBody* createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin) const;
   btRigidBody* createPointSphere(btVector3 origin) const;
 
+  double getArea(const bpa::Box& new_box, const bpa::Box& old_box,
+                 double (BulletPhysics::*calculateArea)(const std::vector<btVector3>&) const);
+
   // assuming there are 4 points and they form a parallelogram on a horizontal plane
-  double getHorizontalArea(std::vector<btVector3>& points) const;
+  double getHorizontalArea(const std::vector<btVector3>& points) const;
+  // assuming there are 4 points and they form a parallelogram on a vertical plane
+  double getVerticalArea(const std::vector<btVector3>& points) const;
 
   static BulletPhysics* instance_;
 

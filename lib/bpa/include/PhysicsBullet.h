@@ -49,11 +49,10 @@ public:
 
   // only get the support area (down)
   double getSupportArea(bpa::Box& new_box, bpa::Box& old_box);
-
-  // TODO: implement the following in BulletPhysics class
-
   // get all side contact areas
   double getContactArea(bpa::Box& new_box, bpa::Box& old_box);
+
+  // TODO: implement the following in BulletPhysics class
 
   double getMinimumDistance(bpa::Box& new_box);
   double getMinimumDistance(bpa::Box& new_box, bpa::Box& old_box);

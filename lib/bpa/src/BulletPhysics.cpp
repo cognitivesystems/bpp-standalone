@@ -1,3 +1,4 @@
+#include <set>
 #include "BulletPhysics.h"
 
 namespace bpa
@@ -289,43 +290,12 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
 
 double BulletPhysics::getSupportArea(const bpa::Box& new_box, const bpa::Box& old_box)
 {
-  double area = 0.0;
+  return getArea(new_box, old_box, &BulletPhysics::getHorizontalArea);
+}
 
-  if (!isColliding(new_box, old_box))
-  {
-    addBox(new_box);
-
-    if (dynamicsWorld_->getDispatcher()->getNumManifolds() == 1)
-    {
-      btPersistentManifold* contactManifold = dynamicsWorld_->getDispatcher()->getManifoldByIndexInternal(0);
-      std::vector<btVector3> contactPoints;
-
-      for (int j = 0; j < contactManifold->getNumContacts(); j++)
-      {
-        btManifoldPoint& pt = contactManifold->getContactPoint(j);
-
-        if (pt.getDistance() <= 0.f)
-        {
-          const btVector3& ptA = pt.getPositionWorldOnA();
-          contactPoints.push_back(ptA);
-        }
-      }
-      area = getHorizontalArea(contactPoints);
-    }
-
-    btCollisionObject* obj = collisionBodies_.at(collisionBodies_.size() - 1);
-    btRigidBody* body = btRigidBody::upcast(obj);
-    if (body && body->getMotionState())
-    {
-      delete body->getMotionState();
-      delete body->getCollisionShape();
-    }
-    dynamicsWorld_->removeCollisionObject(obj);
-    delete obj;
-    collisionBodies_.pop_back();
-  }
-
-  return area;
+double BulletPhysics::getContactArea(const bpa::Box& new_box, const bpa::Box& old_box)
+{
+  return getArea(new_box, old_box, &BulletPhysics::getVerticalArea);
 }
 
 int BulletPhysics::numCollisionObjects() const
@@ -421,7 +391,49 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin)
   dynamicsWorld_->computeOverlappingPairs();
 }
 
-double BulletPhysics::getHorizontalArea(std::vector<btVector3>& points) const
+double BulletPhysics::getArea(const bpa::Box& new_box, const bpa::Box& old_box,
+                              double (BulletPhysics::*calculateArea)(const std::vector<btVector3>&) const)
+{
+  double area = 0.0;
+
+  if (!isColliding(new_box, old_box))
+  {
+    addBox(new_box);
+
+    if (dynamicsWorld_->getDispatcher()->getNumManifolds() == 1)
+    {
+      btPersistentManifold* contactManifold = dynamicsWorld_->getDispatcher()->getManifoldByIndexInternal(0);
+      std::vector<btVector3> contactPoints;
+
+      for (int j = 0; j < contactManifold->getNumContacts(); j++)
+      {
+        btManifoldPoint& pt = contactManifold->getContactPoint(j);
+
+        if (pt.getDistance() <= 0.f)
+        {
+          const btVector3& ptA = pt.getPositionWorldOnA();
+          contactPoints.push_back(ptA);
+        }
+      }
+      area = (this->*calculateArea)(contactPoints);
+    }
+
+    btCollisionObject* obj = collisionBodies_.at(collisionBodies_.size() - 1);
+    btRigidBody* body = btRigidBody::upcast(obj);
+    if (body && body->getMotionState())
+    {
+      delete body->getMotionState();
+      delete body->getCollisionShape();
+    }
+    dynamicsWorld_->removeCollisionObject(obj);
+    delete obj;
+    collisionBodies_.pop_back();
+  }
+
+  return area;
+}
+
+double BulletPhysics::getHorizontalArea(const std::vector<btVector3>& points) const
 {
   double area = 0.0;
 
@@ -431,7 +443,30 @@ double BulletPhysics::getHorizontalArea(std::vector<btVector3>& points) const
     {
       btVector3 side_a = points[0] - points[1];
       btVector3 side_b = points[0] - points[2];
-      area = std::fabs(side_a.cross(side_b).length());
+      area = side_a.cross(side_b).length();
+    }
+  }
+
+  return area;
+}
+
+double BulletPhysics::getVerticalArea(const std::vector<btVector3>& points) const
+{
+  double area = 0.0;
+
+  if (points.size() == 4)
+  {
+    std::set<std::pair<double, double>> points2d;
+    for (const btVector3& point : points)
+    {
+      points2d.insert(std::make_pair(point.x(), point.y()));
+    }
+
+    if (points2d.size() == 2)
+    {
+      btVector3 side_a = points[0] - points[1];
+      btVector3 side_b = points[0] - points[2];
+      area = side_a.cross(side_b).length();
     }
   }
 
