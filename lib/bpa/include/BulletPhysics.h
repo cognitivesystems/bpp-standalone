@@ -23,11 +23,15 @@ public:
   void addBox(const bpa::Box& box, bool rotate = true);
   void addBoxes(const std::vector<bpa::Box>& boxes);
 
-  bool isColliding(const bpa::Box& new_box) const;
-  bool isColliding(const bpa::Box& new_box, const bpa::Box& old_box) const;
+  bool isColliding(const bpa::Box& box) const;
+  bool isColliding(const bpa::Box& box_a, const bpa::Box& box_b) const;
   bool isPointContact(const Eigen::Vector3d& point) const;
 
   Eigen::Vector3d castRays(const Eigen::Vector3d& point, const Eigen::Vector3d& direction) const;
+
+  // assume old_box is already in physics world
+  // add new_box into the world, calculate the support area, and remove it from the world
+  double getSupportArea(const bpa::Box& new_box, const bpa::Box& old_box);
 
   int numCollisionObjects() const;
 
@@ -35,6 +39,9 @@ private:
   void addBox(btScalar mass, btVector3 size, btVector3 origin);
   btRigidBody* createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin) const;
   btRigidBody* createPointSphere(btVector3 origin) const;
+
+  // assuming there are 4 points and they form a parallelogram on a horizontal plane
+  double getHorizontalArea(std::vector<btVector3>& points) const;
 
   static BulletPhysics* instance_;
 
@@ -72,6 +79,6 @@ private:
     std::vector<btVector3> normalWorldOnBVec;
   };
 };
-}  // namespace engine_factory
+}  // namespace bpa
 
 #endif  // BULLET_PHYSICS_H

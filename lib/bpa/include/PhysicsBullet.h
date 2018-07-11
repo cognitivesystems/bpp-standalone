@@ -47,10 +47,11 @@ public:
 
   Eigen::Vector3d castRays(Eigen::Vector3d& point, Eigen::Vector3d& direction);
 
-  // TODO: implement the following in BulletPhysics class
-
   // only get the support area (down)
   double getSupportArea(bpa::Box& new_box, bpa::Box& old_box);
+
+  // TODO: implement the following in BulletPhysics class
+
   // get all side contact areas
   double getContactArea(bpa::Box& new_box, bpa::Box& old_box);
 
