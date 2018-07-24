@@ -215,7 +215,7 @@ std::vector<Box> PalletizationPlanner::getMoveDirection(std::vector<Box>& box_pl
     pp_boxplan.push_back(box);
 
     // add this new box to the bullet physics world
-    abin.bulletPhysics->addNewBoxToPhysics(box);
+    abin.bulletPhysics->addBox(box);
   }
 
   return pp_boxplan;
@@ -236,7 +236,7 @@ std::vector<Box> PalletizationPlanner::getGraspPose(std::vector<Box>& pp_boxplan
 
     grasp_boxplan.push_back(box);
     // add this new box to the bullet physics world
-    abin.bulletPhysics->addNewBoxToPhysics(box);
+    abin.bulletPhysics->addBox(box);
   }
   return grasp_boxplan;
 }
@@ -378,7 +378,7 @@ bool PalletizationPlanner::xBlocking(Box abox, Box b, Bin abin)
   if (abox.position.position(0) >= b.position.position(0))
   {
     abox.position.position(0) = b.position.position(0);
-    if (abin.bulletPhysics->isCollidingBox(abox, b))
+    if (abin.bulletPhysics->isColliding(abox, b))
     {
       return true;
     }
@@ -392,7 +392,7 @@ bool PalletizationPlanner::yBlocking(Box abox, Box b, Bin abin)
   if (abox.position.position(1) <= b.position.position(1))
   {
     abox.position.position(1) = b.position.position(1);
-    if (abin.bulletPhysics->isCollidingBox(abox, b))
+    if (abin.bulletPhysics->isColliding(abox, b))
     {
       return true;
     }
@@ -406,7 +406,7 @@ bool PalletizationPlanner::zBlocking(Box abox, Box b, Bin abin)
   if ((abox.position.position(2) + abox.m_height) <= b.position.position(2))
   {
     abox.position.position(2) = b.position.position(2);
-    if (abin.bulletPhysics->isCollidingBox(abox, b))
+    if (abin.bulletPhysics->isColliding(abox, b))
     {
       return true;
     }

@@ -30,7 +30,6 @@ set(BpaLib_hdr
   include/Point.h
   include/pp_functions.h
   include/SimulatedBox.h
-  include/PhysicsBullet.h
   include/BoxJsonParser.h
   include/BulletPhysics.h)
 
@@ -42,10 +41,8 @@ set(BpaLib_src
   src/HoldingPlatform.cpp
   src/MixedScore.cpp
   src/Parameters.cpp
-  src/PhysicsBullet.cpp
   src/Point.cpp
   src/pp_functions.cpp
-  src/PhysicsBullet.cpp
   src/BoxJsonParser.cpp
   src/BulletPhysics.cpp)
 

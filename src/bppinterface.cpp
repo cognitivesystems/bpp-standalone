@@ -9,7 +9,6 @@
  */
 #include "bppinterface.h"
 #include "scenerenderer3d.h"
-#include "PhysicsBullet.h"
 
 namespace bpainf
 {
@@ -63,7 +62,7 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
 
   // build the physics world for bullet
   new_pallet_config.bulletPhysics->addBinBoundingBox();
-  new_pallet_config.bulletPhysics->addNewBoxesToPhysics(new_pallet_config.packed_boxes);
+  new_pallet_config.bulletPhysics->addBoxes(new_pallet_config.packed_boxes);
 //  std::cout << "************************size of the  packed boxes from last bpp is :"
 //            << new_pallet_config.packed_boxes.size() << std::endl;
 //  std::cout << "************************size of the fitting points from last bpp is:"
