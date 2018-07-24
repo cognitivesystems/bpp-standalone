@@ -20,36 +20,37 @@ public:
 
   static BulletPhysics* instance();
 
+  // (notes to developers only)
+  // the following functions work in bin packing world
   void addBox(const bpa::Box& box, bool rotate = true);
   void addBoxes(const std::vector<bpa::Box>& boxes);
-
   bool isColliding(const bpa::Box& box) const;
   bool isColliding(const bpa::Box& box_a, const bpa::Box& box_b) const;
   bool isPointContact(const Eigen::Vector3d& point) const;
-
   Eigen::Vector3d castRays(const Eigen::Vector3d& point, const Eigen::Vector3d& direction) const;
 
-  // assume old_box is already in physics world
-  // add new_box into the world, calculate the support area, and remove it from the world
-  double getSupportArea(const bpa::Box& new_box, const bpa::Box& old_box);
-  // assume old_box is already in physics world
-  // add new_box into the world, calculate the contact area, and remove it from the world
-  double getContactArea(const bpa::Box& new_box, const bpa::Box& old_box);
+  // (notes to developers only)
+  // the following functions work in area check world
+  double getSupportArea(const bpa::Box& box_a, const bpa::Box& box_b);
+  double getContactArea(const bpa::Box& box_a, const bpa::Box& box_b);
 
   int numCollisionObjects() const;
 
 private:
-  void addBox(btScalar mass, btVector3 size, btVector3 origin);
+  void addBox(const bpa::Box& box, btDynamicsWorld* dynamicsWorld, bool rotate = true);
+  void addBox(btScalar mass, btVector3 size, btVector3 origin, btDynamicsWorld* dynamicsWorld);
   btRigidBody* createRigidBody(btScalar mass, btCollisionShape* shape, btVector3 origin) const;
   btRigidBody* createPointSphere(btVector3 origin) const;
 
-  double getArea(const bpa::Box& new_box, const bpa::Box& old_box,
+  double getArea(const bpa::Box& box_a, const bpa::Box& box_b,
                  double (BulletPhysics::*calculateArea)(const std::vector<btVector3>&) const);
 
   // assuming there are 4 points and they form a parallelogram on a horizontal plane
   double getHorizontalArea(const std::vector<btVector3>& points) const;
   // assuming there are 4 points and they form a parallelogram on a vertical plane
   double getVerticalArea(const std::vector<btVector3>& points) const;
+
+  void cleanup(btDynamicsWorld* dynamicsWorld);
 
   static BulletPhysics* instance_;
 
@@ -58,9 +59,9 @@ private:
   btDefaultCollisionConfiguration* collisionConfiguration_;
   btCollisionDispatcher* dispatcher_;
   btConstraintSolver* solver_;
-  btDynamicsWorld* dynamicsWorld_;
+  btDynamicsWorld* binPackingWorld_;
+  btDynamicsWorld* areaCheckWorld_;
   btAlignedObjectArray<btRigidBody*> collisionBodies_;
-  std::vector<btConvexShape*> convexShapes_;
 
   struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
   {

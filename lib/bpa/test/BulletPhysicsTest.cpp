@@ -139,51 +139,49 @@ TEST_F(BulletPhysicsTestFixture, CastRaysTest)
 
 TEST_F(BulletPhysicsTestFixture, BoxesSupportAreaTest)
 {
-  Box old_box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
-  Box new_box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
-  bulletPhysics->addBox(old_box);
-  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(new_box, old_box));
+  Box box_a(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  Box box_b(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(box_a, box_b));
 
-  new_box.position.position(2) = 1.0;
-  EXPECT_DOUBLE_EQ(1.0, bulletPhysics->getSupportArea(new_box, old_box));
+  box_b.position.position(2) = 1.0;
+  EXPECT_DOUBLE_EQ(1.0, bulletPhysics->getSupportArea(box_a, box_b));
 
-  new_box.position.position(0) = 0.5;
-  EXPECT_DOUBLE_EQ(0.5, bulletPhysics->getSupportArea(new_box, old_box));
+  box_b.position.position(0) = 0.5;
+  EXPECT_DOUBLE_EQ(0.5, bulletPhysics->getSupportArea(box_a, box_b));
 
-  new_box.position.position(1) = 0.5;
-  EXPECT_DOUBLE_EQ(0.25, bulletPhysics->getSupportArea(new_box, old_box));
+  box_b.position.position(1) = 0.5;
+  EXPECT_DOUBLE_EQ(0.25, bulletPhysics->getSupportArea(box_a, box_b));
 
-  new_box.position.position(1) = 0.7;
-  EXPECT_NEAR(0.15, bulletPhysics->getSupportArea(new_box, old_box), std::numeric_limits<float>::epsilon());
+  box_b.position.position(1) = 0.7;
+  EXPECT_NEAR(0.15, bulletPhysics->getSupportArea(box_a, box_b), std::numeric_limits<float>::epsilon());
 
-  new_box.position.position(2) = 1.5;
-  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(new_box, old_box));
+  box_b.position.position(2) = 1.5;
+  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(box_a, box_b));
 
-  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
 }
 
 TEST_F(BulletPhysicsTestFixture, BoxesContactAreaTest)
 {
-  Box old_box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
-  Box new_box(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
-  bulletPhysics->addBox(old_box);
-  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(new_box, old_box));
+  Box box_a(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  Box box_b(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
+  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(box_a, box_b));
 
-  new_box.position.position(0) = 1.0;
-  EXPECT_DOUBLE_EQ(1.0, bulletPhysics->getContactArea(new_box, old_box));
+  box_b.position.position(0) = 1.0;
+  EXPECT_DOUBLE_EQ(1.0, bulletPhysics->getContactArea(box_a, box_b));
 
-  new_box.position.position(1) = 0.5;
-  EXPECT_DOUBLE_EQ(0.5, bulletPhysics->getContactArea(new_box, old_box));
+  box_b.position.position(1) = 0.5;
+  EXPECT_DOUBLE_EQ(0.5, bulletPhysics->getContactArea(box_a, box_b));
 
-  new_box.position.position(2) = 0.5;
-  EXPECT_DOUBLE_EQ(0.25, bulletPhysics->getContactArea(new_box, old_box));
+  box_b.position.position(2) = 0.5;
+  EXPECT_DOUBLE_EQ(0.25, bulletPhysics->getContactArea(box_a, box_b));
 
-  new_box.position.position(2) = 0.7;
-  EXPECT_NEAR(0.15, bulletPhysics->getContactArea(new_box, old_box), std::numeric_limits<float>::epsilon());
+  box_b.position.position(2) = 0.7;
+  EXPECT_NEAR(0.15, bulletPhysics->getContactArea(box_a, box_b), std::numeric_limits<float>::epsilon());
 
-  new_box.position.position(0) = 1.5;
-  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(new_box, old_box));
+  box_b.position.position(0) = 1.5;
+  EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(box_a, box_b));
 
-  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
 }
 }

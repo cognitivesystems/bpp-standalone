@@ -11,39 +11,22 @@ BulletPhysics::BulletPhysics()
   , collisionConfiguration_(new btDefaultCollisionConfiguration())
   , dispatcher_(new btCollisionDispatcher(collisionConfiguration_))
   , solver_(new btSequentialImpulseConstraintSolver())
-  , dynamicsWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
+  , binPackingWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
+  , areaCheckWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
 
 {
-  dynamicsWorld_->setGravity(btVector3(0, 0, -10));
+  binPackingWorld_->setGravity(btVector3(0, 0, -10));
 }
 
 BulletPhysics::~BulletPhysics()
 {
-  // cleanup in the reverse order of creation/initialization
-  // remove the rigidbodies from the dynamics world and delete them
-  for (int i = dynamicsWorld_->getNumCollisionObjects() - 1; i >= 0; i--)
-  {
-    btCollisionObject* obj = dynamicsWorld_->getCollisionObjectArray()[i];
-    btRigidBody* body = btRigidBody::upcast(obj);
-    if (body && body->getMotionState())
-    {
-      delete body->getMotionState();
-      delete body->getCollisionShape();
-    }
-    dynamicsWorld_->removeCollisionObject(obj);
-    delete obj;
-  }
+  cleanup(binPackingWorld_);
+  cleanup(areaCheckWorld_);
+
   collisionBodies_.clear();
 
-  // delete convex shapes
-  for (int j = 0; j < convexShapes_.size(); j++)
-  {
-    btConvexShape* shape = convexShapes_[j];
-    delete shape;
-  }
-  convexShapes_.clear();
-
-  delete dynamicsWorld_;
+  delete areaCheckWorld_;
+  delete binPackingWorld_;
   delete solver_;
   delete dispatcher_;
   delete collisionConfiguration_;
@@ -61,31 +44,13 @@ BulletPhysics* BulletPhysics::instance()
 
 void BulletPhysics::addBox(const bpa::Box& box, bool rotate)
 {
-  btScalar mass(0.0);
-  btVector3 size;
-  btVector3 origin;
-  if (rotate && box.is_rotated)
-  {
-    size = btVector3(box.m_width, box.m_length, box.m_height);
-    // COM is the original one, depend on 0 rotation
-    origin = btVector3(box.position.position(0) + box.center_of_mass.position(1),
-                       box.position.position(1) + box.center_of_mass.position(0),
-                       box.position.position(2) + box.center_of_mass.position(2));
-  }
-  else
-  {
-    size = btVector3(box.m_length, box.m_width, box.m_height);
-    origin = btVector3(box.position.position(0) + box.center_of_mass.position(0),
-                       box.position.position(1) + box.center_of_mass.position(1),
-                       box.position.position(2) + box.center_of_mass.position(2));
-  }
-  addBox(mass, size, origin);
+  addBox(box, binPackingWorld_, rotate);
 }
 
 bool BulletPhysics::isColliding(const bpa::Box& box) const
 {
   // if box and other boxes are touch contact, should not be consided as collided !!!
-  if (dynamicsWorld_)
+  if (binPackingWorld_)
   {
     btScalar mass(0.0);
     btVector3 size(box.m_length, box.m_width, box.m_height);
@@ -99,7 +64,7 @@ bool BulletPhysics::isColliding(const bpa::Box& box) const
 
 #pragma omp critical
     {
-      dynamicsWorld_->contactTest(body, resultCallback);
+      binPackingWorld_->contactTest(body, resultCallback);
     }
 
     delete body->getCollisionShape();
@@ -125,7 +90,7 @@ bool BulletPhysics::isColliding(const bpa::Box& box) const
 bool BulletPhysics::isColliding(const bpa::Box& box_a, const bpa::Box& box_b) const
 {
   // if box and other boxes are touch contact, should not be consided as collided !!!
-  if (dynamicsWorld_)
+  if (binPackingWorld_)
   {
     // new box
     Eigen::Vector3d bbox, old_bbox;
@@ -157,7 +122,7 @@ bool BulletPhysics::isColliding(const bpa::Box& box_a, const bpa::Box& box_b) co
 
 #pragma omp critical
     {
-      dynamicsWorld_->contactPairTest(body, bodyOld, resultCallback);
+      binPackingWorld_->contactPairTest(body, bodyOld, resultCallback);
     }
 
     delete body->getCollisionShape();
@@ -186,12 +151,12 @@ bool BulletPhysics::isColliding(const bpa::Box& box_a, const bpa::Box& box_b) co
 
 bool BulletPhysics::isPointContact(const Eigen::Vector3d& point) const
 {
-  if (dynamicsWorld_)
+  if (binPackingWorld_)
   {
     btRigidBody* pointBall = createPointSphere(btVector3(point(0), point(1), point(2)));
     // 1: point & world, setMargin = -0.0001
     ContactResultCallback resultCallback;
-    dynamicsWorld_->contactTest(pointBall, resultCallback);
+    binPackingWorld_->contactTest(pointBall, resultCallback);
 
     delete pointBall->getCollisionShape();
     delete pointBall->getMotionState();
@@ -218,7 +183,7 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
   Eigen::Vector3d projection;
   projection = point;
 
-  if (dynamicsWorld_)
+  if (binPackingWorld_)
   {
     // first hit
     btVector3 from = btVector3((float)(point(0)), (float)(point(1)), (float)(point(2)));
@@ -232,7 +197,7 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
     bool needProj = true;
     btRigidBody* pointBall = createPointSphere(from);
     ContactResultCallback resultCallback;
-    dynamicsWorld_->contactTest(pointBall, resultCallback);
+    binPackingWorld_->contactTest(pointBall, resultCallback);
 
     delete pointBall->getCollisionShape();
     delete pointBall->getMotionState();
@@ -244,7 +209,7 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
         createPointSphere(btVector3((float)(point(0) - 0.01 * direction(0)), (float)(point(1) - 0.01 * direction(1)),
                                     (float)(point(2) - 0.01 * direction(2))));
     resultCallback.clearData();
-    dynamicsWorld_->contactTest(pointTemp, resultCallback);
+    binPackingWorld_->contactTest(pointTemp, resultCallback);
 
     delete pointTemp->getCollisionShape();
     delete pointTemp->getMotionState();
@@ -257,7 +222,7 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
     /////////////////////////////////////////////////////////////////////////
 
     btCollisionWorld::ClosestRayResultCallback closestResults(from, to);
-    dynamicsWorld_->rayTest(from, to, closestResults);
+    binPackingWorld_->rayTest(from, to, closestResults);
 
     if (closestResults.hasHit() && needProj)
     {
@@ -288,19 +253,19 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
   return projection;
 }
 
-double BulletPhysics::getSupportArea(const bpa::Box& new_box, const bpa::Box& old_box)
+double BulletPhysics::getSupportArea(const bpa::Box& box_a, const bpa::Box& box_b)
 {
-  return getArea(new_box, old_box, &BulletPhysics::getHorizontalArea);
+  return getArea(box_a, box_b, &BulletPhysics::getHorizontalArea);
 }
 
-double BulletPhysics::getContactArea(const bpa::Box& new_box, const bpa::Box& old_box)
+double BulletPhysics::getContactArea(const bpa::Box& box_a, const bpa::Box& box_b)
 {
-  return getArea(new_box, old_box, &BulletPhysics::getVerticalArea);
+  return getArea(box_a, box_b, &BulletPhysics::getVerticalArea);
 }
 
 int BulletPhysics::numCollisionObjects() const
 {
-  return dynamicsWorld_->getNumCollisionObjects();
+  return binPackingWorld_->getNumCollisionObjects();
 }
 
 void BulletPhysics::addBoxes(const std::vector<bpa::Box>& boxes)
@@ -358,11 +323,33 @@ btRigidBody* BulletPhysics::createPointSphere(btVector3 origin) const
   return body;
 }
 
-void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin)
+void BulletPhysics::addBox(const bpa::Box& box, btDynamicsWorld* dynamicsWorld, bool rotate)
+{
+  btScalar mass(0.0);
+  btVector3 size;
+  btVector3 origin;
+  if (rotate && box.is_rotated)
+  {
+    size = btVector3(box.m_width, box.m_length, box.m_height);
+    // COM is the original one, depend on 0 rotation
+    origin = btVector3(box.position.position(0) + box.center_of_mass.position(1),
+                       box.position.position(1) + box.center_of_mass.position(0),
+                       box.position.position(2) + box.center_of_mass.position(2));
+  }
+  else
+  {
+    size = btVector3(box.m_length, box.m_width, box.m_height);
+    origin = btVector3(box.position.position(0) + box.center_of_mass.position(0),
+                       box.position.position(1) + box.center_of_mass.position(1),
+                       box.position.position(2) + box.center_of_mass.position(2));
+  }
+  addBox(mass, size, origin, dynamicsWorld);
+}
+
+void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin, btDynamicsWorld* dynamicsWorld)
 {
   btCollisionShape* colShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
   colShape->setMargin(-0.00001);  // the margin affect the contact distance and normal.
-  btConvexShape* convexShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
   btTransform startTransform;
   startTransform.setIdentity();
   startTransform.setOrigin(btVector3(origin.getX(), origin.getY(), origin.getZ()));  // center of mass
@@ -382,27 +369,28 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin)
 
   body->setRollingFriction(0.05);
   body->setFriction(1);
-  dynamicsWorld_->addCollisionObject(body);
-  convexShapes_.push_back(convexShape);
+  dynamicsWorld->addCollisionObject(body);
   collisionBodies_.push_back(body);
 
-  dynamicsWorld_->performDiscreteCollisionDetection();
-  dynamicsWorld_->updateAabbs();
-  dynamicsWorld_->computeOverlappingPairs();
+  dynamicsWorld->performDiscreteCollisionDetection();
+  dynamicsWorld->updateAabbs();
+  dynamicsWorld->computeOverlappingPairs();
 }
 
-double BulletPhysics::getArea(const bpa::Box& new_box, const bpa::Box& old_box,
+double BulletPhysics::getArea(const bpa::Box& box_a, const bpa::Box& box_b,
                               double (BulletPhysics::*calculateArea)(const std::vector<btVector3>&) const)
 {
   double area = 0.0;
 
-  if (!isColliding(new_box, old_box))
+  if (!isColliding(box_a, box_b))
   {
-    addBox(new_box);
+    cleanup(areaCheckWorld_);
+    addBox(box_a, areaCheckWorld_);
+    addBox(box_b, areaCheckWorld_);
 
-    if (dynamicsWorld_->getDispatcher()->getNumManifolds() == 1)
+    if (areaCheckWorld_->getDispatcher()->getNumManifolds() == 1)
     {
-      btPersistentManifold* contactManifold = dynamicsWorld_->getDispatcher()->getManifoldByIndexInternal(0);
+      btPersistentManifold* contactManifold = areaCheckWorld_->getDispatcher()->getManifoldByIndexInternal(0);
       std::vector<btVector3> contactPoints;
 
       for (int j = 0; j < contactManifold->getNumContacts(); j++)
@@ -418,15 +406,8 @@ double BulletPhysics::getArea(const bpa::Box& new_box, const bpa::Box& old_box,
       area = (this->*calculateArea)(contactPoints);
     }
 
-    btCollisionObject* obj = collisionBodies_.at(collisionBodies_.size() - 1);
-    btRigidBody* body = btRigidBody::upcast(obj);
-    if (body && body->getMotionState())
-    {
-      delete body->getMotionState();
-      delete body->getCollisionShape();
-    }
-    dynamicsWorld_->removeCollisionObject(obj);
-    delete obj;
+    cleanup(areaCheckWorld_);
+    collisionBodies_.pop_back();
     collisionBodies_.pop_back();
   }
 
@@ -471,6 +452,24 @@ double BulletPhysics::getVerticalArea(const std::vector<btVector3>& points) cons
   }
 
   return area;
+}
+
+void BulletPhysics::cleanup(btDynamicsWorld* dynamicsWorld)
+{
+  // cleanup in the reverse order of creation/initialization
+  // remove the rigid bodies from the dynamics world and delete them
+  for (int i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; --i)
+  {
+    btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
+    btRigidBody* body = btRigidBody::upcast(obj);
+    if (body && body->getMotionState())
+    {
+      delete body->getMotionState();
+      delete body->getCollisionShape();
+    }
+    dynamicsWorld->removeCollisionObject(obj);
+    delete obj;
+  }
 }
 
 BulletPhysics::ContactResultCallback::ContactResultCallback()
