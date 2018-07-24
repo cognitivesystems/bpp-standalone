@@ -18,8 +18,6 @@ public:
   BulletPhysics();
   ~BulletPhysics();
 
-  static BulletPhysics* instance();
-
   // (notes to developers only)
   // the following functions work in bin packing world
   void addBox(const bpa::Box& box, bool rotate = true);

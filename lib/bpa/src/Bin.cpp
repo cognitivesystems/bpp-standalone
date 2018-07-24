@@ -46,11 +46,12 @@ Bin::Bin(double length, double width, double height, bool modus)
   bin_com.position << 0.0, 0.0, 0.0;
   target_com.position << bin_length / 1.0, bin_width / 1.0, bin_height / 3.0;
 
-  bulletPhysics = BulletPhysics::instance();
+  bulletPhysics = new BulletPhysics();
 }
 
 Bin::~Bin()
 {
+  delete bulletPhysics;
 }
 
 void Bin::copyData(Bin& other)

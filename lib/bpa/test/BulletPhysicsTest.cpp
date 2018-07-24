@@ -8,7 +8,7 @@ class BulletPhysicsTestFixture : public testing::Test
 protected:
   void SetUp()
   {
-    bulletPhysics = BulletPhysics::instance();
+    bulletPhysics = new BulletPhysics();
   }
 
   void TearDown()

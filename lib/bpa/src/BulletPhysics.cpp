@@ -3,8 +3,6 @@
 
 namespace bpa
 {
-BulletPhysics* BulletPhysics::instance_ = nullptr;
-
 BulletPhysics::BulletPhysics()
   : defaultContactProcessingThreshold_(BT_LARGE_FLOAT)
   , broadphase_(new btDbvtBroadphase())
@@ -31,15 +29,6 @@ BulletPhysics::~BulletPhysics()
   delete dispatcher_;
   delete collisionConfiguration_;
   delete broadphase_;
-}
-
-BulletPhysics* BulletPhysics::instance()
-{
-  if (!instance_)
-  {
-    return new BulletPhysics();
-  }
-  return instance_;
 }
 
 void BulletPhysics::addBox(const bpa::Box& box, bool rotate)
@@ -399,7 +388,6 @@ double BulletPhysics::getArea(const bpa::Box& box_a, const bpa::Box& box_b,
 
   if (!isColliding(box_a, box_b))
   {
-    cleanup(areaCheckWorld_);
     addBox(box_a, areaCheckWorld_);
     addBox(box_b, areaCheckWorld_);
 
