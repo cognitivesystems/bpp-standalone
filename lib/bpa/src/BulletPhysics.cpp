@@ -253,6 +253,21 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
   return projection;
 }
 
+void BulletPhysics::addBinBoundingBox()
+{
+  btScalar Mass(0.0);
+  btVector3 Size(100, 100, 0);
+  btVector3 Origin(0, 0, -0);
+  addBox(Mass, Size, Origin, binPackingWorld_);
+
+  btVector3 xSize(0, 4, 5);
+  btVector3 ySize(5, 0, 5);
+  addBox(Mass, xSize, btVector3(0.0, 1.59, 2.0), binPackingWorld_);  // x
+  addBox(Mass, xSize, btVector3(2.44, 1.59, 2.0), binPackingWorld_);
+  addBox(Mass, ySize, btVector3(1.22, 0.0, 2.0), binPackingWorld_);  // y
+  addBox(Mass, ySize, btVector3(1.22, 3.18, 2.0), binPackingWorld_);
+}
+
 double BulletPhysics::getSupportArea(const bpa::Box& box_a, const bpa::Box& box_b)
 {
   return getArea(box_a, box_b, &BulletPhysics::getHorizontalArea);

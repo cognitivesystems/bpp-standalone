@@ -52,12 +52,10 @@ public:
   // get all side contact areas
   double getContactArea(bpa::Box& new_box, bpa::Box& old_box);
 
-  // TODO: implement the following in BulletPhysics class
+  void addBinBoundingBox();
 
   double getMinimumDistance(bpa::Box& new_box);
   double getMinimumDistance(bpa::Box& new_box, bpa::Box& old_box);
-
-  void addBinBoundingBox();
 
   btAlignedObjectArray<btRigidBody*> m_collisionBodies;
 

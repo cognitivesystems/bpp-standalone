@@ -28,13 +28,13 @@ public:
   bool isColliding(const bpa::Box& box_a, const bpa::Box& box_b) const;
   bool isPointContact(const Eigen::Vector3d& point) const;
   Eigen::Vector3d castRays(const Eigen::Vector3d& point, const Eigen::Vector3d& direction) const;
+  int numCollisionObjects() const;
+  void addBinBoundingBox();
 
   // (notes to developers only)
   // the following functions work in area check world
   double getSupportArea(const bpa::Box& box_a, const bpa::Box& box_b);
   double getContactArea(const bpa::Box& box_a, const bpa::Box& box_b);
-
-  int numCollisionObjects() const;
 
 private:
   void addBox(const bpa::Box& box, btDynamicsWorld* dynamicsWorld, bool rotate = true);
