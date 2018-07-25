@@ -28,7 +28,7 @@ public:
   * \param boxes_on_holdingplatform: Boxes representing the current boxes waiting on the Holding Platform to be packed
   * \return A Bin Object with the new packing configuration
   */
-  Bin solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
+  void solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
 
   Bin solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_on_holdingplatform);
 

@@ -115,7 +115,7 @@ struct supportingBox
 }
 
 //#define FLOAT_EPS std::numeric_limits<float>::epsilon()
-#define FLOAT_EPS 0.001
+#define FLOAT_EPS 0.00001
 
 inline bool floatEqual(double a, double b)
 {

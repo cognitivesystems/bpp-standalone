@@ -1,2 +1,1 @@
-add_subdirectory(box_factory)
 add_subdirectory(bpa)

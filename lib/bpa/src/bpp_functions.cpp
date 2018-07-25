@@ -23,7 +23,7 @@ BinPackingPlanner::BinPackingPlanner()
 {
 }
 
-Bin BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
+void BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
 {
   std::vector<bpa::Box>::iterator pack_it = abin.packed_boxes.begin();
   int highest_id = 0;  // 1;
@@ -58,7 +58,6 @@ Bin BinPackingPlanner::solveWithOneFunction(Bin& abin, std::vector<Box> boxes_on
   {
     iter++;
   }
-  return abin;
 }
 
 Bin BinPackingPlanner::solveWithTwoFunctions(Bin& abin, std::vector<Box> boxes_on_holdingplatform)
@@ -1160,7 +1159,7 @@ bool BinPackingPlanner::addNexBoxToPackingConfigurationOneFunction(Bin& abin, Ho
     std::vector<double> helts;
     scores.resize(holding.boxes_to_pack.size() * abin.fitting_points.size());
     helts.resize(holding.boxes_to_pack.size() * abin.fitting_points.size());
-#pragma omp parallel for collapse(2) shared(scores, helts)
+    //#pragma omp parallel for collapse(2) shared(scores, helts)
     for (size_t holding_box_id = 0; holding_box_id < holding.boxes_to_pack.size(); ++holding_box_id)
     {
       for (size_t fitting_point_id = 0; fitting_point_id < abin.fitting_points.size(); ++fitting_point_id)
@@ -1220,9 +1219,10 @@ bool BinPackingPlanner::addNexBoxToPackingConfigurationOneFunction(Bin& abin, Ho
     }
     else
     {
-//      std::cout << "No boxes' score > 0 !!!\n";
-//      std::cout << "Pallet packed boxes = " << abin.packed_boxes.size() << ", fp = " << abin.fitting_points.size()
-//                << std::endl;
+      //      std::cout << "No boxes' score > 0 !!!\n";
+      //      std::cout << "Pallet packed boxes = " << abin.packed_boxes.size() << ", fp = " <<
+      //      abin.fitting_points.size()
+      //                << std::endl;
       return false;
     }
   }

@@ -9,7 +9,6 @@
  */
 #include "bppinterface.h"
 #include "scenerenderer3d.h"
-#include "PhysicsBullet.h"
 
 namespace bpainf
 {
@@ -62,8 +61,8 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   new_pallet_config.setBinFittingPoints(bin_fps_bpp);
 
   // build the physics world for bullet
-  new_pallet_config.bulletPhysics->addBinBoundingBox();
-  new_pallet_config.bulletPhysics->addNewBoxesToPhysics(new_pallet_config.packed_boxes);
+  new_pallet_config.bulletPhysics->addBinBoundingBox(pallet_length, pallet_width, pallet_height);
+  new_pallet_config.bulletPhysics->addBoxes(new_pallet_config.packed_boxes);
 //  std::cout << "************************size of the  packed boxes from last bpp is :"
 //            << new_pallet_config.packed_boxes.size() << std::endl;
 //  std::cout << "************************size of the fitting points from last bpp is:"
@@ -74,7 +73,7 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
 //               ".........................\n";
   bpa::BinPackingPlanner bin_packing_planner;
   bin_packing_planner.setParams(paramsPtr_);
-  new_pallet_config = bin_packing_planner.solveWithOneFunction(new_pallet_config, holding_area_boxes);
+  bin_packing_planner.solveWithOneFunction(new_pallet_config, holding_area_boxes);
 
   /// get the current step packed boxes after bpp
   std::vector<bpa::Box> pack_boxes = new_pallet_config.getStepPackedBoxes();

@@ -6,7 +6,7 @@
 
 #include "BoxJsonParser.h"
 
-namespace box_factory
+namespace bpa
 {
 double BoxJsonParser::bbox_offset_ = 0.01;
 
@@ -41,8 +41,8 @@ std::vector<bpa::Box> BoxJsonParser::getBoxesFromJsonFile(const QString& fileNam
 bpa::Box BoxJsonParser::getBoxFromJsonObject(const QJsonObject& jsonObject)
 {
   bpa::Box box;
-  box.m_length = jsonObject["bbox"].toObject()["x"].toDouble();// + bbox_offset_;
-  box.m_width = jsonObject["bbox"].toObject()["y"].toDouble();// + bbox_offset_;
+  box.m_length = jsonObject["bbox"].toObject()["x"].toDouble();  // + bbox_offset_;
+  box.m_width = jsonObject["bbox"].toObject()["y"].toDouble();   // + bbox_offset_;
   box.m_height = jsonObject["bbox"].toObject()["z"].toDouble();
   box.m_mass = jsonObject["weight"].toDouble();
   box.m_name = jsonObject["uuid"].toString().toStdString();
@@ -62,7 +62,7 @@ bpa::Box BoxJsonParser::getBoxFromJsonObject(const QJsonObject& jsonObject)
   }
 
   std::string type = jsonObject["type"].toString().toStdString();
-  box.m_type=type;
+  box.m_type = type;
 
   if (type == "other" || type == "pallet")
   {

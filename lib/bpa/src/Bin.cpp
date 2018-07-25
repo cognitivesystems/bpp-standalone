@@ -46,11 +46,12 @@ Bin::Bin(double length, double width, double height, bool modus)
   bin_com.position << 0.0, 0.0, 0.0;
   target_com.position << bin_length / 1.0, bin_width / 1.0, bin_height / 3.0;
 
-  bulletPhysics = new PhysicsBullet();
+  bulletPhysics = new BulletPhysics();
 }
 
 Bin::~Bin()
 {
+  delete bulletPhysics;
 }
 
 void Bin::copyData(Bin& other)
@@ -256,7 +257,7 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
   }
 
   // add this new box to the bullet physics world
-  bulletPhysics->addNewBoxToPhysicsNoRot(new_box);
+  bulletPhysics->addBox(new_box, false);
 }
 
 Eigen::Vector3d Bin::checkNewBoxPosition(Box abox, FittingPoint fp)

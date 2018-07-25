@@ -20,7 +20,7 @@
 #include "HoldingPlatform.h"
 #include "SimulatedBox.h"
 
-#include "PhysicsBullet.h"
+#include "BulletPhysics.h"
 
 using namespace std;
 
@@ -133,7 +133,7 @@ public:
   std::vector<FittingPoint> fitting_points;   /* all Fitting Points of the bin */
   std::vector<FittingPoint> packed_boxes_fps; /* The origin points of the packed boxes */
 
-  PhysicsBullet* bulletPhysics;
+  BulletPhysics* bulletPhysics;
 
 private:
   std::shared_ptr<Params> paramsPtr_;
