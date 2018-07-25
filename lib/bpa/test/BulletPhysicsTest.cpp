@@ -9,6 +9,7 @@ protected:
   void SetUp()
   {
     bulletPhysics = new BulletPhysics();
+    bulletPhysics->addBinBoundingBox(3.0, 3.0, 3.0);
   }
 
   void TearDown()
@@ -48,7 +49,7 @@ TEST_F(BulletPhysicsTestFixture, OneBoxCollisionTest)
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 
   bulletPhysics->addBox(box);
-  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(6, bulletPhysics->numCollisionObjects());
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
   box.position.position(0) = 0.5;
@@ -68,7 +69,7 @@ TEST_F(BulletPhysicsTestFixture, OneBoxCollisionTest)
   box.position.position(1) = 1.0;
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 
-  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(6, bulletPhysics->numCollisionObjects());
 }
 
 TEST_F(BulletPhysicsTestFixture, TwoBoxesCollisionTest)
@@ -92,7 +93,7 @@ TEST_F(BulletPhysicsTestFixture, TwoBoxesCollisionTest)
   box_a.position.position(1) = 1.0;
   EXPECT_FALSE(bulletPhysics->isColliding(box_a, box_b));
 
-  EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(5, bulletPhysics->numCollisionObjects());
 }
 
 TEST_F(BulletPhysicsTestFixture, PointContactTest)
@@ -115,7 +116,7 @@ TEST_F(BulletPhysicsTestFixture, PointContactTest)
   Eigen::Vector3d point_d(1.0, 1.0, 1.0);
   EXPECT_FALSE(bulletPhysics->isPointContact(point_d));
 
-  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(6, bulletPhysics->numCollisionObjects());
 }
 
 TEST_F(BulletPhysicsTestFixture, CastRaysTest)
@@ -127,14 +128,23 @@ TEST_F(BulletPhysicsTestFixture, CastRaysTest)
   Eigen::Vector3d negative_x_direction(-1.0, 0.0, 0.0);
   Eigen::Vector3d actual_projection = bulletPhysics->castRays(point_a, negative_x_direction);
   Eigen::Vector3d expected_projection(1.0, 0.5, 0.5);
-  EXPECT_EQ(expected_projection, actual_projection);
+  EXPECT_TRUE(expected_projection.isApprox(actual_projection));
+
+  Eigen::Vector3d x_direction(1.0, 0.0, 0.0);
+  actual_projection = bulletPhysics->castRays(point_a, x_direction);
+  expected_projection = { 3.0, 0.5, 0.5 };
+  EXPECT_TRUE(expected_projection.isApprox(actual_projection));
 
   Eigen::Vector3d point_b(1.0, 0.5, 0.5);
-  Eigen::Vector3d x_direction(1.0, 0.0, 0.0);
-  actual_projection = bulletPhysics->castRays(point_b, x_direction);
-  EXPECT_EQ(expected_projection, actual_projection);
+  actual_projection = bulletPhysics->castRays(point_b, negative_x_direction);
+  expected_projection = { 1.0, 0.5, 0.5 };
+  EXPECT_TRUE(expected_projection.isApprox(actual_projection));
 
-  EXPECT_EQ(1, bulletPhysics->numCollisionObjects());
+  actual_projection = bulletPhysics->castRays(point_b, x_direction);
+  expected_projection = { 3.0, 0.5, 0.5 };
+  EXPECT_TRUE(expected_projection.isApprox(actual_projection));
+
+  EXPECT_EQ(6, bulletPhysics->numCollisionObjects());
 }
 
 TEST_F(BulletPhysicsTestFixture, BoxesSupportAreaTest)
@@ -158,7 +168,7 @@ TEST_F(BulletPhysicsTestFixture, BoxesSupportAreaTest)
   box_b.position.position(2) = 1.5;
   EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(box_a, box_b));
 
-  EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(5, bulletPhysics->numCollisionObjects());
 }
 
 TEST_F(BulletPhysicsTestFixture, BoxesContactAreaTest)
@@ -182,6 +192,6 @@ TEST_F(BulletPhysicsTestFixture, BoxesContactAreaTest)
   box_b.position.position(0) = 1.5;
   EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(box_a, box_b));
 
-  EXPECT_EQ(0, bulletPhysics->numCollisionObjects());
+  EXPECT_EQ(5, bulletPhysics->numCollisionObjects());
 }
 }

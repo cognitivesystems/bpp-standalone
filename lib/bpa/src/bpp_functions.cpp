@@ -1159,7 +1159,7 @@ bool BinPackingPlanner::addNexBoxToPackingConfigurationOneFunction(Bin& abin, Ho
     std::vector<double> helts;
     scores.resize(holding.boxes_to_pack.size() * abin.fitting_points.size());
     helts.resize(holding.boxes_to_pack.size() * abin.fitting_points.size());
-//#pragma omp parallel for collapse(2) shared(scores, helts)
+    //#pragma omp parallel for collapse(2) shared(scores, helts)
     for (size_t holding_box_id = 0; holding_box_id < holding.boxes_to_pack.size(); ++holding_box_id)
     {
       for (size_t fitting_point_id = 0; fitting_point_id < abin.fitting_points.size(); ++fitting_point_id)

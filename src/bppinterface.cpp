@@ -61,7 +61,7 @@ std::vector<bpa::Box> BppInterface::binPackingBoxes(std::vector<bpa::Box>& holdi
   new_pallet_config.setBinFittingPoints(bin_fps_bpp);
 
   // build the physics world for bullet
-  new_pallet_config.bulletPhysics->addBinBoundingBox();
+  new_pallet_config.bulletPhysics->addBinBoundingBox(pallet_length, pallet_width, pallet_height);
   new_pallet_config.bulletPhysics->addBoxes(new_pallet_config.packed_boxes);
 //  std::cout << "************************size of the  packed boxes from last bpp is :"
 //            << new_pallet_config.packed_boxes.size() << std::endl;

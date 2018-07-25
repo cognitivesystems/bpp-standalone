@@ -27,7 +27,7 @@ public:
   bool isPointContact(const Eigen::Vector3d& point) const;
   Eigen::Vector3d castRays(const Eigen::Vector3d& point, const Eigen::Vector3d& direction) const;
   int numCollisionObjects() const;
-  void addBinBoundingBox();
+  void addBinBoundingBox(double bin_length, double bin_width, double bin_height);
 
   // (notes to developers only)
   // the following functions work in area check world
@@ -50,15 +50,20 @@ private:
 
   void cleanup(btDynamicsWorld* dynamicsWorld);
 
-  static BulletPhysics* instance_;
-
   btScalar defaultContactProcessingThreshold_;
+
   btBroadphaseInterface* broadphase_;
   btDefaultCollisionConfiguration* collisionConfiguration_;
   btCollisionDispatcher* dispatcher_;
   btConstraintSolver* solver_;
   btDynamicsWorld* binPackingWorld_;
+
+  btBroadphaseInterface* areaCheckBroadphase_;
+  btDefaultCollisionConfiguration* areaCheckCollisionConfiguration_;
+  btCollisionDispatcher* areaCheckDispatcher_;
+  btConstraintSolver* areaCheckSolver_;
   btDynamicsWorld* areaCheckWorld_;
+
   btAlignedObjectArray<btRigidBody*> collisionBodies_;
 
   struct ContactResultCallback : public btCollisionWorld::ContactResultCallback

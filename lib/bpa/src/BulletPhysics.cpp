@@ -10,10 +10,16 @@ BulletPhysics::BulletPhysics()
   , dispatcher_(new btCollisionDispatcher(collisionConfiguration_))
   , solver_(new btSequentialImpulseConstraintSolver())
   , binPackingWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
-  , areaCheckWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
+  , areaCheckBroadphase_(new btDbvtBroadphase())
+  , areaCheckCollisionConfiguration_(new btDefaultCollisionConfiguration())
+  , areaCheckDispatcher_(new btCollisionDispatcher(areaCheckCollisionConfiguration_))
+  , areaCheckSolver_(new btSequentialImpulseConstraintSolver())
+  , areaCheckWorld_(new btDiscreteDynamicsWorld(areaCheckDispatcher_, areaCheckBroadphase_, areaCheckSolver_,
+                                                areaCheckCollisionConfiguration_))
 
 {
   binPackingWorld_->setGravity(btVector3(0, 0, -10));
+  areaCheckWorld_->setGravity(btVector3(0, 0, -10));
 }
 
 BulletPhysics::~BulletPhysics()
@@ -24,6 +30,11 @@ BulletPhysics::~BulletPhysics()
   collisionBodies_.clear();
 
   delete areaCheckWorld_;
+  delete areaCheckSolver_;
+  delete areaCheckDispatcher_;
+  delete areaCheckCollisionConfiguration_;
+  delete areaCheckBroadphase_;
+
   delete binPackingWorld_;
   delete solver_;
   delete dispatcher_;
@@ -242,19 +253,26 @@ Eigen::Vector3d BulletPhysics::castRays(const Eigen::Vector3d& point, const Eige
   return projection;
 }
 
-void BulletPhysics::addBinBoundingBox()
+void BulletPhysics::addBinBoundingBox(double bin_length, double bin_width, double bin_height)
 {
-  btScalar Mass(0.0);
-  btVector3 Size(100, 100, 0);
-  btVector3 Origin(0, 0, -0);
-  addBox(Mass, Size, Origin, binPackingWorld_);
+  btScalar mass(0.0);
+  double wall_thinkness = 1.0;
 
-  btVector3 xSize(0, 4, 5);
-  btVector3 ySize(5, 0, 5);
-  addBox(Mass, xSize, btVector3(0.0, 1.59, 2.0), binPackingWorld_);  // x
-  addBox(Mass, xSize, btVector3(2.44, 1.59, 2.0), binPackingWorld_);
-  addBox(Mass, ySize, btVector3(1.22, 0.0, 2.0), binPackingWorld_);  // y
-  addBox(Mass, ySize, btVector3(1.22, 3.18, 2.0), binPackingWorld_);
+  btVector3 horizontal_size(bin_length, bin_width, wall_thinkness);
+  btVector3 up_origin(bin_length / 2.0, bin_width / 2.0, bin_height + wall_thinkness / 2.0);
+  addBox(mass, horizontal_size, up_origin, binPackingWorld_);  // up
+
+  btVector3 vertical_size(wall_thinkness, bin_width, bin_height);
+  btVector3 front_origin(bin_length + wall_thinkness / 2.0, bin_width / 2.0, bin_height / 2.0);
+  addBox(mass, vertical_size, front_origin, binPackingWorld_);  // front
+  btVector3 back_origin(-wall_thinkness / 2.0, bin_width / 2.0, bin_height / 2.0);
+  addBox(mass, vertical_size, back_origin, binPackingWorld_);  // back
+
+  btVector3 side_size(bin_length, wall_thinkness, bin_height);
+  btVector3 outer_side_origin(bin_length / 2.0, -wall_thinkness / 2.0, bin_height / 2.0);
+  addBox(mass, side_size, outer_side_origin, binPackingWorld_);  // outer side
+  btVector3 inner_side_origin(bin_length / 2.0, bin_width + wall_thinkness / 2.0, bin_height / 2.0);
+  addBox(mass, side_size, inner_side_origin, binPackingWorld_);  // inner side
 }
 
 double BulletPhysics::getSupportArea(const bpa::Box& box_a, const bpa::Box& box_b)
@@ -330,8 +348,8 @@ btRigidBody* BulletPhysics::createPointSphere(btVector3 origin) const
 void BulletPhysics::addBox(const bpa::Box& box, btDynamicsWorld* dynamicsWorld, bool rotate)
 {
   btScalar mass(0.0);
-  btVector3 size;
-  btVector3 origin;
+  btVector3 size(0.0, 0.0, 0.0);
+  btVector3 origin(0.0, 0.0, 0.0);
   if (rotate && box.is_rotated)
   {
     size = btVector3(box.m_width, box.m_length, box.m_height);
