@@ -159,7 +159,7 @@ TEST_F(BoxJsonParserTestFixture, JsonFilesToBoxesTest)
 
   Eigen::Vector3d pos;
   pos << -0.04593759030103683, 0.04091981053352356, 0.5608614087104797;
-  EXPECT_EQ(pos, box.position.position);
+  EXPECT_EQ(pos, box.position);
 }
 
 TEST_F(BoxJsonParserTestFixture, JsonObjectToBoxTest)
@@ -182,6 +182,6 @@ TEST_F(BoxJsonParserTestFixture, JsonObjectToBoxTest)
 
   Eigen::Vector3d pos;
   pos << -0.008621707558631897, 0.0468456931412220, 0.524058461189270;
-  EXPECT_EQ(pos, box.position.position);
+  EXPECT_EQ(pos, box.position);
 }
 }

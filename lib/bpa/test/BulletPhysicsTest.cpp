@@ -52,21 +52,21 @@ TEST_F(BulletPhysicsTestFixture, OneBoxCollisionTest)
   EXPECT_EQ(6, bulletPhysics->numCollisionObjects());
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
-  box.position.position(0) = 0.5;
-  box.position.position(1) = 0.5;
+  box.position(0) = 0.5;
+  box.position(1) = 0.5;
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
   // we are still able to detect this collision
-  box.position.position(1) = 0.99999;
+  box.position(1) = 0.99999;
   EXPECT_TRUE(bulletPhysics->isColliding(box));
 
   // but not this
-  box.position.position(1) = 0.999999;
+  box.position(1) = 0.999999;
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 
   // the precision is controlled by FLOAT_EPS defined in Parameters.h
   // it cannot be more precise than current value, otherwise the following will be reported as collision
-  box.position.position(1) = 1.0;
+  box.position(1) = 1.0;
   EXPECT_FALSE(bulletPhysics->isColliding(box));
 
   EXPECT_EQ(6, bulletPhysics->numCollisionObjects());
@@ -78,19 +78,19 @@ TEST_F(BulletPhysicsTestFixture, TwoBoxesCollisionTest)
   Box box_b(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
   EXPECT_TRUE(bulletPhysics->isColliding(box_a, box_b));
 
-  box_a.position.position(0) = 0.5;
-  box_a.position.position(1) = 0.5;
+  box_a.position(0) = 0.5;
+  box_a.position(1) = 0.5;
   EXPECT_TRUE(bulletPhysics->isColliding(box_a, box_b));
 
   // we are only able to detect this collision
-  box_a.position.position(1) = 0.99;
+  box_a.position(1) = 0.99;
   EXPECT_TRUE(bulletPhysics->isColliding(box_a, box_b));
 
   // but not this
-  box_a.position.position(1) = 0.999;
+  box_a.position(1) = 0.999;
   EXPECT_FALSE(bulletPhysics->isColliding(box_a, box_b));
 
-  box_a.position.position(1) = 1.0;
+  box_a.position(1) = 1.0;
   EXPECT_FALSE(bulletPhysics->isColliding(box_a, box_b));
 
   EXPECT_EQ(5, bulletPhysics->numCollisionObjects());
@@ -153,19 +153,19 @@ TEST_F(BulletPhysicsTestFixture, BoxesSupportAreaTest)
   Box box_b(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
   EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(box_a, box_b));
 
-  box_b.position.position(2) = 1.0;
+  box_b.position(2) = 1.0;
   EXPECT_DOUBLE_EQ(1.0, bulletPhysics->getSupportArea(box_a, box_b));
 
-  box_b.position.position(0) = 0.5;
+  box_b.position(0) = 0.5;
   EXPECT_DOUBLE_EQ(0.5, bulletPhysics->getSupportArea(box_a, box_b));
 
-  box_b.position.position(1) = 0.5;
+  box_b.position(1) = 0.5;
   EXPECT_DOUBLE_EQ(0.25, bulletPhysics->getSupportArea(box_a, box_b));
 
-  box_b.position.position(1) = 0.7;
+  box_b.position(1) = 0.7;
   EXPECT_NEAR(0.15, bulletPhysics->getSupportArea(box_a, box_b), std::numeric_limits<float>::epsilon());
 
-  box_b.position.position(2) = 1.5;
+  box_b.position(2) = 1.5;
   EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getSupportArea(box_a, box_b));
 
   EXPECT_EQ(5, bulletPhysics->numCollisionObjects());
@@ -177,19 +177,19 @@ TEST_F(BulletPhysicsTestFixture, BoxesContactAreaTest)
   Box box_b(1.0, 1.0, 1.0, 20.0, "BoxName", { "BoxLabel" });
   EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(box_a, box_b));
 
-  box_b.position.position(0) = 1.0;
+  box_b.position(0) = 1.0;
   EXPECT_DOUBLE_EQ(1.0, bulletPhysics->getContactArea(box_a, box_b));
 
-  box_b.position.position(1) = 0.5;
+  box_b.position(1) = 0.5;
   EXPECT_DOUBLE_EQ(0.5, bulletPhysics->getContactArea(box_a, box_b));
 
-  box_b.position.position(2) = 0.5;
+  box_b.position(2) = 0.5;
   EXPECT_DOUBLE_EQ(0.25, bulletPhysics->getContactArea(box_a, box_b));
 
-  box_b.position.position(2) = 0.7;
+  box_b.position(2) = 0.7;
   EXPECT_NEAR(0.15, bulletPhysics->getContactArea(box_a, box_b), std::numeric_limits<float>::epsilon());
 
-  box_b.position.position(0) = 1.5;
+  box_b.position(0) = 1.5;
   EXPECT_DOUBLE_EQ(0.0, bulletPhysics->getContactArea(box_a, box_b));
 
   EXPECT_EQ(5, bulletPhysics->numCollisionObjects());
