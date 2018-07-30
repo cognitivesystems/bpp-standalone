@@ -9,12 +9,12 @@
 #define BOX_H_
 
 #include "FittingPoint.h"
-#include "Point.h"
 #include <algorithm>
 #include <iostream>
 #include <queue>
 #include <memory>
 #include <map>
+#include <Eigen/Core>
 
 #include "Parameters.h"
 
@@ -96,9 +96,9 @@ public:
   std::string m_name;   /* uuid Value of the Box */
   std::string material; /* carton(cardboard), wooden, styrofoam, plastic(drum) */
 
-  Point position;       /* desired position of the box (with respect to the bin coordinate system)*/
-  double rotation;      /* Box desired rotation in radiants */
-  Point center_of_mass; /* The center of mass of the Box with respect to the box coordinate system.*/
+  Eigen::Vector3d position;       /* desired position of the box (with respect to the bin coordinate system)*/
+  double rotation;                /* Box desired rotation in radiants */
+  Eigen::Vector3d center_of_mass; /* The center of mass of the Box with respect to the box coordinate system.*/
 
   bool is_rotated;
   bool is_simulated;
@@ -114,7 +114,7 @@ public:
   std::vector<int> correspond_boxes;
 
   // Needed for the robot gripper in pplan :
-  Point gripper_position; /* Midpoint Position of the Gripper while gripping (w.r.t the box frame) */
+  Eigen::Vector3d gripper_position; /* Midpoint Position of the Gripper while gripping (w.r.t the box frame) */
   double gripper_orientation;
   string box_direction;
   std::string tool_name;

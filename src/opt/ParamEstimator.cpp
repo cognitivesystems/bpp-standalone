@@ -112,9 +112,9 @@ double ParamEstimator::eval_bpp(const VectorX data)
 
     for (bpa::Box& b : boxes)
     {
-        b.position.position[0] -= b.m_length / 2;
-        b.position.position[1] -= b.m_width / 2;
-        b.position.position[2] -= b.m_height / 2;
+        b.position[0] -= b.m_length / 2;
+        b.position[1] -= b.m_width / 2;
+        b.position[2] -= b.m_height / 2;
     }
 
     est_planned_boxes_ = bpp.binPackingBoxes(boxes);
@@ -125,9 +125,9 @@ double ParamEstimator::eval_bpp(const VectorX data)
 
     for (bpa::Box& b : est_planned_boxes_)
     {
-        b.position.position[0] += b.m_length / 2;
-        b.position.position[1] += b.m_width / 2;
-        b.position.position[2] += b.m_height / 2;
+        b.position[0] += b.m_length / 2;
+        b.position[1] += b.m_width / 2;
+        b.position[2] += b.m_height / 2;
     }
 
     send_reset_scene();

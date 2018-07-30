@@ -11,7 +11,7 @@ namespace bpa
 {
 FittingPoint::FittingPoint(double xi, double yi, double zi, int q)
 {
-  coordinates.position << xi, yi, zi;
+  coordinates << xi, yi, zi;
   quadrant = q;
   score = 0;
   temp_a_helt = 0;
@@ -47,7 +47,7 @@ FittingPoint::FittingPoint(double xi, double yi, double zi, int q)
   }
 }
 
-FittingPoint::FittingPoint(Point point, int q)
+FittingPoint::FittingPoint(Eigen::Vector3d point, int q)
 {
   coordinates = point;
   quadrant = q;
@@ -88,7 +88,7 @@ FittingPoint::FittingPoint(Point point, int q)
 //????
 FittingPoint::FittingPoint()
 {
-  coordinates.position << 0.0, 0.0, 0.0;
+  coordinates << 0.0, 0.0, 0.0;
   quadrant = 1;
   score = 0;
   temp_a_helt = 0;
@@ -115,17 +115,15 @@ FittingPoint::~FittingPoint()
 
 bool FittingPoint::equals(FittingPoint& fp)
 {
-  return (floatEqual(this->coordinates.position(0), fp.coordinates.position(0)) &&
-          floatEqual(this->coordinates.position(1), fp.coordinates.position(1)) &&
-          floatEqual(this->coordinates.position(2), fp.coordinates.position(2)) && (this->quadrant == fp.quadrant));
+  return (floatEqual(this->coordinates(0), fp.coordinates(0)) && floatEqual(this->coordinates(1), fp.coordinates(1)) &&
+          floatEqual(this->coordinates(2), fp.coordinates(2)) && (this->quadrant == fp.quadrant));
 }
 
 bool FittingPoint::operator==(const FittingPoint& other)
 {
-  return (floatEqual(this->coordinates.position(0), other.coordinates.position(0)) &&
-          floatEqual(this->coordinates.position(1), other.coordinates.position(1)) &&
-          floatEqual(this->coordinates.position(2), other.coordinates.position(2)) &&
-          (this->quadrant == other.quadrant));
+  return (floatEqual(this->coordinates(0), other.coordinates(0)) &&
+          floatEqual(this->coordinates(1), other.coordinates(1)) &&
+          floatEqual(this->coordinates(2), other.coordinates(2)) && (this->quadrant == other.quadrant));
 }
 
 bool FittingPoint::hasLowerScoreThan(const FittingPoint& other)

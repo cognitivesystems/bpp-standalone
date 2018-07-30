@@ -56,7 +56,7 @@ void SceneRenderer3D::addBoxEntity(const bpa::Box& box)
 
 
     boxEntityPtr->transform()->setTranslation(
-                QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
+                QVector3D(box.position[0], box.position[1], box.position[2]));
 
     if(box.m_length==0.3 || box.m_width==0.3){
         qDebug() << "Model box --> " << boxEntityPtr->transform()->translation();
@@ -98,7 +98,7 @@ void SceneRenderer3D::updateBoxEntity(const bpa::Box& box)
     boxEntityPtr->transform()->setRotation(QQuaternion::fromEulerAngles(0, 0, box_rot));
 
     boxEntityPtr->transform()->setTranslation(
-                QVector3D(box.position.position[0], box.position.position[1], box.position.position[2]));
+                QVector3D(box.position[0], box.position[1], box.position[2]));
 
 }
 

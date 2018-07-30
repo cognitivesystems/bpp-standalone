@@ -21,12 +21,12 @@ Bin::Bin(double length, double width, double height, bool modus)
   boxes_ground_surface = 0.0;
   boxes_support_surface = 0.0;
 
-  FittingPoint b(bin_length, 0, 0, 4);
-  fitting_points.push_back(b);
+  FittingPoint a(0, 0, 0, 1);
+  fitting_points.push_back(a);
   if (modus)
   {
-    FittingPoint a(0, 0, 0, 1);
-    fitting_points.push_back(a);
+    FittingPoint b(bin_length, 0, 0, 4);
+    fitting_points.push_back(b);
     FittingPoint c(0, bin_width, 0, 2);
     fitting_points.push_back(c);
     FittingPoint d(bin_length, bin_width, 0, 3);
@@ -43,8 +43,8 @@ Bin::Bin(double length, double width, double height, bool modus)
   //    FittingPoint d(bin_length/ 2.0, bin_width/ 2.0 ,0 ,4);
   //    fitting_points.push_back(d);
 
-  bin_com.position << 0.0, 0.0, 0.0;
-  target_com.position << bin_length / 1.0, bin_width / 1.0, bin_height / 3.0;
+  bin_com << 0.0, 0.0, 0.0;
+  target_com << bin_length / 1.0, bin_width / 1.0, bin_height / 3.0;
 
   bulletPhysics = new BulletPhysics();
 }
@@ -66,8 +66,8 @@ void Bin::copyData(Bin& other)
   boxes_volume = other.boxes_volume;
   boxes_support_surface = other.boxes_support_surface;
 
-  target_com.position = other.target_com.position;
-  bin_com.position = other.bin_com.position;
+  target_com = other.target_com;
+  bin_com = other.bin_com;
 
   packed_boxes.clear();
   for (Box b : other.packed_boxes)
@@ -104,14 +104,14 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
           case TOP:
             temp = hold.giveBox(sim_box.id1);
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(1) = fp.coordinates.position(1) + temp.m_width;
+            fp.coordinates(1) = fp.coordinates(1) + temp.m_width;
             temp = hold.giveBox(sim_box.id2);
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
           case RIGHT:
             temp = hold.giveBox(sim_box.id1);
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(0) = fp.coordinates.position(0) + temp.m_length;
+            fp.coordinates(0) = fp.coordinates(0) + temp.m_length;
             temp = hold.giveBox(sim_box.id2);
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
@@ -125,14 +125,14 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
           case TOP:
             temp = (hold.giveBox(sim_box.id2));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(1) = fp.coordinates.position(1) - temp.m_width;
+            fp.coordinates(1) = fp.coordinates(1) - temp.m_width;
             temp = (hold.giveBox(sim_box.id1));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
           case RIGHT:
             temp = (hold.giveBox(sim_box.id1));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(0) = fp.coordinates.position(0) + temp.m_length;
+            fp.coordinates(0) = fp.coordinates(0) + temp.m_length;
             temp = (hold.giveBox(sim_box.id2));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
@@ -146,14 +146,14 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
           case TOP:
             temp = (hold.giveBox(sim_box.id2));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(1) = fp.coordinates.position(1) - temp.m_width;
+            fp.coordinates(1) = fp.coordinates(1) - temp.m_width;
             temp = (hold.giveBox(sim_box.id1));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
           case RIGHT:
             temp = (hold.giveBox(sim_box.id2));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(0) = fp.coordinates.position(0) - temp.m_length;
+            fp.coordinates(0) = fp.coordinates(0) - temp.m_length;
             temp = (hold.giveBox(sim_box.id1));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
@@ -167,14 +167,14 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
           case TOP:
             temp = (hold.giveBox(sim_box.id1));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(1) = fp.coordinates.position(1) + temp.m_width;
+            fp.coordinates(1) = fp.coordinates(1) + temp.m_width;
             temp = hold.giveBox(sim_box.id2);
             addNewBox(temp, fp, hold, temp.m_width + temp.m_length);
             break;
           case RIGHT:
             temp = (hold.giveBox(sim_box.id2));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
-            fp.coordinates.position(0) = fp.coordinates.position(0) - temp.m_length;
+            fp.coordinates(0) = fp.coordinates(0) - temp.m_length;
             temp = (hold.giveBox(sim_box.id1));
             addNewBox(temp, fp, hold, temp.m_width * temp.m_length);
             break;
@@ -192,7 +192,7 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
     Eigen::Matrix3d box_size;
     box_size << new_box.m_length, 0, 0, 0, new_box.m_width, 0, 0, 0, new_box.m_height;
 
-    new_box.position.position = fp.coordinates.position + box_size * fp.direction_box_pos;
+    new_box.position = fp.coordinates + box_size * fp.direction_box_pos;
     // check if the box can be push in x or y direction more, in order to reduce empty space
     // correct the new fp and new_box position
     //        Eigen::Vector3d boxMove = checkNewBoxPosition(new_box,fp);
@@ -202,8 +202,8 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
     if (new_box.m_name == "a207eac3")
       boxMove(1) = 0.19;
 
-    fp.coordinates.position = fp.coordinates.position + boxMove;
-    new_box.position.position = fp.coordinates.position + box_size * fp.direction_box_pos;
+    fp.coordinates = fp.coordinates + boxMove;
+    new_box.position = fp.coordinates + box_size * fp.direction_box_pos;
     //        }
 
     // check collision
@@ -212,7 +212,7 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
 
     // calculate the supporting boxes and helts
     new_box.support_boxes.clear();
-    if (floatEqual(fp.coordinates.position(2), 0.0))
+    if (floatEqual(fp.coordinates(2), 0.0))
     {
       supportingBox s_box;
       s_box.uuid = "p6ppallet";
@@ -225,8 +225,7 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
       {
         double overlap = bulletPhysics->getSupportArea(new_box, b);
         // new_box on top of b
-        if (floatEqual(b.position.position(2) + b.m_height, new_box.position.position(2)) &&
-            floatGreaterThan(overlap, 0))
+        if (floatEqual(b.position(2) + b.m_height, new_box.position(2)) && floatGreaterThan(overlap, 0))
         {
           supportingBox sup_box;
           sup_box.uuid = b.m_name;
@@ -237,11 +236,9 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
     }
 
     // update new center of mass of bin
-    Point com_new_box;
-    com_new_box.position =
-        fp.coordinates.position + (1 / 2.0) * box_size * (fp.direction_x + fp.direction_y + fp.direction_z);
-    bin_com.position =
-        (com_new_box.position * new_box.m_mass + bin_com.position * bin_mass) / (bin_mass + new_box.m_mass);
+    Eigen::Vector3d com_new_box;
+    com_new_box = fp.coordinates + (1 / 2.0) * box_size * (fp.direction_x + fp.direction_y + fp.direction_z);
+    bin_com = (com_new_box * new_box.m_mass + bin_com * bin_mass) / (bin_mass + new_box.m_mass);
     // update new parameters of the bin
     bin_mass = bin_mass + new_box.m_mass;
     acc_height_of_all_boxes += new_box.m_height;
@@ -262,52 +259,50 @@ void Bin::addNewBox(Box& new_box, FittingPoint fp, HoldingPlatform hold, double 
 
 Eigen::Vector3d Bin::checkNewBoxPosition(Box abox, FittingPoint fp)
 {
-  FittingPoint cp_0(Point(fp.coordinates.position + abox.m_height * fp.direction_z), fp.quadrant);
-  FittingPoint cp_1(Point(fp.coordinates.position + abox.m_length * fp.direction_x), fp.quadrant);
-  FittingPoint cp_2(Point(fp.coordinates.position + abox.m_width * fp.direction_y), fp.quadrant);
+  FittingPoint cp_0(Eigen::Vector3d(fp.coordinates + abox.m_height * fp.direction_z), fp.quadrant);
+  FittingPoint cp_1(Eigen::Vector3d(fp.coordinates + abox.m_length * fp.direction_x), fp.quadrant);
+  FittingPoint cp_2(Eigen::Vector3d(fp.coordinates + abox.m_width * fp.direction_y), fp.quadrant);
 
   // compute the distance in the -x direction, to see if it can be moved more!
   Eigen::Vector3d distanceX, distance;
-  distanceX = getProjectionVector(fp.coordinates.position, -1 * fp.direction_x);
+  distanceX = getProjectionVector(fp.coordinates, -1 * fp.direction_x);
   double dis_1 = distanceX(0);
-  distanceX = getProjectionVector(cp_0.coordinates.position, -1 * fp.direction_x);
+  distanceX = getProjectionVector(cp_0.coordinates, -1 * fp.direction_x);
   double dis_2 = distanceX(0);
   distance(0) = floatLessThan(std::fabs(dis_1), std::fabs(dis_2)) ? dis_1 : dis_2;
-  distanceX = getProjectionVector(cp_2.coordinates.position, -1 * fp.direction_x);
+  distanceX = getProjectionVector(cp_2.coordinates, -1 * fp.direction_x);
   double dis_3 = distanceX(0);
   distance(0) = floatLessThan(std::fabs(dis_3), std::fabs(distance(0))) ? dis_3 : distance(0);
 
   // -y direction
   Eigen::Vector3d distanceY;
-  distanceY = getProjectionVector(fp.coordinates.position, -1 * fp.direction_y);
+  distanceY = getProjectionVector(fp.coordinates, -1 * fp.direction_y);
   dis_1 = distanceY(1);
-  distanceY = getProjectionVector(cp_0.coordinates.position, -1 * fp.direction_y);
+  distanceY = getProjectionVector(cp_0.coordinates, -1 * fp.direction_y);
   dis_2 = distanceY(1);
   distance(1) = floatLessThan(std::fabs(dis_1), std::fabs(dis_2)) ? dis_1 : dis_2;
-  distanceY = getProjectionVector(cp_1.coordinates.position, -1 * fp.direction_y);
+  distanceY = getProjectionVector(cp_1.coordinates, -1 * fp.direction_y);
   dis_3 = distanceY(1);
   distance(1) = floatLessThan(std::fabs(dis_3), std::fabs(distance(1))) ? dis_3 : distance(1);
 
   // check1: if there is enough support area after move the box to new position
   // don't move too far in the case: the support area is not enough and not in the floor
-  if ((std::fabs(distance(0)) > ((1 - paramsPtr_->helt_rate()) * abox.m_length)) &&
-      !floatEqual(abox.position.position(2), 0.0))
+  if ((std::fabs(distance(0)) > ((1 - paramsPtr_->helt_rate()) * abox.m_length)) && !floatEqual(abox.position(2), 0.0))
   {
     distance(0) = 0.0;
   }
-  if ((std::fabs(distance(1)) > ((1 - paramsPtr_->helt_rate()) * abox.m_width)) &&
-      !floatEqual(abox.position.position(2), 0.0))
+  if ((std::fabs(distance(1)) > ((1 - paramsPtr_->helt_rate()) * abox.m_width)) && !floatEqual(abox.position(2), 0.0))
   {
     distance(1) = 0.0;
   }
 
   // check2: if this side contacts with other boxes!!
   Eigen::Vector3d centerX, centerY;
-  centerX << fp.coordinates.position(0), fp.coordinates.position(1) + (1 / 2.0) * abox.m_width * fp.direction_y(1),
-      fp.coordinates.position(2) + (1 / 2.0) * abox.m_height * fp.direction_z(2);
+  centerX << fp.coordinates(0), fp.coordinates(1) + (1 / 2.0) * abox.m_width * fp.direction_y(1),
+      fp.coordinates(2) + (1 / 2.0) * abox.m_height * fp.direction_z(2);
 
-  centerY << fp.coordinates.position(0) + (1 / 2.0) * abox.m_length * fp.direction_x(0), fp.coordinates.position(1),
-      fp.coordinates.position(2) + (1 / 2.0) * abox.m_height * fp.direction_z(2);
+  centerY << fp.coordinates(0) + (1 / 2.0) * abox.m_length * fp.direction_x(0), fp.coordinates(1),
+      fp.coordinates(2) + (1 / 2.0) * abox.m_height * fp.direction_z(2);
 
   if (bulletPhysics->isPointContact(centerX))
   {
@@ -321,12 +316,12 @@ Eigen::Vector3d Bin::checkNewBoxPosition(Box abox, FittingPoint fp)
   // check3: if the box collides with others in the new place
   Box xBox = abox;
   Box yBox = abox;
-  xBox.position.position(0) = abox.position.position(0) + distance(0);
+  xBox.position(0) = abox.position(0) + distance(0);
   if (this->isColliding(xBox))
   {
     distance(0) = 0.0;
   }
-  yBox.position.position(1) = abox.position.position(1) + distance(1);
+  yBox.position(1) = abox.position(1) + distance(1);
   if (this->isColliding(yBox))
   {
     distance(1) = 0.0;
@@ -341,9 +336,9 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
 {
   // get the left down corner position of the box
   Eigen::Vector3d position, origin;
-  origin(0) = fp.coordinates.position(0) + fp.direction_box_pos(0) * abox.m_length;
-  origin(1) = fp.coordinates.position(1) + fp.direction_box_pos(1) * abox.m_width;
-  origin(2) = fp.coordinates.position(2);
+  origin(0) = fp.coordinates(0) + fp.direction_box_pos(0) * abox.m_length;
+  origin(1) = fp.coordinates(1) + fp.direction_box_pos(1) * abox.m_width;
+  origin(2) = fp.coordinates(2);
 
   // get the direction need to push
   Eigen::Vector3d dist, center, directionX, directionY, directionZ;
@@ -412,16 +407,16 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
 
   // check1: if there is enough support area after move the box to new position
   double supportArea = 0.0;  // this supportArea does not include the floor
-  if (floatEqual(fp.coordinates.position(2), 0.0))
+  if (floatEqual(fp.coordinates(2), 0.0))
     supportArea += abox.m_width * abox.m_length;
   Box xBox = abox;
   Box yBox = abox;
-  xBox.position.position(0) = abox.position.position(0) + distance(0);
+  xBox.position(0) = abox.position(0) + distance(0);
   for (Box b : packed_boxes)
   {
     double overlap = bulletPhysics->getSupportArea(xBox, b);
     // abox on top of b
-    if (floatEqual(b.position.position(2) + b.m_height, xBox.position.position(2)))
+    if (floatEqual(b.position(2) + b.m_height, xBox.position(2)))
     {
       supportArea += overlap;
     }
@@ -437,13 +432,13 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
   }
 
   supportArea = 0.0;
-  if (floatEqual(fp.coordinates.position(2), 0.0))
+  if (floatEqual(fp.coordinates(2), 0.0))
     supportArea += abox.m_width * abox.m_length;
-  yBox.position.position(1) = abox.position.position(1) + distance(1);
+  yBox.position(1) = abox.position(1) + distance(1);
   for (Box b : packed_boxes)
   {
     double overlap = bulletPhysics->getSupportArea(yBox, b);
-    if (floatEqual(b.position.position(2) + b.m_height, yBox.position.position(2)))
+    if (floatEqual(b.position(2) + b.m_height, yBox.position(2)))
     {
       supportArea += overlap;
     }
@@ -541,8 +536,8 @@ Eigen::Vector3d Bin::pushBoxTowardBinCenter(Box abox, FittingPoint fp, double he
   if (std::fabs(distance(0)) > 0 && std::fabs(distance(1)) > 0)
   {
     Box xyBox = abox;
-    xyBox.position.position(0) = abox.position.position(0) + distance(0);
-    xyBox.position.position(1) = abox.position.position(1) + distance(1);
+    xyBox.position(0) = abox.position(0) + distance(0);
+    xyBox.position(1) = abox.position(1) + distance(1);
     if (this->isColliding(xyBox))
     {
       distance(1) = 0.0;
@@ -582,9 +577,9 @@ void Bin::updateFittingPoints(Box& abox, FittingPoint& fp)
   bool USE_TOP_POINTS = true;
 
   // Add 3 corner points to fitting point
-  FittingPoint cp_0(Point(fp.coordinates.position + abox.m_height * fp.direction_z), fp.quadrant);
-  FittingPoint cp_1(Point(fp.coordinates.position + abox.m_length * fp.direction_x), fp.quadrant);
-  FittingPoint cp_2(Point(fp.coordinates.position + abox.m_width * fp.direction_y), fp.quadrant);
+  FittingPoint cp_0(Eigen::Vector3d(fp.coordinates + abox.m_height * fp.direction_z), fp.quadrant);
+  FittingPoint cp_1(Eigen::Vector3d(fp.coordinates + abox.m_length * fp.direction_x), fp.quadrant);
+  FittingPoint cp_2(Eigen::Vector3d(fp.coordinates + abox.m_width * fp.direction_y), fp.quadrant);
 
   if (USE_CORNER_POINTS)
   {
@@ -599,18 +594,19 @@ void Bin::updateFittingPoints(Box& abox, FittingPoint& fp)
   // Add other 3 box top points as fp
   if (USE_TOP_POINTS)
   {
-    double u_x = fp.coordinates.position(0) + fp.direction_box_pos(0) * abox.m_length;
-    double u_y = fp.coordinates.position(1) + fp.direction_box_pos(1) * abox.m_width;
+    double u_x = fp.coordinates(0) + fp.direction_box_pos(0) * abox.m_length;
+    double u_y = fp.coordinates(1) + fp.direction_box_pos(1) * abox.m_width;
 
-    if (u_x < paramsPtr_->min_box_size() && (fp.coordinates.position(2) + abox.m_height) > 2.5)
+    if (u_x < paramsPtr_->min_box_size() && (fp.coordinates(2) + abox.m_height) > 2.5)
     {
       FittingPoint tp_1(
-          Point(fp.coordinates.position + abox.m_height * fp.direction_z + abox.m_length * fp.direction_x),
+          Eigen::Vector3d(fp.coordinates + abox.m_height * fp.direction_z + abox.m_length * fp.direction_x),
           5 - fp.quadrant);
-      FittingPoint tp_2(Point(fp.coordinates.position + abox.m_height * fp.direction_z + abox.m_width * fp.direction_y),
-                        fp.quadrant + (fp.quadrant % 2 - 0.5) * 2);
-      FittingPoint tp_3(Point(fp.coordinates.position + abox.m_height * fp.direction_z +
-                              abox.m_length * fp.direction_x + abox.m_width * fp.direction_y),
+      FittingPoint tp_2(
+          Eigen::Vector3d(fp.coordinates + abox.m_height * fp.direction_z + abox.m_width * fp.direction_y),
+          fp.quadrant + (fp.quadrant % 2 - 0.5) * 2);
+      FittingPoint tp_3(Eigen::Vector3d(fp.coordinates + abox.m_height * fp.direction_z +
+                                        abox.m_length * fp.direction_x + abox.m_width * fp.direction_y),
                         fp.quadrant + fp.direction_x(0) * 2);
       fitting_points.push_back(tp_1);
       fitting_points.push_back(tp_2);
@@ -628,11 +624,11 @@ void Bin::updateFittingPoints(Box& abox, FittingPoint& fp)
 
     //        FittingPoint ep_0(Point(getProjection(fp.coordinates.position,-1*fp.direction_x)), fp.quadrant); //the
     //        projection of the box position
-    FittingPoint ep_1(Point(getProjection(fp.coordinates.position, -1 * fp.direction_y)), fp.quadrant);
-    FittingPoint ep_2(Point(getProjection(cp_1.coordinates.position, -1 * fp.direction_y)), fp.quadrant);
-    FittingPoint ep_3(Point(getProjection(cp_1.coordinates.position, -1 * fp.direction_z)), fp.quadrant);
-    FittingPoint ep_4(Point(getProjection(cp_2.coordinates.position, -1 * fp.direction_x)), fp.quadrant);
-    FittingPoint ep_5(Point(getProjection(cp_2.coordinates.position, -1 * fp.direction_z)), fp.quadrant);
+    FittingPoint ep_1(Eigen::Vector3d(getProjection(fp.coordinates, -1 * fp.direction_y)), fp.quadrant);
+    FittingPoint ep_2(Eigen::Vector3d(getProjection(cp_1.coordinates, -1 * fp.direction_y)), fp.quadrant);
+    FittingPoint ep_3(Eigen::Vector3d(getProjection(cp_1.coordinates, -1 * fp.direction_z)), fp.quadrant);
+    FittingPoint ep_4(Eigen::Vector3d(getProjection(cp_2.coordinates, -1 * fp.direction_x)), fp.quadrant);
+    FittingPoint ep_5(Eigen::Vector3d(getProjection(cp_2.coordinates, -1 * fp.direction_z)), fp.quadrant);
     //        fitting_points.push_back(ep_0);
     fitting_points.push_back(ep_1);
     fitting_points.push_back(ep_2);
@@ -649,10 +645,10 @@ void Bin::updateFittingPoints(Box& abox, FittingPoint& fp)
     if (USE_ADDITIONAL_PROJECTIONS)
     {
       // quadrant projected along x-axis
-      FittingPoint fp_0(Point(getProjection(cp_1.coordinates.position, -1 * fp.direction_x)),
+      FittingPoint fp_0(Eigen::Vector3d(getProjection(cp_1.coordinates, -1 * fp.direction_x)),
                         fp.quadrant + (fp.quadrant % 2 - 0.5) * 2);
       // quadrant projected along y-axis
-      FittingPoint fp_1(Point(getProjection(cp_2.coordinates.position, -1 * fp.direction_y)), 5 - fp.quadrant);
+      FittingPoint fp_1(Eigen::Vector3d(getProjection(cp_2.coordinates, -1 * fp.direction_y)), 5 - fp.quadrant);
       fitting_points.push_back(fp_0);
       fitting_points.push_back(fp_1);
       abox.box_fps.push_back(fp_0);
@@ -716,30 +712,28 @@ bool Bin::isColliding(Box& box)
 double Bin::getComDiffX(Box& abox, FittingPoint& fp)
 {
   double com_new_x = 0.0;
-  com_new_x = fp.coordinates.position(0) +
-              fp.direction_x.transpose() * abox.center_of_mass.position;  // center_of_mass.position(0)
-  com_new_x = (com_new_x * abox.m_mass + bin_mass * bin_com.position(0)) / (bin_mass + abox.m_mass);
+  com_new_x = fp.coordinates(0) + fp.direction_x.transpose() * abox.center_of_mass;  // center_of_mass.position(0)
+  com_new_x = (com_new_x * abox.m_mass + bin_mass * bin_com(0)) / (bin_mass + abox.m_mass);
 
-  return abs(bin_com.position(0) - target_com.position(0)) - abs(com_new_x - target_com.position(0));
+  return abs(bin_com(0) - target_com(0)) - abs(com_new_x - target_com(0));
 }
 
 double Bin::getComDiffY(Box& abox, FittingPoint& fp)
 {
   double com_new_y = 0.0;
-  com_new_y = fp.coordinates.position(1) +
-              fp.direction_y.transpose() * abox.center_of_mass.position;  // center_of_mass.position(1)
-  com_new_y = (com_new_y * abox.m_mass + bin_mass * bin_com.position(1)) / (bin_mass + abox.m_mass);
+  com_new_y = fp.coordinates(1) + fp.direction_y.transpose() * abox.center_of_mass;  // center_of_mass.position(1)
+  com_new_y = (com_new_y * abox.m_mass + bin_mass * bin_com(1)) / (bin_mass + abox.m_mass);
 
-  return abs(bin_com.position(1) - target_com.position(1)) - abs(com_new_y - target_com.position(1));
+  return abs(bin_com(1) - target_com(1)) - abs(com_new_y - target_com(1));
 }
 
 double Bin::getComDiffZ(Box& abox, FittingPoint& fp)
 {
   double com_new_z = 0.0;
-  com_new_z = fp.coordinates.position(2) + abox.center_of_mass.position(2);
-  com_new_z = (com_new_z * abox.m_mass + bin_mass * bin_com.position(2)) / (bin_mass + abox.m_mass);
+  com_new_z = fp.coordinates(2) + abox.center_of_mass(2);
+  com_new_z = (com_new_z * abox.m_mass + bin_mass * bin_com(2)) / (bin_mass + abox.m_mass);
 
-  return abs(bin_com.position(2) - target_com.position(2)) - abs(com_new_z - target_com.position(2));
+  return abs(bin_com(2) - target_com(2)) - abs(com_new_z - target_com(2));
 }
 
 double Bin::giveAverageHeightOfBoxes()
@@ -751,23 +745,23 @@ double Bin::getNearestDistanceToEdges(Box& abox, FittingPoint& fp)
 {
   double dis = bin_length;
 
-  if (fp.coordinates.position(0) < dis)
+  if (fp.coordinates(0) < dis)
   {
-    dis = fp.coordinates.position(0);
+    dis = fp.coordinates(0);
   }
-  if (fp.coordinates.position(1) < dis)
+  if (fp.coordinates(1) < dis)
   {
-    dis = fp.coordinates.position(1);
-  }
-
-  if (bin_width - fp.coordinates.position(1) - abox.m_width < dis)
-  {
-    dis = bin_width - fp.coordinates.position(1) - abox.m_width;
+    dis = fp.coordinates(1);
   }
 
-  if (bin_length - fp.coordinates.position(0) - abox.m_length < dis)
+  if (bin_width - fp.coordinates(1) - abox.m_width < dis)
   {
-    dis = bin_length - fp.coordinates.position(0) - abox.m_length;
+    dis = bin_width - fp.coordinates(1) - abox.m_width;
+  }
+
+  if (bin_length - fp.coordinates(0) - abox.m_length < dis)
+  {
+    dis = bin_length - fp.coordinates(0) - abox.m_length;
   }
 
   return dis;
@@ -798,9 +792,9 @@ void Bin::setPackedBoxes(std::vector<Box>& boxes_on_bin)
   for (Box box : boxes_on_bin)
   {
     // update new parameters of the bin
-    Point com_box;
-    com_box.position = box.position.position + box.center_of_mass.position;
-    bin_com.position = (com_box.position * box.m_mass + bin_com.position * bin_mass) / (bin_mass + box.m_mass);
+    Eigen::Vector3d com_box;
+    com_box = box.position + box.center_of_mass;
+    bin_com = (com_box * box.m_mass + bin_com * bin_mass) / (bin_mass + box.m_mass);
     // update new center of mass of bin
     bin_mass = bin_mass + box.m_mass;
     acc_height_of_all_boxes += box.m_height;
@@ -815,7 +809,7 @@ void Bin::setPackedBoxes(std::vector<Box>& boxes_on_bin)
     Eigen::Matrix3d box_size;
     box_size << box.m_length, 0, 0, 0, box.m_width, 0, 0, 0, box.m_height;
     FittingPoint fp = fitting_points[0];
-    FittingPoint fp_packed(Point(box.position.position - box_size * fp.direction_box_pos), fp.quadrant);
+    FittingPoint fp_packed(Eigen::Vector3d(box.position - box_size * fp.direction_box_pos), fp.quadrant);
     packed_boxes_fps.push_back(fp_packed);
   }
 }
@@ -850,7 +844,7 @@ void Bin::updateBoxesPosition(std::vector<Box>& boxes_on_pallet)
     }
     else
     {
-      it->position.position = box.position.position;  // update the box position
+      it->position = box.position;  // update the box position
     }
   }
 }

@@ -301,11 +301,10 @@ void HoldingPlatform::generateSimulatedBoxes()
                   "Sim " + abox.m_name + "+" + bbox.m_name, abox.box_labels);
             a.is_simulated = true;
             a.m_id = highest_old_id + 1;
-            a.center_of_mass.position(1) =
-                calculateCenterOfMass(abox.center_of_mass.position(1), bbox.center_of_mass.position(1) + abox.m_width,
-                                      abox.m_mass, bbox.m_mass);
-            a.center_of_mass.position(2) = calculateCenterOfMass(
-                abox.center_of_mass.position(2), bbox.center_of_mass.position(2), abox.m_mass, bbox.m_mass);
+            a.center_of_mass(1) = calculateCenterOfMass(abox.center_of_mass(1), bbox.center_of_mass(1) + abox.m_width,
+                                                        abox.m_mass, bbox.m_mass);
+            a.center_of_mass(2) =
+                calculateCenterOfMass(abox.center_of_mass(2), bbox.center_of_mass(2), abox.m_mass, bbox.m_mass);
 
             a.correspond_boxes.push_back(abox.getId());
             a.correspond_boxes.push_back(bbox.getId());
@@ -315,7 +314,7 @@ void HoldingPlatform::generateSimulatedBoxes()
             sim_box.sim_id = a.getId();
             sim_box.arrangement = TOP;
             // ccx: down is id1
-            if (abox.position.position(1) < bbox.position.position(1))
+            if (abox.position(1) < bbox.position(1))
             {
               sim_box.id1 = abox.getId();
               sim_box.id2 = bbox.getId();
@@ -342,11 +341,10 @@ void HoldingPlatform::generateSimulatedBoxes()
                   "Sim " + abox.m_name + "+" + bbox.m_name, abox.box_labels);
             a.is_simulated = true;
             a.m_id = highest_old_id + 1;
-            a.center_of_mass.position(0) =
-                calculateCenterOfMass(abox.center_of_mass.position(0), bbox.center_of_mass.position(0) + abox.m_length,
-                                      abox.m_mass, bbox.m_mass);
-            a.center_of_mass.position(2) = calculateCenterOfMass(
-                abox.center_of_mass.position(2), bbox.center_of_mass.position(2), abox.m_mass, bbox.m_mass);
+            a.center_of_mass(0) = calculateCenterOfMass(abox.center_of_mass(0), bbox.center_of_mass(0) + abox.m_length,
+                                                        abox.m_mass, bbox.m_mass);
+            a.center_of_mass(2) =
+                calculateCenterOfMass(abox.center_of_mass(2), bbox.center_of_mass(2), abox.m_mass, bbox.m_mass);
             a.correspond_boxes.push_back(abox.getId());
             a.correspond_boxes.push_back(bbox.getId());
             simulate_boxes.push_back(a);
@@ -355,7 +353,7 @@ void HoldingPlatform::generateSimulatedBoxes()
             sim_box.sim_id = a.getId();
             sim_box.arrangement = RIGHT;
             // ccx: left is id1
-            if (abox.position.position(0) < bbox.position.position(0))
+            if (abox.position(0) < bbox.position(0))
             {
               sim_box.id1 = abox.getId();
               sim_box.id2 = bbox.getId();
