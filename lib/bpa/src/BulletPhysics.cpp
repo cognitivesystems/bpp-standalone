@@ -438,7 +438,8 @@ double BulletPhysics::getHorizontalArea(const std::vector<btVector3>& points) co
 
   if (points.size() == 4)
   {
-    if (points[0].z() == points[1].z() == points[2].z() == points[3].z())
+    if (floatEqual(points[0].z(), points[1].z()) && floatEqual(points[1].z(), points[2].z()) &&
+        floatEqual(points[2].z(), points[3].z()))
     {
       btVector3 side_a = points[0] - points[1];
       btVector3 side_b = points[0] - points[2];
