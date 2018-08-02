@@ -15,6 +15,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+#include <Eigen/Core>
 #include "Box.h"
 #include "FittingPoint.h"
 #include "HoldingPlatform.h"
@@ -120,8 +121,8 @@ public:
   double bin_width;
   double bin_height;
   double bin_mass;                /* the mass of all boxes packed into the bin */
-  Point bin_com;                  /* the center of mass of the bin (with respect to the bin coordinate system) */
-  Point target_com;               /* the target center of mass of the bin (with respect to the bin coordinate system) */
+  Eigen::Vector3d bin_com;        /* the center of mass of the bin (with respect to the bin coordinate system) */
+  Eigen::Vector3d target_com;     /* the target center of mass of the bin (with respect to the bin coordinate system) */
   double acc_height_of_all_boxes; /* the cumulated height of all boxes packed into the bin */
 
   std::vector<Box> packed_boxes; /* all boxes packed into the bin */

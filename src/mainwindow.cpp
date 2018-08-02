@@ -73,9 +73,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
 
     bpa::Box floor;
     floor.m_name="floor";
-    floor.position.position[0]=0.0;
-    floor.position.position[1]=0.0;
-    floor.position.position[2]=0.0;
+    floor.position[0]=0.0;
+    floor.position[1]=0.0;
+    floor.position[2]=0.0;
     floor.rotation=0.0;
     floor.m_length=25.00;
     floor.m_width=25.00;
@@ -86,16 +86,16 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f) : QMainWindow(parent)
     bpa::Box pallet;
     pallet.m_name="pallet";
     pallet.m_type="pallet";
-    pallet.position.position[0]=0.0;
-    pallet.position.position[1]=0.0;
-    pallet.position.position[2]=0.0;
+    pallet.position[0]=0.0;
+    pallet.position[1]=0.0;
+    pallet.position[2]=0.0;
     pallet.rotation=0.0;
     pallet.m_length=2.28;
     pallet.m_width=3.00;
     pallet.m_height=0.05;
-    pallet.position.position[0] += pallet.m_length / 2;
-    pallet.position.position[1] += pallet.m_width / 2;
-    pallet.position.position[2] += pallet.m_height / 2;
+    pallet.position[0] += pallet.m_length / 2;
+    pallet.position[1] += pallet.m_width / 2;
+    pallet.position[2] += pallet.m_height / 2;
 
     scene_3d_->addBoxEntity(pallet);
 
@@ -171,14 +171,14 @@ void MainWindow::on_loadButton_clicked()
 
     for (bpa::Box& b : boxes_)
     {
-        b.position.position[0] += 4.0;
+        b.position[0] += 4.0;
 
         //        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
         //        std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
 
         if(b.m_length==0.3 || b.m_width==0.3){
             std::cout << "Small box --> " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
-            std::cout << "Small box pose --> " << b.position.position[0] << " " << b.position.position[1] << " " << b.position.position[2] << std::endl;
+            std::cout << "Small box pose --> " << b.position[0] << " " << b.position[1] << " " << b.position[2] << std::endl;
 
         }
 
@@ -321,9 +321,9 @@ void MainWindow::on_genButton_clicked()
 
     for(size_t i=0;i<100;++i){
         b.m_name=QString::number(i).toStdString();
-        b.position.position[0]=dis_l(gen);
-        b.position.position[1]=dis_w(gen);
-        b.position.position[2]=dis_h(gen);
+        b.position[0]=dis_l(gen);
+        b.position[1]=dis_w(gen);
+        b.position[2]=dis_h(gen);
         b.rotation=0.0;
 
         //        std::cout << "Small box --> " << b.m_name << " " << b.m_length << " " << b.m_width << " " << b.m_height << std::endl;
@@ -387,9 +387,9 @@ void MainWindow::doBinPacking()
 
     for (bpa::Box& b : boxes)
     {
-        b.position.position[0] -= b.m_length / 2;
-        b.position.position[1] -= b.m_width / 2;
-        b.position.position[2] -= b.m_height / 2;
+        b.position[0] -= b.m_length / 2;
+        b.position[1] -= b.m_width / 2;
+        b.position[2] -= b.m_height / 2;
         scene_3d_->updateBoxEntity(b);
 
     }
@@ -398,9 +398,9 @@ void MainWindow::doBinPacking()
 
     for (bpa::Box& b : planned_boxes_)
     {
-        b.position.position[0] += b.m_length / 2;
-        b.position.position[1] += b.m_width / 2;
-        b.position.position[2] += b.m_height / 2;
+        b.position[0] += b.m_length / 2;
+        b.position[1] += b.m_width / 2;
+        b.position[2] += b.m_height / 2;
 
         scene_3d_->updateBoxEntity(b);
     }
@@ -412,9 +412,9 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
 
     for (bpa::Box& b : boxes)
     {
-        b.position.position[0] -= b.m_length / 2;
-        b.position.position[1] -= b.m_width / 2;
-        b.position.position[2] -= b.m_height / 2;
+        b.position[0] -= b.m_length / 2;
+        b.position[1] -= b.m_width / 2;
+        b.position[2] -= b.m_height / 2;
         scene_3d_->updateBoxEntity(b);
 
     }
@@ -425,9 +425,9 @@ void MainWindow::doBinPacking(std::shared_ptr<bpa::Params> &params)
 
     for (bpa::Box& b : planned_boxes_)
     {
-        b.position.position[0] += b.m_length / 2;
-        b.position.position[1] += b.m_width / 2;
-        b.position.position[2] += b.m_height / 2;
+        b.position[0] += b.m_length / 2;
+        b.position[1] += b.m_width / 2;
+        b.position[2] += b.m_height / 2;
 
         scene_3d_->updateBoxEntity(b);
     }

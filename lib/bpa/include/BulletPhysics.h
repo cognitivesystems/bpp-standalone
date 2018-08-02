@@ -58,14 +58,6 @@ private:
   btConstraintSolver* solver_;
   btDynamicsWorld* binPackingWorld_;
 
-  btBroadphaseInterface* areaCheckBroadphase_;
-  btDefaultCollisionConfiguration* areaCheckCollisionConfiguration_;
-  btCollisionDispatcher* areaCheckDispatcher_;
-  btConstraintSolver* areaCheckSolver_;
-  btDynamicsWorld* areaCheckWorld_;
-
-  btAlignedObjectArray<btRigidBody*> collisionBodies_;
-
   struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
   {
     ContactResultCallback();

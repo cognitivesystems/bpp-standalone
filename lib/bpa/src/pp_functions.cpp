@@ -149,7 +149,7 @@ std::vector<Box> PalletizationPlanner::getMoveDirection(std::vector<Box>& box_pl
       if (xBlocking(box, boxes[i], abin))
       {
         flagX = false;
-        current_bin_height = boxes[i].position.position(2) + boxes[i].m_height;
+        current_bin_height = boxes[i].position(2) + boxes[i].m_height;
         std::cout << "Box " << box.m_name << " is blocked in X direction!\n";
       }
     }
@@ -159,9 +159,9 @@ std::vector<Box> PalletizationPlanner::getMoveDirection(std::vector<Box>& box_pl
       if (yBlocking(box, boxes[i], abin))
       {
         flagY = false;
-        if (boxes[i].position.position(2) + boxes[i].m_height > current_bin_height)
+        if (boxes[i].position(2) + boxes[i].m_height > current_bin_height)
         {
-          current_bin_height = boxes[i].position.position(2) + boxes[i].m_height;
+          current_bin_height = boxes[i].position(2) + boxes[i].m_height;
         }
         std::cout << "Box " << box.m_name << " is blocked in Y direction!\n";
       }
@@ -245,54 +245,54 @@ void PalletizationPlanner::getPlacePositionVacumm(Box& box, Bin& abin)
 {
   // gripper_position is wrt to box center frame
   /// vacumm gripper
-  box.gripper_position.position << 0, 0, box.m_height / 2.0 + vacuum_height;
+  box.gripper_position << 0, 0, box.m_height / 2.0 + vacuum_height;
 
   // check the collision
   bool is_collided = false;
   Eigen::Vector3d offset, vacuum_center, box_center;
   Box vacuum_bbox(vacuum_length, vacuum_width, 0.3, 10, "vacuum_bbox", std::vector<std::string>());
   offset << 0, 0, box.m_height / 2.0 + 0.08;  // center wrt box center
-  box_center << box.position.position(0) + box.m_length / 2.0, box.position.position(1) + box.m_width / 2.0,
-      box.position.position(2) + box.m_height / 2.0;
+  box_center << box.position(0) + box.m_length / 2.0, box.position(1) + box.m_width / 2.0,
+      box.position(2) + box.m_height / 2.0;
   vacuum_center = box_center + offset;
-  vacuum_bbox.position.position << vacuum_center(0) - vacuum_bbox.m_length / 2.0,
-      vacuum_center(1) - vacuum_bbox.m_width / 2.0, vacuum_center(2);
+  vacuum_bbox.position << vacuum_center(0) - vacuum_bbox.m_length / 2.0, vacuum_center(1) - vacuum_bbox.m_width / 2.0,
+      vacuum_center(2);
   is_collided = abin.bulletPhysics->isColliding(vacuum_bbox);
 
   // If the box is too small. make some offset in x and y, not in the box center
   if (box.is_rotated)  // if the box is rotated, here length and width is opposite
   {
     if (box.m_length < vacuum_length && is_collided)
-      box.gripper_position.position(0) = vacuum_length / 2.0 - box.m_length / 2.0 + 0.02;  //+x
+      box.gripper_position(0) = vacuum_length / 2.0 - box.m_length / 2.0 + 0.02;  //+x
     if (box.m_width < vacuum_width && is_collided)
-      box.gripper_position.position(1) = vacuum_width / 2.0 - box.m_width / 2.0 + 0.02;  //+y
+      box.gripper_position(1) = vacuum_width / 2.0 - box.m_width / 2.0 + 0.02;  //+y
   }
   else
   {
     if (box.m_length < vacuum_length && is_collided)
-      box.gripper_position.position(0) = -(vacuum_length / 2.0 - box.m_length / 2.0 + 0.02);  //-x
+      box.gripper_position(0) = -(vacuum_length / 2.0 - box.m_length / 2.0 + 0.02);  //-x
     if (box.m_width < vacuum_width && is_collided)
-      box.gripper_position.position(1) = vacuum_width / 2.0 - box.m_width / 2.0 + 0.02;  //+y
+      box.gripper_position(1) = vacuum_width / 2.0 - box.m_width / 2.0 + 0.02;  //+y
   }
   box.gripper_orientation = 0.0;
 
   std::cout << box.m_name << "  current rotation = " << box.current_rotation << ";  is_collised = " << is_collided
             << std::endl;
-  std::cout << "The vacuum gripper_position = " << box.gripper_position.position.transpose()
+  std::cout << "The vacuum gripper_position = " << box.gripper_position.transpose()
             << ";  gripper_orientation = " << box.gripper_orientation << std::endl;
 }
 
 void PalletizationPlanner::getPlacePositionFork(Box& box, Bin& abin)
 {
-  box.gripper_position.position << 0, 0, (fork_h - box.m_height / 2.0 + 0.07);
+  box.gripper_position << 0, 0, (fork_h - box.m_height / 2.0 + 0.07);
   // offset in y
   if (box.m_width <= fork_w2)  // small box
-    box.gripper_position.position(1) = (fork_w2 - fork_w1) - box.m_width / 2.0;
+    box.gripper_position(1) = (fork_w2 - fork_w1) - box.m_width / 2.0;
   else
-    box.gripper_position.position(1) = box.m_width / 2.0 - fork_w1;
+    box.gripper_position(1) = box.m_width / 2.0 - fork_w1;
 
   // for safety between the side of the box, add 10cm offset in y
-  box.gripper_position.position(1) = box.gripper_position.position(1) + 0.10;
+  box.gripper_position(1) = box.gripper_position(1) + 0.10;
 
   // offset in x, check the collision first
   /// TODO: check the gjk collision
@@ -302,11 +302,10 @@ void PalletizationPlanner::getPlacePositionFork(Box& box, Bin& abin)
   {
     Box fork_bar(fork_l, 0.1, 0.1, 10, "fork_bar", std::vector<std::string>());
     //        offset << 0, fork_w2-box.m_width/2.0+0.05, 0;  //center wrt box center(x,y direction)
-    offset << 0, fork_w1 + std::fabs(box.gripper_position.position(1)) + 0.05, 0;
-    box_center << box.position.position(0) + box.m_length / 2.0, box.position.position(1) + box.m_width / 2.0,
-        box.position.position(2);
+    offset << 0, fork_w1 + std::fabs(box.gripper_position(1)) + 0.05, 0;
+    box_center << box.position(0) + box.m_length / 2.0, box.position(1) + box.m_width / 2.0, box.position(2);
     fork_center = box_center + offset;
-    fork_bar.position.position << fork_center(0) - fork_bar.m_length / 2.0, fork_center(1) - fork_bar.m_width / 2.0,
+    fork_bar.position << fork_center(0) - fork_bar.m_length / 2.0, fork_center(1) - fork_bar.m_width / 2.0,
         fork_center(2);
     is_collided = abin.bulletPhysics->isColliding(fork_bar);
   }
@@ -314,11 +313,10 @@ void PalletizationPlanner::getPlacePositionFork(Box& box, Bin& abin)
   {
     Box fork_bar(0.1, fork_l, 0.1, 10, "fork_bar", std::vector<std::string>());
     //        offset << -(fork_w2-box.m_width/2.0+0.05), 0, 0;
-    offset << -(fork_w1 + std::fabs(box.gripper_position.position(1)) + 0.05), 0, 0;
-    box_center << box.position.position(0) + box.m_width / 2.0, box.position.position(1) + box.m_length / 2.0,
-        box.position.position(2);
+    offset << -(fork_w1 + std::fabs(box.gripper_position(1)) + 0.05), 0, 0;
+    box_center << box.position(0) + box.m_width / 2.0, box.position(1) + box.m_length / 2.0, box.position(2);
     fork_center = box_center + offset;
-    fork_bar.position.position << fork_center(0) - fork_bar.m_length / 2.0, fork_center(1) - fork_bar.m_width / 2.0,
+    fork_bar.position << fork_center(0) - fork_bar.m_length / 2.0, fork_center(1) - fork_bar.m_width / 2.0,
         fork_center(2);
     is_collided = abin.bulletPhysics->isColliding(fork_bar);
   }
@@ -326,9 +324,9 @@ void PalletizationPlanner::getPlacePositionFork(Box& box, Bin& abin)
   if (box.m_length <= fork_l && is_collided)
   {
     if (!box.is_rotated)
-      box.gripper_position.position(0) = -(fork_l / 2.0 - box.m_length / 2.0);  //-x
+      box.gripper_position(0) = -(fork_l / 2.0 - box.m_length / 2.0);  //-x
     else
-      box.gripper_position.position(0) = (fork_l / 2.0 - box.m_length / 2.0);  //+x
+      box.gripper_position(0) = (fork_l / 2.0 - box.m_length / 2.0);  //+x
     std::cout << box.m_name << " is_collised = " << is_collided << std::endl;
   }
 
@@ -338,15 +336,15 @@ void PalletizationPlanner::getPlacePositionFork(Box& box, Bin& abin)
   //    std::fabs(-90 - box.rotation) < 45 || std::fabs(box.rotation) < 45
   if (box.current_rotation > 45 || box.current_rotation < -135)
   {
-    box.gripper_position.position(0) = -box.gripper_position.position(0);
-    box.gripper_position.position(1) = -box.gripper_position.position(1);
+    box.gripper_position(0) = -box.gripper_position(0);
+    box.gripper_position(1) = -box.gripper_position(1);
     box.gripper_orientation = -box.gripper_orientation;
     std::cout << "------------------------------------------------------------Case 2" << std::endl;
   }
 
   std::cout << box.m_name << "  current rotation = " << box.current_rotation << ";  is_collised = " << is_collided
             << std::endl;
-  std::cout << "The fork gripper_position = " << box.gripper_position.position.transpose()
+  std::cout << "The fork gripper_position = " << box.gripper_position.transpose()
             << ";  gripper_orientation = " << box.gripper_orientation << std::endl;
 }
 
@@ -355,11 +353,11 @@ bool PalletizationPlanner::isBlocking(Box abox, Box b, Bin abin)
 {  // first check if abox can move in x and y direction
   bool flag = false;
 
-  if (xBlocking(abox, b, abin) && (abox.position.position(2) < b.position.position(2) + b.m_height))
+  if (xBlocking(abox, b, abin) && (abox.position(2) < b.position(2) + b.m_height))
   {
     flag = true;
   }
-  if (yBlocking(abox, b, abin) && (abox.position.position(2) < b.position.position(2) + b.m_height))
+  if (yBlocking(abox, b, abin) && (abox.position(2) < b.position(2) + b.m_height))
   {
     flag = true;
   }
@@ -375,9 +373,9 @@ bool PalletizationPlanner::isBlocking(Box abox, Box b, Bin abin)
 bool PalletizationPlanner::xBlocking(Box abox, Box b, Bin abin)
 {
   // check if direction +x is blocking, 2D
-  if (abox.position.position(0) >= b.position.position(0))
+  if (abox.position(0) >= b.position(0))
   {
-    abox.position.position(0) = b.position.position(0);
+    abox.position(0) = b.position(0);
     if (abin.bulletPhysics->isColliding(abox, b))
     {
       return true;
@@ -389,9 +387,9 @@ bool PalletizationPlanner::xBlocking(Box abox, Box b, Bin abin)
 bool PalletizationPlanner::yBlocking(Box abox, Box b, Bin abin)
 {
   // check if direction -y is blocking, 2D
-  if (abox.position.position(1) <= b.position.position(1))
+  if (abox.position(1) <= b.position(1))
   {
-    abox.position.position(1) = b.position.position(1);
+    abox.position(1) = b.position(1);
     if (abin.bulletPhysics->isColliding(abox, b))
     {
       return true;
@@ -403,9 +401,9 @@ bool PalletizationPlanner::yBlocking(Box abox, Box b, Bin abin)
 bool PalletizationPlanner::zBlocking(Box abox, Box b, Bin abin)
 {
   // check if direction +z is blocking
-  if ((abox.position.position(2) + abox.m_height) <= b.position.position(2))
+  if ((abox.position(2) + abox.m_height) <= b.position(2))
   {
-    abox.position.position(2) = b.position.position(2);
+    abox.position(2) = b.position(2);
     if (abin.bulletPhysics->isColliding(abox, b))
     {
       return true;
@@ -416,7 +414,7 @@ bool PalletizationPlanner::zBlocking(Box abox, Box b, Bin abin)
 
 bool PalletizationPlanner::compareBoxHeightSide(const Box& first, const Box& second)
 {
-  return first.position.position(2) + first.m_height < second.position.position(2) + second.m_height;
+  return first.position(2) + first.m_height < second.position(2) + second.m_height;
 }
 
 bool PalletizationPlanner::loadParamsFromFile(string filename)

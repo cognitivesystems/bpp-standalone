@@ -3,9 +3,9 @@ find_package(Eigen3 REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(Qt5Core REQUIRED)
 if (OPENMP_FOUND)
-  set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif()
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif ()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -27,7 +27,6 @@ set(BpaLib_hdr
   include/HoldingPlatform.h
   include/MixedScore.h
   include/Parameters.h
-  include/Point.h
   include/pp_functions.h
   include/SimulatedBox.h
   include/BoxJsonParser.h
@@ -41,7 +40,6 @@ set(BpaLib_src
   src/HoldingPlatform.cpp
   src/MixedScore.cpp
   src/Parameters.cpp
-  src/Point.cpp
   src/pp_functions.cpp
   src/BoxJsonParser.cpp
   src/BulletPhysics.cpp)

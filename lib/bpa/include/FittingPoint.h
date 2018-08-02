@@ -8,9 +8,9 @@
 #ifndef FITTINGPOINT_H_
 #define FITTINGPOINT_H_
 
-#include "Point.h"
 #include "Parameters.h"
 #include <vector>
+#include <Eigen/Core>
 
 namespace bpa
 {
@@ -31,7 +31,7 @@ public:
  * \brief A Constructor with input parameters
    * \param point: Position of the Fitting Point in the bin
  */
-  FittingPoint(Point point, int q);
+  FittingPoint(Eigen::Vector3d point, int q);
 
   /*
    * \brief A copy Constructor
@@ -59,8 +59,8 @@ public:
    */
   bool hasLowerScoreThan(const FittingPoint& other);
 
-  Point coordinates; /* Position of the Fitting Point in the Bin (w.r.t the frame of the Bin) */
-  int quadrant;      /* Edge_Quadrant of the Fitting Point */
+  Eigen::Vector3d coordinates; /* Position of the Fitting Point in the Bin (w.r.t the frame of the Bin) */
+  int quadrant;                /* Edge_Quadrant of the Fitting Point */
   double score; /* Score of a Box-Fitting Point combination (only used when this Fitting Point is stored in a Box) */
   double temp_a_helt; /* The supported ground surface (used in the Deep Search Algorithms) */
 

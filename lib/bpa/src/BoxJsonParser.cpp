@@ -74,7 +74,7 @@ bpa::Box BoxJsonParser::getBoxFromJsonObject(const QJsonObject& jsonObject)
 
   foreach (const QJsonValue& v, array)
   {
-    box.position.position << v.toObject()["position"].toObject()["x"].toDouble(),
+    box.position << v.toObject()["position"].toObject()["x"].toDouble(),
         v.toObject()["position"].toObject()["y"].toDouble(), v.toObject()["position"].toObject()["z"].toDouble();
 
     break;

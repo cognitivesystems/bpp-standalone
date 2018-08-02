@@ -51,13 +51,13 @@ Box::Box(double length, double width, double height, double mass, std::string na
   rotation = 0;
   is_simulated = false;
 
-  position.position << 0.0, 0.0, 0.0;
-  center_of_mass.position << length / 2.0, width / 2.0, height / 2.0;
+  position << 0.0, 0.0, 0.0;
+  center_of_mass << length / 2.0, width / 2.0, height / 2.0;
 
   choose_score = 0;
   is_packed = false;
 
-  gripper_position.position << 0.0, 0.0, height / 2.0;
+  gripper_position << 0.0, 0.0, height / 2.0;
   gripper_orientation = 0.0;
   //    if(mass < 30 && (material=="Carton" || material=="carton"))
   //    {
@@ -119,13 +119,13 @@ Box::Box()
   is_rotated = false;
   rotation = 0;
 
-  position.position << 0.0, 0.0, 0.0;
-  center_of_mass.position << 0.0, 0.0, 0.0;
+  position << 0.0, 0.0, 0.0;
+  center_of_mass << 0.0, 0.0, 0.0;
 
   choose_score = 0;
   is_packed = false;
 
-  gripper_position.position << 0.0, 0.0, 0.0;
+  gripper_position << 0.0, 0.0, 0.0;
   gripper_orientation = 0.0;
   tool_name = "offsetgripper";
 
@@ -158,9 +158,8 @@ bool Box::equalsBox(Box& abox)
 {
   return (floatEqual(this->m_length, abox.m_length) && floatEqual(this->m_width, abox.m_width) &&
           floatEqual(this->m_height, abox.m_height) && floatEqual(this->m_mass, abox.m_mass) &&
-          floatEqual(this->position.position(0), abox.position.position(0)) &&
-          floatEqual(this->position.position(1), abox.position.position(1)) &&
-          floatEqual(this->position.position(2), abox.position.position(2)));
+          floatEqual(this->position(0), abox.position(0)) && floatEqual(this->position(1), abox.position(1)) &&
+          floatEqual(this->position(2), abox.position(2)));
 }
 
 int Box::getId()

@@ -356,8 +356,8 @@ Bin BinPackingPlanner::solveWithDeepSearchTwoFunctions(Bin& curr_best_solution,
 int BinPackingPlanner::givePosition(Box& abox, FittingPoint& fp, Box& b, double& count_neighbours, double& distance_x,
                                     double& distance_y)
 {
-  double u_x = fp.coordinates.position(0);
-  double u_y = fp.coordinates.position(1);
+  double u_x = fp.coordinates(0);
+  double u_y = fp.coordinates(1);
 
   switch (fp.quadrant)
   {
@@ -380,109 +380,102 @@ int BinPackingPlanner::givePosition(Box& abox, FittingPoint& fp, Box& b, double&
   int position = 0;
 
   // ccx 5: abox is not on top of bbox
-  if (b.position.position(2) <= fp.coordinates.position(2) &&
-      b.position.position(2) + b.m_height > fp.coordinates.position(2))
+  if (b.position(2) <= fp.coordinates(2) && b.position(2) + b.m_height > fp.coordinates(2))
   {
     // ccx: abox is in the right side of b
     //        if(b.position.position(0) + b.m_length == u_x)
-    if (floatEqual(b.position.position(0) + b.m_length, u_x))
+    if (floatEqual(b.position(0) + b.m_length, u_x))
     {
-      if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y &&
-          b.position.position(1) + b.m_width <= u_y + abox.m_width)
+      if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y && b.position(1) + b.m_width <= u_y + abox.m_width)
       {
         position = 17;
       }
 
-      if (b.position.position(1) + b.m_width >= u_y + abox.m_width && b.position.position(1) >= u_y &&
-          b.position.position(1) < u_y + abox.m_width)
+      if (b.position(1) + b.m_width >= u_y + abox.m_width && b.position(1) >= u_y && b.position(1) < u_y + abox.m_width)
       {
         position = 19;
       }
 
-      if (b.position.position(1) > u_y && b.position.position(1) + b.m_width < u_y + abox.m_width)
+      if (b.position(1) > u_y && b.position(1) + b.m_width < u_y + abox.m_width)
       {
         position = 18;
       }
 
-      if (b.position.position(1) < u_y && b.position.position(1) + b.m_width > u_y + abox.m_width)
+      if (b.position(1) < u_y && b.position(1) + b.m_width > u_y + abox.m_width)
       {
         position = 20;
       }
     }
     // ccx: abox is in the left side
     //        if(b.position.position(0) == u_x + abox.m_length)
-    if (floatEqual(b.position.position(0), u_x + abox.m_length))
+    if (floatEqual(b.position(0), u_x + abox.m_length))
     {
-      if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y &&
-          b.position.position(1) + b.m_width <= u_y + abox.m_width)
+      if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y && b.position(1) + b.m_width <= u_y + abox.m_width)
       {
         position = 21;
       }
 
-      if (b.position.position(1) + b.m_width >= u_y + abox.m_width && b.position.position(1) >= u_y &&
-          b.position.position(1) < u_y + abox.m_width)
+      if (b.position(1) + b.m_width >= u_y + abox.m_width && b.position(1) >= u_y && b.position(1) < u_y + abox.m_width)
       {
         position = 23;
       }
 
-      if (b.position.position(1) > u_y && b.position.position(1) + b.m_width < u_y + abox.m_width)
+      if (b.position(1) > u_y && b.position(1) + b.m_width < u_y + abox.m_width)
       {
         position = 22;
       }
 
-      if (b.position.position(1) < u_y && b.position.position(1) + b.m_width > u_y + abox.m_width)
+      if (b.position(1) < u_y && b.position(1) + b.m_width > u_y + abox.m_width)
       {
         position = 24;
       }
     }
     // ccx: abox is in the up side (2D, y direction)
     //        if(b.position.position(1) + b.m_width == u_y)
-    if (floatEqual(b.position.position(1) + b.m_width, u_y))
+    if (floatEqual(b.position(1) + b.m_width, u_y))
     {
-      if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x &&
-          b.position.position(0) + b.m_length <= u_x + abox.m_length)
+      if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x && b.position(0) + b.m_length <= u_x + abox.m_length)
       {
         position = 25;
       }
 
-      if (b.position.position(0) + b.m_length >= u_x + abox.m_length && b.position.position(0) >= u_x &&
-          b.position.position(0) < u_x + abox.m_length)
+      if (b.position(0) + b.m_length >= u_x + abox.m_length && b.position(0) >= u_x &&
+          b.position(0) < u_x + abox.m_length)
       {
         position = 27;
       }
 
-      if (b.position.position(0) > u_x && b.position.position(0) + b.m_length < u_x + abox.m_length)
+      if (b.position(0) > u_x && b.position(0) + b.m_length < u_x + abox.m_length)
       {
         position = 26;
       }
 
-      if (b.position.position(0) < u_x && b.position.position(0) + b.m_length > u_x + abox.m_length)
+      if (b.position(0) < u_x && b.position(0) + b.m_length > u_x + abox.m_length)
       {
         position = 28;
       }
     }
     // ccx: abox is in the down side
     //        if(b.position.position(1) == u_y + abox.m_width)
-    if (floatEqual(b.position.position(1), u_y + abox.m_width))
+    if (floatEqual(b.position(1), u_y + abox.m_width))
     {
-      if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x &&
-          b.position.position(0) + b.m_length <= u_x + abox.m_length)
+      if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x && b.position(0) + b.m_length <= u_x + abox.m_length)
       {
         position = 29;
       }
 
-      if (b.position.position(0) + b.m_length >= u_x + abox.m_length && b.position.position(0) >= u_x &&
-          b.position.position(0) < u_x + abox.m_length)
+      if (b.position(0) + b.m_length >= u_x + abox.m_length && b.position(0) >= u_x &&
+          b.position(0) < u_x + abox.m_length)
       {
         position = 31;
       }
 
-      if (b.position.position(0) > u_x && b.position.position(0) + b.m_length < u_x + abox.m_length)
+      if (b.position(0) > u_x && b.position(0) + b.m_length < u_x + abox.m_length)
       {
         position = 30;
       }
 
-      if (b.position.position(0) < u_x && b.position.position(0) + b.m_length > u_x + abox.m_length)
+      if (b.position(0) < u_x && b.position(0) + b.m_length > u_x + abox.m_length)
       {
         position = 32;
       }
@@ -492,90 +485,90 @@ int BinPackingPlanner::givePosition(Box& abox, FittingPoint& fp, Box& b, double&
     switch (fp.quadrant)
     {
       case 1:
-        if (b.position.position(0) >= fp.coordinates.position(0) + abox.m_length)
+        if (b.position(0) >= fp.coordinates(0) + abox.m_length)
         {
-          if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y)
+          if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y)
           {
-            if (b.position.position(0) - u_x - abox.m_length < distance_x)
+            if (b.position(0) - u_x - abox.m_length < distance_x)
             {
-              distance_x = b.position.position(0) - u_x - abox.m_length;
+              distance_x = b.position(0) - u_x - abox.m_length;
             }
           }
         }  // case 21,24
-        if (b.position.position(1) >= fp.coordinates.position(1) + abox.m_width)
+        if (b.position(1) >= fp.coordinates(1) + abox.m_width)
         {
-          if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x)
+          if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x)
           {
-            if (b.position.position(1) - u_y - abox.m_width < distance_y)
+            if (b.position(1) - u_y - abox.m_width < distance_y)
             {
-              distance_y = b.position.position(1) - u_y - abox.m_width;
+              distance_y = b.position(1) - u_y - abox.m_width;
             }
           }
         }  // case 29,32
         break;
       case 2:
-        if (b.position.position(0) >= fp.coordinates.position(0) + abox.m_length)
+        if (b.position(0) >= fp.coordinates(0) + abox.m_length)
         {
-          if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y)
+          if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y)
           {
-            if (b.position.position(0) - u_x - abox.m_length < distance_x)
+            if (b.position(0) - u_x - abox.m_length < distance_x)
             {
-              distance_x = b.position.position(0) - u_x - abox.m_length;
+              distance_x = b.position(0) - u_x - abox.m_length;
             }
           }
         }  // case 21,24
-        if (b.position.position(1) + b.m_width <= fp.coordinates.position(1) - abox.m_width)
+        if (b.position(1) + b.m_width <= fp.coordinates(1) - abox.m_width)
         {
-          if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x)
+          if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x)
           {
-            if (u_y - (b.position.position(1) + b.m_width) < distance_y)
+            if (u_y - (b.position(1) + b.m_width) < distance_y)
             {
-              distance_y = u_y - (b.position.position(1) + b.m_width);
+              distance_y = u_y - (b.position(1) + b.m_width);
             }
           }
         }  // case 25, 28
         break;
       case 3:
-        if (b.position.position(0) + b.m_length <= fp.coordinates.position(0) - abox.m_length)
+        if (b.position(0) + b.m_length <= fp.coordinates(0) - abox.m_length)
         {
-          if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y)
+          if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y)
           {
-            if (u_x - (b.position.position(0) + b.m_length) < distance_x)
+            if (u_x - (b.position(0) + b.m_length) < distance_x)
             {
-              distance_x = u_x - (b.position.position(0) + b.m_length);
+              distance_x = u_x - (b.position(0) + b.m_length);
             }
           }
         }  // case 17, 20
-        if (b.position.position(1) + b.m_width <= fp.coordinates.position(1) - abox.m_width)
+        if (b.position(1) + b.m_width <= fp.coordinates(1) - abox.m_width)
         {
-          if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x)
+          if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x)
           {
-            if (u_y - (b.position.position(1) + b.m_width) < distance_y)
+            if (u_y - (b.position(1) + b.m_width) < distance_y)
             {
-              distance_y = u_y - (b.position.position(1) + b.m_width);
+              distance_y = u_y - (b.position(1) + b.m_width);
             }
           }
         }  // case 25, 28
         break;
       case 4:
-        if (floatLessEqual(b.position.position(0) + b.m_length, fp.coordinates.position(0) - abox.m_length))
+        if (floatLessEqual(b.position(0) + b.m_length, fp.coordinates(0) - abox.m_length))
         //                    if(b.position.position(0) + b.m_length <= fp.coordinates.position(0) - abox.m_length)
         {
-          if (floatLessEqual(b.position.position(1), u_y) && floatGreaterThan(b.position.position(1) + b.m_width, u_y))
+          if (floatLessEqual(b.position(1), u_y) && floatGreaterThan(b.position(1) + b.m_width, u_y))
           {
-            if (floatLessThan(u_x - (b.position.position(0) + b.m_length), distance_x))
+            if (floatLessThan(u_x - (b.position(0) + b.m_length), distance_x))
             {
-              distance_x = u_x - (b.position.position(0) + b.m_length);
+              distance_x = u_x - (b.position(0) + b.m_length);
             }
           }
         }  // case 17, 20
-        if (floatGreaterEqual(b.position.position(1), fp.coordinates.position(1) + abox.m_width))
+        if (floatGreaterEqual(b.position(1), fp.coordinates(1) + abox.m_width))
         {
-          if (floatLessEqual(b.position.position(0), u_x) && floatGreaterThan(b.position.position(0) + b.m_length, u_x))
+          if (floatLessEqual(b.position(0), u_x) && floatGreaterThan(b.position(0) + b.m_length, u_x))
           {
-            if (floatLessThan(b.position.position(1) - u_y - abox.m_width, distance_y))
+            if (floatLessThan(b.position(1) - u_y - abox.m_width, distance_y))
             {
-              distance_y = b.position.position(1) - u_y - abox.m_width;
+              distance_y = b.position(1) - u_y - abox.m_width;
             }
           }
         }  // case 29,32
@@ -587,107 +580,101 @@ int BinPackingPlanner::givePosition(Box& abox, FittingPoint& fp, Box& b, double&
 
   // ??ccx: After place the abox, its the same high, for the cases 17-32
   // The count_neighbours = lying_next when the same high
-  if (floatEqual(b.position.position(2) + b.m_height, fp.coordinates.position(2) + abox.m_height))
+  if (floatEqual(b.position(2) + b.m_height, fp.coordinates(2) + abox.m_height))
   {
     // case: 17,19,18,20
-    if (floatEqual(b.position.position(0) + b.m_length, u_x))
+    if (floatEqual(b.position(0) + b.m_length, u_x))
     {
-      if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y &&
-          b.position.position(1) + b.m_width <= u_y + abox.m_width)
+      if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y && b.position(1) + b.m_width <= u_y + abox.m_width)
       {
-        count_neighbours += b.position.position(1) + b.m_width - u_y;
+        count_neighbours += b.position(1) + b.m_width - u_y;
       }
 
-      if (b.position.position(1) + b.m_width >= u_y + abox.m_width && b.position.position(1) >= u_y &&
-          b.position.position(1) < u_y + abox.m_width)
+      if (b.position(1) + b.m_width >= u_y + abox.m_width && b.position(1) >= u_y && b.position(1) < u_y + abox.m_width)
       {
-        count_neighbours += u_y + abox.m_width - b.position.position(1);
+        count_neighbours += u_y + abox.m_width - b.position(1);
       }
 
-      if (b.position.position(1) > u_y && b.position.position(1) + b.m_width < u_y + abox.m_width)
+      if (b.position(1) > u_y && b.position(1) + b.m_width < u_y + abox.m_width)
       {
         count_neighbours += b.m_width;
       }
 
-      if (b.position.position(1) < u_y && b.position.position(1) + b.m_width > u_y + abox.m_width)
+      if (b.position(1) < u_y && b.position(1) + b.m_width > u_y + abox.m_width)
       {
         count_neighbours += abox.m_width;
       }
     }
     // case: 21,23,22,24
     //        if(b.position.position(0) == u_x + abox.m_length)
-    if (floatEqual(b.position.position(0), u_x + abox.m_length))
+    if (floatEqual(b.position(0), u_x + abox.m_length))
     {
-      if (b.position.position(1) <= u_y && b.position.position(1) + b.m_width > u_y &&
-          b.position.position(1) + b.m_width <= u_y + abox.m_width)
+      if (b.position(1) <= u_y && b.position(1) + b.m_width > u_y && b.position(1) + b.m_width <= u_y + abox.m_width)
       {
-        count_neighbours += b.position.position(1) + b.m_width - u_y;
+        count_neighbours += b.position(1) + b.m_width - u_y;
       }
 
-      if (b.position.position(1) + b.m_width >= u_y + abox.m_width && b.position.position(1) >= u_y &&
-          b.position.position(1) < u_y + abox.m_width)
+      if (b.position(1) + b.m_width >= u_y + abox.m_width && b.position(1) >= u_y && b.position(1) < u_y + abox.m_width)
       {
-        count_neighbours += u_y + abox.m_width - b.position.position(1);
+        count_neighbours += u_y + abox.m_width - b.position(1);
       }
 
-      if (b.position.position(1) > u_y && b.position.position(1) + b.m_width < u_y + abox.m_width)
+      if (b.position(1) > u_y && b.position(1) + b.m_width < u_y + abox.m_width)
       {
         count_neighbours += b.m_width;
       }
 
-      if (b.position.position(1) < u_y && b.position.position(1) + b.m_width > u_y + abox.m_width)
+      if (b.position(1) < u_y && b.position(1) + b.m_width > u_y + abox.m_width)
       {
         count_neighbours += abox.m_width;
       }
     }
     // case: 25,27,26,28
     //        if(b.position.position(1) + b.m_width == u_y)
-    if (floatEqual(b.position.position(1) + b.m_width, u_y))
+    if (floatEqual(b.position(1) + b.m_width, u_y))
     {
-      if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x &&
-          b.position.position(0) + b.m_length <= u_x + abox.m_length)
+      if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x && b.position(0) + b.m_length <= u_x + abox.m_length)
       {
-        count_neighbours += b.position.position(0) + b.m_length - u_x;
+        count_neighbours += b.position(0) + b.m_length - u_x;
       }
 
-      if (b.position.position(0) + b.m_length >= u_x + abox.m_length && b.position.position(0) >= u_x &&
-          b.position.position(0) < u_x + abox.m_length)
+      if (b.position(0) + b.m_length >= u_x + abox.m_length && b.position(0) >= u_x &&
+          b.position(0) < u_x + abox.m_length)
       {
-        count_neighbours += u_x + abox.m_length - b.position.position(0);
+        count_neighbours += u_x + abox.m_length - b.position(0);
       }
 
-      if (b.position.position(0) > u_x && b.position.position(0) + b.m_length < u_x + abox.m_length)
+      if (b.position(0) > u_x && b.position(0) + b.m_length < u_x + abox.m_length)
       {
         count_neighbours += b.m_length;
       }
 
-      if (b.position.position(0) < u_x && b.position.position(0) + b.m_length > u_x + abox.m_length)
+      if (b.position(0) < u_x && b.position(0) + b.m_length > u_x + abox.m_length)
       {
         count_neighbours += abox.m_length;
       }
     }
     // case: 29, 31, 30, 32
     //        if(b.position.position(1) == u_y + abox.m_width)
-    if (floatEqual(b.position.position(1), u_y + abox.m_width))
+    if (floatEqual(b.position(1), u_y + abox.m_width))
     {
-      if (b.position.position(0) <= u_x && b.position.position(0) + b.m_length > u_x &&
-          b.position.position(0) + b.m_length <= u_x + abox.m_length)
+      if (b.position(0) <= u_x && b.position(0) + b.m_length > u_x && b.position(0) + b.m_length <= u_x + abox.m_length)
       {
-        count_neighbours += b.position.position(0) + b.m_length - u_x;
+        count_neighbours += b.position(0) + b.m_length - u_x;
       }
 
-      if (b.position.position(0) + b.m_length >= u_x + abox.m_length && b.position.position(0) >= u_x &&
-          b.position.position(0) < u_x + abox.m_length)
+      if (b.position(0) + b.m_length >= u_x + abox.m_length && b.position(0) >= u_x &&
+          b.position(0) < u_x + abox.m_length)
       {
-        count_neighbours += u_x + abox.m_length - b.position.position(0);
+        count_neighbours += u_x + abox.m_length - b.position(0);
       }
 
-      if (b.position.position(0) > u_x && b.position.position(0) + b.m_length < u_x + abox.m_length)
+      if (b.position(0) > u_x && b.position(0) + b.m_length < u_x + abox.m_length)
       {
         count_neighbours += b.m_length;
       }
 
-      if (b.position.position(0) < u_x && b.position.position(0) + b.m_length > u_x + abox.m_length)
+      if (b.position(0) < u_x && b.position(0) + b.m_length > u_x + abox.m_length)
       {
         count_neighbours += abox.m_length;
       }
@@ -714,10 +701,10 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   double overlap = 0.0;
 
   // get the left down corner position of the box
-  double u_x = fp.coordinates.position(0) + fp.direction_box_pos(0) * abox.m_length;
-  double u_y = fp.coordinates.position(1) + fp.direction_box_pos(1) * abox.m_width;
+  double u_x = fp.coordinates(0) + fp.direction_box_pos(0) * abox.m_length;
+  double u_y = fp.coordinates(1) + fp.direction_box_pos(1) * abox.m_width;
 
-  if (floatEqual(fp.coordinates.position(2), 0.0))
+  if (floatEqual(fp.coordinates(2), 0.0))
   {
     helt = abox.m_width * abox.m_length;
   }
@@ -730,8 +717,8 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   //    if(u_x < 0 || u_x+abox.m_length > abin.bin_length || u_y < 0 || u_y + abox.m_width > abin.bin_width
   //            || fp.coordinates.position(2) < 0 || fp.coordinates.position(2) + abox.m_height > abin.bin_height)
   if (floatLessThan(u_x, 0) || floatGreaterThan(u_x + abox.m_length, abin.bin_length) || floatLessThan(u_y, 0) ||
-      floatGreaterThan(u_y + abox.m_width, abin.bin_width) || floatLessThan(fp.coordinates.position(2), 0) ||
-      floatGreaterThan(fp.coordinates.position(2) + abox.m_height, abin.bin_height))
+      floatGreaterThan(u_y + abox.m_width, abin.bin_width) || floatLessThan(fp.coordinates(2), 0) ||
+      floatGreaterThan(fp.coordinates(2) + abox.m_height, abin.bin_height))
   {
     return -1;
   }
@@ -751,7 +738,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   }
 
   // return -1 if Box using fork and put high: z joint limit
-  if ((fp.coordinates.position(2) > 2.25) && abox.tool_name == "cranepalletfork")
+  if ((fp.coordinates(2) > 2.25) && abox.tool_name == "cranepalletfork")
     return -1;
 
   //    // return -1 if Box is too high
@@ -794,7 +781,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   //    }
 
   // return -1 if Box can not be stacked
-  if ((abox.is_stackable == false) && (abin.bin_height - (fp.coordinates.position(2) + abox.m_height)) > 0.4)
+  if ((abox.is_stackable == false) && (abin.bin_height - (fp.coordinates(2) + abox.m_height)) > 0.4)
   {
     //        std::cout << abox.m_name << " is not stackable!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
     return -1;
@@ -805,7 +792,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   box_size << abox.m_length, 0, 0, 0, abox.m_width, 0, 0, 0, abox.m_height;
   Box new_box(abox.m_length, abox.m_width, abox.m_height, abox.m_mass, std::string("tempCollisionBox"),
               abox.box_labels);
-  new_box.position.position = fp.coordinates.position + box_size * fp.direction_box_pos;
+  new_box.position = fp.coordinates + box_size * fp.direction_box_pos;
 
   // Return -1 if it collide with packed boxes
   if (abin.bulletPhysics->isColliding(new_box))
@@ -821,7 +808,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
     contact_area += area;
 
     // new_box on top of b
-    if (floatEqual(b.position.position(2) + b.m_height, new_box.position.position(2)))
+    if (floatEqual(b.position(2) + b.m_height, new_box.position(2)))
     {
       if (floatLessThan(overlap / (b.m_width * b.m_length), paramsPtr_->helt_rate()))
       {
@@ -838,49 +825,49 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
     switch (position)
     {
       case 17:
-        lying_next += b.position.position(1) + b.m_width - u_y;
+        lying_next += b.position(1) + b.m_width - u_y;
         break;
       case 18:
         lying_next += b.m_width;
         break;
       case 19:
-        lying_next += u_y + abox.m_width - b.position.position(1);
+        lying_next += u_y + abox.m_width - b.position(1);
         break;
       case 20:
         lying_next += abox.m_width;
         break;
       case 21:
-        lying_next += b.position.position(1) + b.m_width - u_y;
+        lying_next += b.position(1) + b.m_width - u_y;
         break;
       case 22:
         lying_next += b.m_width;
         break;
       case 23:
-        lying_next += u_y + abox.m_width - b.position.position(1);
+        lying_next += u_y + abox.m_width - b.position(1);
         break;
       case 24:
         lying_next += abox.m_width;
         break;
       case 25:
-        lying_next += b.position.position(0) + b.m_length - u_x;
+        lying_next += b.position(0) + b.m_length - u_x;
         break;
       case 26:
         lying_next += b.m_length;
         break;
       case 27:
-        lying_next += u_x + abox.m_length - b.position.position(0);
+        lying_next += u_x + abox.m_length - b.position(0);
         break;
       case 28:
         lying_next += abox.m_length;
         break;
       case 29:
-        lying_next += b.position.position(0) + b.m_length - u_x;
+        lying_next += b.position(0) + b.m_length - u_x;
         break;
       case 30:
         lying_next += b.m_length;
         break;
       case 31:
-        lying_next += u_x + abox.m_length - b.position.position(0);
+        lying_next += u_x + abox.m_length - b.position(0);
         break;
       case 32:
         lying_next += abox.m_length;
@@ -924,43 +911,43 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   switch (fp.quadrant)
   {
     case 1:
-      if (abin.bin_length - fp.coordinates.position(0) - abox.m_length < distance_x)
+      if (abin.bin_length - fp.coordinates(0) - abox.m_length < distance_x)
       {
-        distance_x = abin.bin_length - fp.coordinates.position(0) - abox.m_length;
+        distance_x = abin.bin_length - fp.coordinates(0) - abox.m_length;
       }
-      if (abin.bin_width - fp.coordinates.position(1) - abox.m_width < distance_y)
+      if (abin.bin_width - fp.coordinates(1) - abox.m_width < distance_y)
       {
-        distance_y = abin.bin_width - fp.coordinates.position(1) - abox.m_width;
+        distance_y = abin.bin_width - fp.coordinates(1) - abox.m_width;
       }
       break;
     case 2:
-      if (abin.bin_length - fp.coordinates.position(0) - abox.m_length < distance_x)
+      if (abin.bin_length - fp.coordinates(0) - abox.m_length < distance_x)
       {
-        distance_x = abin.bin_length - fp.coordinates.position(0) - abox.m_length;
+        distance_x = abin.bin_length - fp.coordinates(0) - abox.m_length;
       }
-      if (fp.coordinates.position(1) - abox.m_width < distance_y)
+      if (fp.coordinates(1) - abox.m_width < distance_y)
       {
-        distance_y = fp.coordinates.position(1) - abox.m_width;
+        distance_y = fp.coordinates(1) - abox.m_width;
       }
       break;
     case 3:
-      if (fp.coordinates.position(0) - abox.m_length < distance_x)
+      if (fp.coordinates(0) - abox.m_length < distance_x)
       {
-        distance_x = fp.coordinates.position(0) - abox.m_length;
+        distance_x = fp.coordinates(0) - abox.m_length;
       }
-      if (fp.coordinates.position(1) - abox.m_width < distance_y)
+      if (fp.coordinates(1) - abox.m_width < distance_y)
       {
-        distance_y = fp.coordinates.position(1) - abox.m_width;
+        distance_y = fp.coordinates(1) - abox.m_width;
       }
       break;
     case 4:
-      if (fp.coordinates.position(0) - abox.m_length < distance_x)
+      if (fp.coordinates(0) - abox.m_length < distance_x)
       {
-        distance_x = fp.coordinates.position(0) - abox.m_length;
+        distance_x = fp.coordinates(0) - abox.m_length;
       }
-      if (abin.bin_width - fp.coordinates.position(1) - abox.m_width < distance_y)
+      if (abin.bin_width - fp.coordinates(1) - abox.m_width < distance_y)
       {
-        distance_y = abin.bin_width - fp.coordinates.position(1) - abox.m_width;
+        distance_y = abin.bin_width - fp.coordinates(1) - abox.m_width;
       }
       break;
   }
@@ -976,9 +963,8 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   }
 
   // Increase Score if the Box will be placed in a bottom area
-  score +=
-      paramsPtr_->w_item_in_the_bottom_area() * (1.0 / pow(abin.bin_height, 2) * pow(fp.coordinates.position(2), 2) -
-                                                 (2.0 / abin.bin_height * fp.coordinates.position(2)) + 1.0);
+  score += paramsPtr_->w_item_in_the_bottom_area() * (1.0 / pow(abin.bin_height, 2) * pow(fp.coordinates(2), 2) -
+                                                      (2.0 / abin.bin_height * fp.coordinates(2)) + 1.0);
 
   // Increase Score if it helps to set the center of mass in the right position (only if mass > COM_MIN_MASS *
   // average_mass)
@@ -988,17 +974,17 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
   tmpx = abin.getComDiffX(abox, fp);
   if (tmpx > 0)
   {
-    score += paramsPtr_->w_com() * tmpx / abin.target_com.position(0);
+    score += paramsPtr_->w_com() * tmpx / abin.target_com(0);
   }
   tmpy = abin.getComDiffY(abox, fp);
   if (tmpy > 0)
   {
-    score += paramsPtr_->w_com() * tmpy / abin.target_com.position(1);
+    score += paramsPtr_->w_com() * tmpy / abin.target_com(1);
   }
   tmpz = abin.getComDiffZ(abox, fp);
   if (tmpz > 0)
   {
-    score += paramsPtr_->w_com() * tmpz / abin.target_com.position(2);
+    score += paramsPtr_->w_com() * tmpz / abin.target_com(2);
   }
 
   // Increasing score if Item is high and will be placed near to a border of the bin
@@ -1036,7 +1022,7 @@ double BinPackingPlanner::giveScore(Box& abox, FittingPoint& fp, Bin& abin, doub
            (2 * (abox.m_width * abox.m_height) + 2 * (abox.m_length * abox.m_height));
 
   // Increase Score if the box is reach the height of the bin limit
-  if (floatEqual(fp.coordinates.position(2) + abox.m_height, abin.bin_height))
+  if (floatEqual(fp.coordinates(2) + abox.m_height, abin.bin_height))
   {
     score += paramsPtr_->bin_height();
   }
@@ -1159,7 +1145,7 @@ bool BinPackingPlanner::addNexBoxToPackingConfigurationOneFunction(Bin& abin, Ho
     std::vector<double> helts;
     scores.resize(holding.boxes_to_pack.size() * abin.fitting_points.size());
     helts.resize(holding.boxes_to_pack.size() * abin.fitting_points.size());
-    //#pragma omp parallel for collapse(2) shared(scores, helts)
+#pragma omp parallel for collapse(2) shared(scores, helts)
     for (size_t holding_box_id = 0; holding_box_id < holding.boxes_to_pack.size(); ++holding_box_id)
     {
       for (size_t fitting_point_id = 0; fitting_point_id < abin.fitting_points.size(); ++fitting_point_id)

@@ -10,30 +10,13 @@ BulletPhysics::BulletPhysics()
   , dispatcher_(new btCollisionDispatcher(collisionConfiguration_))
   , solver_(new btSequentialImpulseConstraintSolver())
   , binPackingWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
-  , areaCheckBroadphase_(new btDbvtBroadphase())
-  , areaCheckCollisionConfiguration_(new btDefaultCollisionConfiguration())
-  , areaCheckDispatcher_(new btCollisionDispatcher(areaCheckCollisionConfiguration_))
-  , areaCheckSolver_(new btSequentialImpulseConstraintSolver())
-  , areaCheckWorld_(new btDiscreteDynamicsWorld(areaCheckDispatcher_, areaCheckBroadphase_, areaCheckSolver_,
-                                                areaCheckCollisionConfiguration_))
-
 {
   binPackingWorld_->setGravity(btVector3(0, 0, -10));
-  areaCheckWorld_->setGravity(btVector3(0, 0, -10));
 }
 
 BulletPhysics::~BulletPhysics()
 {
   cleanup(binPackingWorld_);
-  cleanup(areaCheckWorld_);
-
-  collisionBodies_.clear();
-
-  delete areaCheckWorld_;
-  delete areaCheckSolver_;
-  delete areaCheckDispatcher_;
-  delete areaCheckCollisionConfiguration_;
-  delete areaCheckBroadphase_;
 
   delete binPackingWorld_;
   delete solver_;
@@ -54,9 +37,8 @@ bool BulletPhysics::isColliding(const bpa::Box& box) const
   {
     btScalar mass(0.0);
     btVector3 size(box.m_length, box.m_width, box.m_height);
-    btVector3 origin(box.position.position(0) + box.center_of_mass.position(0),
-                     box.position.position(1) + box.center_of_mass.position(1),
-                     box.position.position(2) + box.center_of_mass.position(2));
+    btVector3 origin(box.position(0) + box.center_of_mass(0), box.position(1) + box.center_of_mass(1),
+                     box.position(2) + box.center_of_mass(2));
     btCollisionShape* colShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
     btRigidBody* body = createRigidBody(mass, colShape, origin);
 
@@ -100,8 +82,8 @@ bool BulletPhysics::isColliding(const bpa::Box& box_a, const bpa::Box& box_b) co
       bbox << box_a.m_length, box_a.m_width, box_a.m_height;
     btScalar mass(0.0);
     btVector3 size(btVector3(bbox(0) - 0.01, bbox(1) - 0.01, bbox(2) - 0.01));
-    btVector3 origin(box_a.position.position(0) + bbox(0) / 2.0, box_a.position.position(1) + bbox(1) / 2.0,
-                     box_a.position.position(2) + bbox(2) / 2.0);
+    btVector3 origin(box_a.position(0) + bbox(0) / 2.0, box_a.position(1) + bbox(1) / 2.0,
+                     box_a.position(2) + bbox(2) / 2.0);
     btCollisionShape* colShape = new btBoxShape(btVector3(size.getX() / 2.0, size.getY() / 2.0, size.getZ() / 2.0));
     btRigidBody* body = createRigidBody(mass, colShape, origin);
 
@@ -111,8 +93,8 @@ bool BulletPhysics::isColliding(const bpa::Box& box_a, const bpa::Box& box_b) co
     else
       old_bbox << box_b.m_length, box_b.m_width, box_b.m_height;
     btVector3 sizeOld(btVector3(old_bbox(0), old_bbox(1), old_bbox(2)));
-    btVector3 originOld(box_b.position.position(0) + old_bbox(0) / 2.0, box_b.position.position(1) + old_bbox(1) / 2.0,
-                        box_b.position.position(2) + old_bbox(2) / 2.0);
+    btVector3 originOld(box_b.position(0) + old_bbox(0) / 2.0, box_b.position(1) + old_bbox(1) / 2.0,
+                        box_b.position(2) + old_bbox(2) / 2.0);
     btCollisionShape* shapeOld =
         new btBoxShape(btVector3(sizeOld.getX() / 2.0, sizeOld.getY() / 2.0, sizeOld.getZ() / 2.0));
     btRigidBody* bodyOld = createRigidBody(mass, shapeOld, originOld);
@@ -354,16 +336,14 @@ void BulletPhysics::addBox(const bpa::Box& box, btDynamicsWorld* dynamicsWorld, 
   {
     size = btVector3(box.m_width, box.m_length, box.m_height);
     // COM is the original one, depend on 0 rotation
-    origin = btVector3(box.position.position(0) + box.center_of_mass.position(1),
-                       box.position.position(1) + box.center_of_mass.position(0),
-                       box.position.position(2) + box.center_of_mass.position(2));
+    origin = btVector3(box.position(0) + box.center_of_mass(1), box.position(1) + box.center_of_mass(0),
+                       box.position(2) + box.center_of_mass(2));
   }
   else
   {
     size = btVector3(box.m_length, box.m_width, box.m_height);
-    origin = btVector3(box.position.position(0) + box.center_of_mass.position(0),
-                       box.position.position(1) + box.center_of_mass.position(1),
-                       box.position.position(2) + box.center_of_mass.position(2));
+    origin = btVector3(box.position(0) + box.center_of_mass(0), box.position(1) + box.center_of_mass(1),
+                       box.position(2) + box.center_of_mass(2));
   }
   addBox(mass, size, origin, dynamicsWorld);
 }
@@ -392,7 +372,6 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin, btDy
   body->setRollingFriction(0.05);
   body->setFriction(1);
   dynamicsWorld->addCollisionObject(body);
-  collisionBodies_.push_back(body);
 
   dynamicsWorld->performDiscreteCollisionDetection();
   dynamicsWorld->updateAabbs();
@@ -402,16 +381,23 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin, btDy
 double BulletPhysics::getArea(const bpa::Box& box_a, const bpa::Box& box_b,
                               double (BulletPhysics::*calculateArea)(const std::vector<btVector3>&) const)
 {
+  btDbvtBroadphase* areaCheckBroadphase = new btDbvtBroadphase();
+  btDefaultCollisionConfiguration* areaCheckCollisionConfiguration = new btDefaultCollisionConfiguration();
+  btCollisionDispatcher* areaCheckDispatcher = new btCollisionDispatcher(areaCheckCollisionConfiguration);
+  btSequentialImpulseConstraintSolver* areaCheckSolver = new btSequentialImpulseConstraintSolver();
+  btDiscreteDynamicsWorld* areaCheckWorld = new btDiscreteDynamicsWorld(
+      areaCheckDispatcher, areaCheckBroadphase, areaCheckSolver, areaCheckCollisionConfiguration);
+
   double area = 0.0;
 
   if (!isColliding(box_a, box_b))
   {
-    addBox(box_a, areaCheckWorld_);
-    addBox(box_b, areaCheckWorld_);
+    addBox(box_a, areaCheckWorld);
+    addBox(box_b, areaCheckWorld);
 
-    if (areaCheckWorld_->getDispatcher()->getNumManifolds() == 1)
+    if (areaCheckWorld->getDispatcher()->getNumManifolds() == 1)
     {
-      btPersistentManifold* contactManifold = areaCheckWorld_->getDispatcher()->getManifoldByIndexInternal(0);
+      btPersistentManifold* contactManifold = areaCheckWorld->getDispatcher()->getManifoldByIndexInternal(0);
       std::vector<btVector3> contactPoints;
 
       for (int j = 0; j < contactManifold->getNumContacts(); j++)
@@ -427,10 +413,14 @@ double BulletPhysics::getArea(const bpa::Box& box_a, const bpa::Box& box_b,
       area = (this->*calculateArea)(contactPoints);
     }
 
-    cleanup(areaCheckWorld_);
-    collisionBodies_.pop_back();
-    collisionBodies_.pop_back();
+    cleanup(areaCheckWorld);
   }
+
+  delete areaCheckWorld;
+  delete areaCheckSolver;
+  delete areaCheckDispatcher;
+  delete areaCheckCollisionConfiguration;
+  delete areaCheckBroadphase;
 
   return area;
 }
@@ -441,7 +431,8 @@ double BulletPhysics::getHorizontalArea(const std::vector<btVector3>& points) co
 
   if (points.size() == 4)
   {
-    if (points[0].z() == points[1].z() == points[2].z() == points[3].z())
+    if (floatEqual(points[0].z(), points[1].z()) && floatEqual(points[1].z(), points[2].z()) &&
+        floatEqual(points[2].z(), points[3].z()))
     {
       btVector3 side_a = points[0] - points[1];
       btVector3 side_b = points[0] - points[2];
