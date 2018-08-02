@@ -10,30 +10,13 @@ BulletPhysics::BulletPhysics()
   , dispatcher_(new btCollisionDispatcher(collisionConfiguration_))
   , solver_(new btSequentialImpulseConstraintSolver())
   , binPackingWorld_(new btDiscreteDynamicsWorld(dispatcher_, broadphase_, solver_, collisionConfiguration_))
-  , areaCheckBroadphase_(new btDbvtBroadphase())
-  , areaCheckCollisionConfiguration_(new btDefaultCollisionConfiguration())
-  , areaCheckDispatcher_(new btCollisionDispatcher(areaCheckCollisionConfiguration_))
-  , areaCheckSolver_(new btSequentialImpulseConstraintSolver())
-  , areaCheckWorld_(new btDiscreteDynamicsWorld(areaCheckDispatcher_, areaCheckBroadphase_, areaCheckSolver_,
-                                                areaCheckCollisionConfiguration_))
-
 {
   binPackingWorld_->setGravity(btVector3(0, 0, -10));
-  areaCheckWorld_->setGravity(btVector3(0, 0, -10));
 }
 
 BulletPhysics::~BulletPhysics()
 {
   cleanup(binPackingWorld_);
-  cleanup(areaCheckWorld_);
-
-  collisionBodies_.clear();
-
-  delete areaCheckWorld_;
-  delete areaCheckSolver_;
-  delete areaCheckDispatcher_;
-  delete areaCheckCollisionConfiguration_;
-  delete areaCheckBroadphase_;
 
   delete binPackingWorld_;
   delete solver_;
@@ -389,7 +372,6 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin, btDy
   body->setRollingFriction(0.05);
   body->setFriction(1);
   dynamicsWorld->addCollisionObject(body);
-  collisionBodies_.push_back(body);
 
   dynamicsWorld->performDiscreteCollisionDetection();
   dynamicsWorld->updateAabbs();
@@ -399,16 +381,23 @@ void BulletPhysics::addBox(btScalar mass, btVector3 size, btVector3 origin, btDy
 double BulletPhysics::getArea(const bpa::Box& box_a, const bpa::Box& box_b,
                               double (BulletPhysics::*calculateArea)(const std::vector<btVector3>&) const)
 {
+  btDbvtBroadphase* areaCheckBroadphase = new btDbvtBroadphase();
+  btDefaultCollisionConfiguration* areaCheckCollisionConfiguration = new btDefaultCollisionConfiguration();
+  btCollisionDispatcher* areaCheckDispatcher = new btCollisionDispatcher(areaCheckCollisionConfiguration);
+  btSequentialImpulseConstraintSolver* areaCheckSolver = new btSequentialImpulseConstraintSolver();
+  btDiscreteDynamicsWorld* areaCheckWorld = new btDiscreteDynamicsWorld(
+      areaCheckDispatcher, areaCheckBroadphase, areaCheckSolver, areaCheckCollisionConfiguration);
+
   double area = 0.0;
 
   if (!isColliding(box_a, box_b))
   {
-    addBox(box_a, areaCheckWorld_);
-    addBox(box_b, areaCheckWorld_);
+    addBox(box_a, areaCheckWorld);
+    addBox(box_b, areaCheckWorld);
 
-    if (areaCheckWorld_->getDispatcher()->getNumManifolds() == 1)
+    if (areaCheckWorld->getDispatcher()->getNumManifolds() == 1)
     {
-      btPersistentManifold* contactManifold = areaCheckWorld_->getDispatcher()->getManifoldByIndexInternal(0);
+      btPersistentManifold* contactManifold = areaCheckWorld->getDispatcher()->getManifoldByIndexInternal(0);
       std::vector<btVector3> contactPoints;
 
       for (int j = 0; j < contactManifold->getNumContacts(); j++)
@@ -424,10 +413,14 @@ double BulletPhysics::getArea(const bpa::Box& box_a, const bpa::Box& box_b,
       area = (this->*calculateArea)(contactPoints);
     }
 
-    cleanup(areaCheckWorld_);
-    collisionBodies_.pop_back();
-    collisionBodies_.pop_back();
+    cleanup(areaCheckWorld);
   }
+
+  delete areaCheckWorld;
+  delete areaCheckSolver;
+  delete areaCheckDispatcher;
+  delete areaCheckCollisionConfiguration;
+  delete areaCheckBroadphase;
 
   return area;
 }
