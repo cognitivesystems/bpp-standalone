@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
+#include "ParamsTypes.h"
 
 namespace bpa
 {
@@ -11,10 +12,13 @@ class Params
 {
 public:
   Params() = default;
-  Params(double w_mass, double w_vol, double w_massvol, double w_com, double helt_rate, double w_supported,
-         double w_contact, double neighbour_constant, double w_assignment, double w_place_near, double bin_height,
-         double min_box_size, double w_item_in_the_bottom_area, double w_high_items_good_placed,
-         bool generate_simulated_boxes, bool start_with_all_edges_as_fp, int search_height, int search_width);
+  Params(const WMass& w_mass, const WVol& w_vol, const WMassVol& w_massvol, const WCom& w_com,
+         const HeltRate& helt_rate, const WSupport& w_support, const WContact& w_contact,
+         const NeighbourConstant& neighbour_constant, const WAssignment& w_assignment, const WPlaceNear& w_place_near,
+         const BinHeight& bin_height, const MinBoxSize& min_box_size, const WItemInBottomArea& w_item_in_bottom_area,
+         const WHighItemsGoodPlaced& w_high_items_good_placed, const GenerateSimulatedBoxes& generate_simulated_boxes,
+         const StartWithAllEdgesAsFp& start_with_all_edges_as_fp, const SearchHeight& search_height,
+         const SearchWidth& search_width);
 
   Params(const Params& rhs) = default;
   Params& operator=(const Params& rhs) = default;
@@ -22,10 +26,14 @@ public:
   Params(Params&& rhs) = default;
   Params& operator=(Params&& rhs) = default;
 
-  void setAll(double w_mass, double w_vol, double w_massvol, double w_com, double helt_rate, double w_supported,
-              double w_contact, double neighbour_constant, double w_assignment, double w_place_near, double bin_height,
-              double min_box_size, double w_item_in_the_bottom_area, double w_high_items_good_placed,
-              bool generate_simulated_boxes, bool start_with_all_edges_as_fp, int search_height, int search_width);
+  void setAll(const WMass& w_mass, const WVol& w_vol, const WMassVol& w_massvol, const WCom& w_com,
+              const HeltRate& helt_rate, const WSupport& w_support, const WContact& w_contact,
+              const NeighbourConstant& neighbour_constant, const WAssignment& w_assignment,
+              const WPlaceNear& w_place_near, const BinHeight& bin_height, const MinBoxSize& min_box_size,
+              const WItemInBottomArea& w_item_in_bottom_area, const WHighItemsGoodPlaced& w_high_items_good_placed,
+              const GenerateSimulatedBoxes& generate_simulated_boxes,
+              const StartWithAllEdgesAsFp& start_with_all_edges_as_fp, const SearchHeight& search_height,
+              const SearchWidth& search_width);
 
   double w_mass() const;
   double w_vol() const;

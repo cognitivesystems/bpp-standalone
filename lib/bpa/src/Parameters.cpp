@@ -2,55 +2,63 @@
 
 namespace bpa
 {
-Params::Params(double w_mass, double w_vol, double w_massvol, double w_com, double helt_rate, double w_supported,
-               double w_contact, double neighbour_constant, double w_assignment, double w_place_near, double bin_height,
-               double min_box_size, double w_item_in_the_bottom_area, double w_high_items_good_placed,
-               bool generate_simulated_boxes, bool start_with_all_edges_as_fp, int search_height, int search_width)
-  : w_mass_(w_mass)
-  , w_vol_(w_vol)
-  , w_massvol_(w_massvol)
-  , w_com_(w_com)
-  , helt_rate_(helt_rate)
-  , w_supported_(w_supported)
-  , w_contact_(w_contact)
-  , neighbour_constant_(neighbour_constant)
-  , w_assignment_(w_assignment)
-  , w_place_near_(w_place_near)
-  , bin_height_(bin_height)
-  , min_box_size_(min_box_size)
-  , w_item_in_the_bottom_area_(w_item_in_the_bottom_area)
-  , w_high_items_good_placed_(w_high_items_good_placed)
-  , generate_simulated_boxes_(generate_simulated_boxes)
-  , start_with_all_edges_as_fp_(start_with_all_edges_as_fp)
-  , search_height_(search_height)
-  , search_width_(search_width)
+Params::Params(const WMass& w_mass, const WVol& w_vol, const WMassVol& w_massvol, const WCom& w_com,
+               const HeltRate& helt_rate, const WSupport& w_support, const WContact& w_contact,
+               const NeighbourConstant& neighbour_constant, const WAssignment& w_assignment,
+               const WPlaceNear& w_place_near, const BinHeight& bin_height, const MinBoxSize& min_box_size,
+               const WItemInBottomArea& w_item_in_bottom_area, const WHighItemsGoodPlaced& w_high_items_good_placed,
+               const GenerateSimulatedBoxes& generate_simulated_boxes,
+               const StartWithAllEdgesAsFp& start_with_all_edges_as_fp, const SearchHeight& search_height,
+               const SearchWidth& search_width)
+  : w_mass_(w_mass.val)
+  , w_vol_(w_vol.val)
+  , w_massvol_(w_massvol.val)
+  , w_com_(w_com.val)
+  , helt_rate_(helt_rate.val)
+  , w_supported_(w_support.val)
+  , w_contact_(w_contact.val)
+  , neighbour_constant_(neighbour_constant.val)
+  , w_assignment_(w_assignment.val)
+  , w_place_near_(w_place_near.val)
+  , bin_height_(bin_height.val)
+  , min_box_size_(min_box_size.val)
+  , w_item_in_the_bottom_area_(w_item_in_bottom_area.val)
+  , w_high_items_good_placed_(w_high_items_good_placed.val)
+  , generate_simulated_boxes_(generate_simulated_boxes.val)
+  , start_with_all_edges_as_fp_(start_with_all_edges_as_fp.val)
+  , search_height_(search_height.val)
+  , search_width_(search_width.val)
 {
 }
 
-void Params::setAll(double w_mass, double w_vol, double w_massvol, double w_com, double helt_rate, double w_supported,
-                    double w_contact, double neighbour_constant, double w_assignment, double w_place_near,
-                    double bin_height, double min_box_size, double w_item_in_the_bottom_area,
-                    double w_high_items_good_placed, bool generate_simulated_boxes, bool start_with_all_edges_as_fp,
-                    int search_height, int search_width)
+void Params::setAll(const WMass& w_mass, const WVol& w_vol, const WMassVol& w_massvol, const WCom& w_com,
+                    const HeltRate& helt_rate, const WSupport& w_support, const WContact& w_contact,
+                    const NeighbourConstant& neighbour_constant, const WAssignment& w_assignment,
+                    const WPlaceNear& w_place_near, const BinHeight& bin_height, const MinBoxSize& min_box_size,
+                    const WItemInBottomArea& w_item_in_bottom_area,
+                    const WHighItemsGoodPlaced& w_high_items_good_placed,
+                    const GenerateSimulatedBoxes& generate_simulated_boxes,
+                    const StartWithAllEdgesAsFp& start_with_all_edges_as_fp, const SearchHeight& search_height,
+                    const SearchWidth& search_width)
 {
-  w_mass_ = w_mass;
-  w_vol_ = w_vol;
-  w_massvol_ = w_massvol;
-  w_com_ = w_com;
-  helt_rate_ = helt_rate;
-  w_supported_ = w_supported;
-  w_contact_ = w_contact;
-  neighbour_constant_ = neighbour_constant;
-  w_assignment_ = w_assignment;
-  w_place_near_ = w_place_near;
-  bin_height_ = bin_height;
-  min_box_size_ = min_box_size;
-  w_item_in_the_bottom_area_ = w_item_in_the_bottom_area;
-  w_high_items_good_placed_ = w_high_items_good_placed;
-  generate_simulated_boxes_ = generate_simulated_boxes;
-  start_with_all_edges_as_fp_ = start_with_all_edges_as_fp;
-  search_height_ = search_height;
-  search_width_ = search_width;
+  w_mass_ = w_mass.val;
+  w_vol_ = w_vol.val;
+  w_massvol_ = w_massvol.val;
+  w_com_ = w_com.val;
+  helt_rate_ = helt_rate.val;
+  w_supported_ = w_support.val;
+  w_contact_ = w_contact.val;
+  neighbour_constant_ = neighbour_constant.val;
+  w_assignment_ = w_assignment.val;
+  w_place_near_ = w_place_near.val;
+  bin_height_ = bin_height.val;
+  min_box_size_ = min_box_size.val;
+  w_item_in_the_bottom_area_ = w_item_in_bottom_area.val;
+  w_high_items_good_placed_ = w_high_items_good_placed.val;
+  generate_simulated_boxes_ = generate_simulated_boxes.val;
+  start_with_all_edges_as_fp_ = start_with_all_edges_as_fp.val;
+  search_height_ = search_height.val;
+  search_width_ = search_width.val;
 }
 
 double Params::w_mass() const

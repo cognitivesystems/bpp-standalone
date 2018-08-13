@@ -265,24 +265,11 @@ void MainWindow::on_estimateButton_clicked()
             std::cout << "\n";
 
             std::shared_ptr<bpa::Params> paramsPtr(new bpa::Params());
-            double helt_rate=0.95;
-            double w_supported=0.1;
-            double neightbour_constant=0.0;
-            double w_assignment=0.3;
-            double w_place_near=0.3;
-            double bin_height=0.02;
-            double min_box_size=0.3;
-            double w_item_in_the_bottom_area=0.3;
-            double w_high_items_good_placed=0.0;
-            bool generate_simulated_boxes=false;
-            bool start_with_all_edges_as_fp=false;
-            int search_height=10;
-            int search_width=10;
-
-            paramsPtr.get()->setAll(avg_est[0], avg_est[1], avg_est[2], avg_est[3], helt_rate, w_supported, avg_est[4],
-                    neightbour_constant, w_assignment, w_place_near, bin_height, min_box_size, w_item_in_the_bottom_area, w_high_items_good_placed,
-                    generate_simulated_boxes, start_with_all_edges_as_fp, search_height, search_width);
-
+            paramsPtr.get()->setAll(bpa::WMass(avg_est[0]), bpa::WVol(avg_est[1]), bpa::WMassVol(avg_est[2]), bpa::WCom(avg_est[3]),
+                                    bpa::HeltRate(0.95), bpa::WSupport(0.1), bpa::WContact(avg_est[4]), bpa::NeighbourConstant(0.0), bpa::WAssignment(0.3),
+                                    bpa::WPlaceNear(0.3), bpa::BinHeight(0.02), bpa::MinBoxSize(0.3), bpa::WItemInBottomArea(0.3),
+                                    bpa::WHighItemsGoodPlaced(0.0), bpa::GenerateSimulatedBoxes(false), bpa::StartWithAllEdgesAsFp(false),
+                                    bpa::SearchHeight(10), bpa::SearchWidth(10));
 
             //doBinPacking(paramsPtr);
             //QApplication::processEvents();

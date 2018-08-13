@@ -30,7 +30,8 @@ set(BpaLib_hdr
   include/pp_functions.h
   include/SimulatedBox.h
   include/BoxJsonParser.h
-  include/BulletPhysics.h)
+  include/BulletPhysics.h
+  include/ParamsTypes.h)
 
 set(BpaLib_src
   src/Bin.cpp

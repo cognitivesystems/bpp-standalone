@@ -17,8 +17,9 @@ BppInterface::BppInterface()
   , pallet_width(3.00)
   , pallet_height(3.0)
   , bbox_offset(0.01)
-  , paramsPtr_(std::make_shared<bpa::Params>(0.8, 0.6, 0.1, 0.2, 0.9, 0.1, 0.1, 0.0, 0.4, 0.8, 0.02, 0.42, 0.3, 0.0, 0,
-                                             0, 10, 10))
+  , paramsPtr_(std::make_shared<bpa::Params>(bpa::WMass(0.8), bpa::WVol(0.6), bpa::WMassVol(0.1), bpa::WCom(0.2), bpa::HeltRate(0.9), bpa::WSupport(0.1), bpa::WContact(0.1),
+      bpa::NeighbourConstant(0.0), bpa::WAssignment(0.4), bpa::WPlaceNear(0.8), bpa::BinHeight(0.02), bpa::MinBoxSize(0.42), bpa::WItemInBottomArea(0.3),
+      bpa::WHighItemsGoodPlaced(0.0), bpa::GenerateSimulatedBoxes(false), bpa::StartWithAllEdgesAsFp(false), bpa::SearchHeight(10), bpa::SearchWidth(10)))
 {
   // paramJson["bbox_offset"].asDouble();
   pallet_frame_id = "p6ppallet";  // paramJson["pallet_frame_id"].asString();
