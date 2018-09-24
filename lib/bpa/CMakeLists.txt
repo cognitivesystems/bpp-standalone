@@ -1,3 +1,14 @@
+cmake_minimum_required(VERSION 3.2)
+project(libbpa)
+
+set(CMAKE_CXX_STANDARD 14)
+list(APPEND CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
 find_package(Bullet REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenMP REQUIRED)
@@ -6,9 +17,6 @@ if (OPENMP_FOUND)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif ()
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
 
 set(LIB_VERSION_MAJOR 0)
 set(LIB_VERSION_MINOR 1)
