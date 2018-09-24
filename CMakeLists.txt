@@ -2,15 +2,12 @@ cmake_minimum_required(VERSION 3.2)
 project(qt3DExample)
 
 set(CMAKE_CXX_STANDARD 14)
-
+list(APPEND CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
-if (NOT CMAKE_PREFIX_PATH)
-  set(CMAKE_PREFIX_PATH "/opt/Qt5/lib/cmake")
-endif ()
 
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets 3DCore 3DExtras 3DRender 3DInput Charts DataVisualization)
 find_package(Eigen3 REQUIRED)
